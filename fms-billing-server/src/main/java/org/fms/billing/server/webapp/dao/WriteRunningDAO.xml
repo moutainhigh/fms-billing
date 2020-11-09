@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.WriteRunningDAO">
+<select id="findByKey" parameterType="WriteRunningDomain" resultType="WriteRunningDomain" useCache="true">
+select ID,USER_NO,METER_SN,ID_FRAGMENT,GROUP_NO,FEE_NO,FUNCTION_CODE,POWER_DIRECTION,ASSETS_NO,CONST_POWER,WRITE_SN,IS_TS_METER,FACTOR_NUM,PLAN_FLAG,CHG_DATE,METER_BOX,PHASE,REMARK,MODIFY_DATE,WRITE_ORDER from WRITE_RUNNING<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="WriteRunningDomain" resultType="WriteRunningDomain" useCache="true">
+select ID,USER_NO,METER_SN,ID_FRAGMENT,GROUP_NO,FEE_NO,FUNCTION_CODE,POWER_DIRECTION,ASSETS_NO,CONST_POWER,WRITE_SN,IS_TS_METER,FACTOR_NUM,PLAN_FLAG,CHG_DATE,METER_BOX,PHASE,REMARK,MODIFY_DATE,WRITE_ORDER from WRITE_RUNNING
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="userNo !=null"> 
+ and USER_NO = #{userNo}
+</if>
+<if test="meterSn !=null"> 
+ and METER_SN = #{meterSn}
+</if>
+<if test="idFragment !=null"> 
+ and ID_FRAGMENT = #{idFragment}
+</if>
+<if test="groupNo !=null"> 
+ and GROUP_NO = #{groupNo}
+</if>
+<if test="feeNo !=null"> 
+ and FEE_NO = #{feeNo}
+</if>
+<if test="functionCode !=null"> 
+ and FUNCTION_CODE = #{functionCode}
+</if>
+<if test="powerDirection !=null"> 
+ and POWER_DIRECTION = #{powerDirection}
+</if>
+<if test="assetsNo !=null"> 
+ and ASSETS_NO = #{assetsNo}
+</if>
+<if test="constPower !=null"> 
+ and CONST_POWER = #{constPower}
+</if>
+<if test="writeSn !=null"> 
+ and WRITE_SN = #{writeSn}
+</if>
+<if test="isTsMeter !=null"> 
+ and IS_TS_METER = #{isTsMeter}
+</if>
+<if test="factorNum !=null"> 
+ and FACTOR_NUM = #{factorNum}
+</if>
+<if test="planFlag !=null"> 
+ and PLAN_FLAG = #{planFlag}
+</if>
+<if test="chgDate !=null"> 
+ and CHG_DATE = #{chgDate}
+</if>
+<if test="meterBox !=null"> 
+ and METER_BOX = #{meterBox}
+</if>
+<if test="phase !=null"> 
+ and PHASE = #{phase}
+</if>
+<if test="remark !=null"> 
+ and REMARK = #{remark}
+</if>
+<if test="modifyDate !=null"> 
+ and MODIFY_DATE = #{modifyDate}
+</if>
+<if test="writeOrder !=null"> 
+ and WRITE_ORDER = #{writeOrder}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="WriteRunningDomain" flushCache="true">
+insert into WRITE_RUNNING(ID,USER_NO,METER_SN,ID_FRAGMENT,GROUP_NO,FEE_NO,FUNCTION_CODE,POWER_DIRECTION,ASSETS_NO,CONST_POWER,WRITE_SN,IS_TS_METER,FACTOR_NUM,PLAN_FLAG,CHG_DATE,METER_BOX,PHASE,REMARK,MODIFY_DATE,WRITE_ORDER) values (#{id},#{userNo},#{meterSn},#{idFragment},#{groupNo},#{feeNo},#{functionCode},#{powerDirection},#{assetsNo},#{constPower},#{writeSn},#{isTsMeter},#{factorNum},#{planFlag},#{chgDate},#{meterBox},#{phase},#{remark},#{modifyDate},#{writeOrder})
+</insert>
+<update id="update" parameterType="WriteRunningDomain" flushCache="true">
+update WRITE_RUNNING
+<set>
+<if test="userNo !=null">
+USER_NO = #{userNo},
+</if>
+<if test="meterSn !=null">
+METER_SN = #{meterSn},
+</if>
+<if test="idFragment !=null">
+ID_FRAGMENT = #{idFragment},
+</if>
+<if test="groupNo !=null">
+GROUP_NO = #{groupNo},
+</if>
+<if test="feeNo !=null">
+FEE_NO = #{feeNo},
+</if>
+<if test="functionCode !=null">
+FUNCTION_CODE = #{functionCode},
+</if>
+<if test="powerDirection !=null">
+POWER_DIRECTION = #{powerDirection},
+</if>
+<if test="assetsNo !=null">
+ASSETS_NO = #{assetsNo},
+</if>
+<if test="constPower !=null">
+CONST_POWER = #{constPower},
+</if>
+<if test="writeSn !=null">
+WRITE_SN = #{writeSn},
+</if>
+<if test="isTsMeter !=null">
+IS_TS_METER = #{isTsMeter},
+</if>
+<if test="factorNum !=null">
+FACTOR_NUM = #{factorNum},
+</if>
+<if test="planFlag !=null">
+PLAN_FLAG = #{planFlag},
+</if>
+<if test="chgDate !=null">
+CHG_DATE = #{chgDate},
+</if>
+<if test="meterBox !=null">
+METER_BOX = #{meterBox},
+</if>
+<if test="phase !=null">
+PHASE = #{phase},
+</if>
+<if test="remark !=null">
+REMARK = #{remark},
+</if>
+<if test="modifyDate !=null">
+MODIFY_DATE = #{modifyDate},
+</if>
+<if test="writeOrder !=null">
+WRITE_ORDER = #{writeOrder},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="WriteRunningDomain" flushCache="true">
+delete from WRITE_RUNNING
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

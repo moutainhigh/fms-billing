@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="org.fms.billing.server.webapp.dao.PriceExecutionDAO">
+    <select id="findByKey" parameterType="PriceExecutionDomain"
+            resultType="PriceExecutionDomain" useCache="true">
+        select
+        ID,PRICE_TYPE_ID,PRICE_ITEM_ID,PRICE_VERSION_ID,TIME_SEG,PRICE,CREATE_DATE,OPERATOR
+        from PRICE_EXECUTION_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="PriceExecutionDomain"
+            resultType="PriceExecutionDomain" useCache="true">
+        select
+        ID,PRICE_TYPE_ID,PRICE_ITEM_ID,PRICE_VERSION_ID,TIME_SEG,IFNull(PRICE,0)
+        PRICE,
+        CREATE_DATE,OPERATOR
+        from PRICE_EXECUTION_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="priceTypeId !=null">
+                and PRICE_TYPE_ID = #{priceTypeId}
+            </if>
+            <if test="priceItemId !=null">
+                and PRICE_ITEM_ID = #{priceItemId}
+            </if>
+            <if test="priceVersionId !=null">
+                and PRICE_VERSION_ID = #{priceVersionId}
+            </if>
+            <if test="timeSeg !=null">
+                and TIME_SEG = #{timeSeg}
+            </if>
+            <if test="price !=null">
+                and PRICE = #{price}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="operator !=null">
+                and OPERATOR = #{operator}
+            </if>
+            <if test="ids != null and ids.size > 0">
+                and ID in
+                <foreach item="item" index="index" collection="ids"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+        order by PRICE_TYPE_ID,TIME_SEG,PRICE_ITEM_ID
+    </select>
+
+    <insert id="insert" parameterType="PriceExecutionDomain"
+            flushCache="true">
+		insert into
+		PRICE_EXECUTION_INFO(ID,PRICE_TYPE_ID,PRICE_ITEM_ID,PRICE_VERSION_ID,TIME_SEG,PRICE,CREATE_DATE,OPERATOR)
+		values
+		(#{id},#{priceTypeId},#{priceItemId},#{priceVersionId},#{timeSeg},#{price},#{createDate},#{operator})
+	</insert>
+    <update id="update" parameterType="PriceExecutionDomain"
+            flushCache="true">
+        update PRICE_EXECUTION_INFO
+        <set>
+            <if test="priceTypeId !=null">
+                PRICE_TYPE_ID = #{priceTypeId},
+            </if>
+            <if test="priceItemId !=null">
+                PRICE_ITEM_ID = #{priceItemId},
+            </if>
+            <if test="priceVersionId !=null">
+                PRICE_VERSION_ID = #{priceVersionId},
+            </if>
+            <if test="timeSeg !=null">
+                TIME_SEG = #{timeSeg},
+            </if>
+            <if test="price !=null">
+                PRICE = #{price},
+            </if>
+            <if test="createDate !=null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="operator !=null">
+                OPERATOR = #{operator},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="PriceExecutionDomain"
+            flushCache="true">
+        delete from PRICE_EXECUTION_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+
+    <select id="findTimeLadderPrice"
+            resultType="PriceExecutionDomain" useCache="true">
+    SELECT
+	  p1.PRICE_TYPE_ID,
+    CASE
+
+            WHEN p3.price IS NOT NULL THEN
+            p3.price+(select sum(IFNULL(p4.PRICE,0)) from PRICE_EXECUTION_INFO p4 where p4.PRICE_TYPE_ID=p3.PRICE_EXECUTION_ID and p4.TIME_SEG=0 and p4.PRICE_ITEM_ID!=1)
+            WHEN p2.PRICE IS NOT NULL THEN
+            p2.price ELSE p1.PRICE
+        END PRICE
+    FROM
+        (
+        SELECT
+            p.PRICE_TYPE_ID,
+            sum( p.price ) price
+        FROM
+            PRICE_EXECUTION_INFO p
+        WHERE
+            p.TIME_SEG = 0
+        GROUP BY
+            p.PRICE_TYPE_ID
+        ) p1
+        LEFT JOIN (
+        SELECT
+            p.PRICE_TYPE_ID,
+            sum( p.price ) price
+        FROM
+            PRICE_EXECUTION_INFO p
+        WHERE
+            p.TIME_SEG = 2
+        GROUP BY
+            p.PRICE_TYPE_ID
+        ) p2 ON p1.PRICE_TYPE_ID = p2.PRICE_TYPE_ID
+        LEFT JOIN PRICE_LADDER_RELA p3 ON p3.PRICE_EXECUTION_ID = p1.PRICE_TYPE_ID
+        AND p3.LADDER_SN = 1
+    ORDER BY
+        PRICE_TYPE_ID
+    </select>
+</mapper>

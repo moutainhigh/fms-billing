@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.WritePlanDAO">
+<select id="findByKey" parameterType="WritePlanDomain" resultType="WritePlanDomain" useCache="true">
+select ID,WRITE_SECT_NO,WRITE_SECT_NAME,MON,MON_SN,WRITOR_ID,CALCULATOR_ID,WRITE_DATE,COMPUTE_DATE,CONFIRM_DATE,WRITE_SECT_TYPE,WRITE_TYPE,SECT_USER_TYPE,S_T_NUMBER,F_T_NUMBER,S_Y_NUMBER,F_Y_NUMBER,E_Y_NUMBER,S_W_NUMBER,F_W_NUMBER,E_W_NUMBER,Z_Y_NUMBER,Z_W_NUMBER,ABNORMAL_NUMBER,I_NUMBER,R_NUMBER,C_NUMBER,A_NUMBER,REMARK,STATUS from WRITE_PLAN_INFO<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="WritePlanDomain" resultType="WritePlanDomain" useCache="true">
+select ID,WRITE_SECT_NO,WRITE_SECT_NAME,MON,MON_SN,WRITOR_ID,CALCULATOR_ID,WRITE_DATE,COMPUTE_DATE,CONFIRM_DATE,WRITE_SECT_TYPE,WRITE_TYPE,SECT_USER_TYPE,S_T_NUMBER,F_T_NUMBER,S_Y_NUMBER,F_Y_NUMBER,E_Y_NUMBER,S_W_NUMBER,F_W_NUMBER,E_W_NUMBER,Z_Y_NUMBER,Z_W_NUMBER,ABNORMAL_NUMBER,I_NUMBER,R_NUMBER,C_NUMBER,A_NUMBER,REMARK,STATUS from WRITE_PLAN_INFO
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="writeSectNo !=null"> 
+ and WRITE_SECT_NO = #{writeSectNo}
+</if>
+<if test="writeSectName !=null"> 
+ and WRITE_SECT_NAME = #{writeSectName}
+</if>
+<if test="mon !=null"> 
+ and MON = #{mon}
+</if>
+<if test="monSn !=null"> 
+ and MON_SN = #{monSn}
+</if>
+<if test="writorId !=null"> 
+ and WRITOR_ID = #{writorId}
+</if>
+<if test="calculatorId !=null"> 
+ and CALCULATOR_ID = #{calculatorId}
+</if>
+<if test="writeDate !=null"> 
+ and WRITE_DATE = #{writeDate}
+</if>
+<if test="computeDate !=null"> 
+ and COMPUTE_DATE = #{computeDate}
+</if>
+<if test="confirmDate !=null"> 
+ and CONFIRM_DATE = #{confirmDate}
+</if>
+<if test="writeSectType !=null"> 
+ and WRITE_SECT_TYPE = #{writeSectType}
+</if>
+<if test="writeType !=null"> 
+ and WRITE_TYPE = #{writeType}
+</if>
+<if test="sectUserType !=null"> 
+ and SECT_USER_TYPE = #{sectUserType}
+</if>
+<if test="sTNumber !=null"> 
+ and S_T_NUMBER = #{sTNumber}
+</if>
+<if test="fTNumber !=null"> 
+ and F_T_NUMBER = #{fTNumber}
+</if>
+<if test="sYNumber !=null"> 
+ and S_Y_NUMBER = #{sYNumber}
+</if>
+<if test="fYNumber !=null"> 
+ and F_Y_NUMBER = #{fYNumber}
+</if>
+<if test="eYNumber !=null"> 
+ and E_Y_NUMBER = #{eYNumber}
+</if>
+<if test="sWNumber !=null"> 
+ and S_W_NUMBER = #{sWNumber}
+</if>
+<if test="fWNumber !=null"> 
+ and F_W_NUMBER = #{fWNumber}
+</if>
+<if test="eWNumber !=null"> 
+ and E_W_NUMBER = #{eWNumber}
+</if>
+<if test="zYNumber !=null"> 
+ and Z_Y_NUMBER = #{zYNumber}
+</if>
+<if test="zWNumber !=null"> 
+ and Z_W_NUMBER = #{zWNumber}
+</if>
+<if test="abnormalNumber !=null"> 
+ and ABNORMAL_NUMBER = #{abnormalNumber}
+</if>
+<if test="iNumber !=null"> 
+ and I_NUMBER = #{iNumber}
+</if>
+<if test="rNumber !=null"> 
+ and R_NUMBER = #{rNumber}
+</if>
+<if test="cNumber !=null"> 
+ and C_NUMBER = #{cNumber}
+</if>
+<if test="aNumber !=null"> 
+ and A_NUMBER = #{aNumber}
+</if>
+<if test="remark !=null"> 
+ and REMARK = #{remark}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="WritePlanDomain" flushCache="true">
+insert into WRITE_PLAN_INFO(ID,WRITE_SECT_NO,WRITE_SECT_NAME,MON,MON_SN,WRITOR_ID,CALCULATOR_ID,WRITE_DATE,COMPUTE_DATE,CONFIRM_DATE,WRITE_SECT_TYPE,WRITE_TYPE,SECT_USER_TYPE,S_T_NUMBER,F_T_NUMBER,S_Y_NUMBER,F_Y_NUMBER,E_Y_NUMBER,S_W_NUMBER,F_W_NUMBER,E_W_NUMBER,Z_Y_NUMBER,Z_W_NUMBER,ABNORMAL_NUMBER,I_NUMBER,R_NUMBER,C_NUMBER,A_NUMBER,REMARK,STATUS) values (#{id},#{writeSectNo},#{writeSectName},#{mon},#{monSn},#{writorId},#{calculatorId},#{writeDate},#{computeDate},#{confirmDate},#{writeSectType},#{writeType},#{sectUserType},#{sTNumber},#{fTNumber},#{sYNumber},#{fYNumber},#{eYNumber},#{sWNumber},#{fWNumber},#{eWNumber},#{zYNumber},#{zWNumber},#{abnormalNumber},#{iNumber},#{rNumber},#{cNumber},#{aNumber},#{remark},#{status})
+</insert>
+<update id="update" parameterType="WritePlanDomain" flushCache="true">
+update WRITE_PLAN_INFO
+<set>
+<if test="writeSectNo !=null">
+WRITE_SECT_NO = #{writeSectNo},
+</if>
+<if test="writeSectName !=null">
+WRITE_SECT_NAME = #{writeSectName},
+</if>
+<if test="mon !=null">
+MON = #{mon},
+</if>
+<if test="monSn !=null">
+MON_SN = #{monSn},
+</if>
+<if test="writorId !=null">
+WRITOR_ID = #{writorId},
+</if>
+<if test="calculatorId !=null">
+CALCULATOR_ID = #{calculatorId},
+</if>
+<if test="writeDate !=null">
+WRITE_DATE = #{writeDate},
+</if>
+<if test="computeDate !=null">
+COMPUTE_DATE = #{computeDate},
+</if>
+<if test="confirmDate !=null">
+CONFIRM_DATE = #{confirmDate},
+</if>
+<if test="writeSectType !=null">
+WRITE_SECT_TYPE = #{writeSectType},
+</if>
+<if test="writeType !=null">
+WRITE_TYPE = #{writeType},
+</if>
+<if test="sectUserType !=null">
+SECT_USER_TYPE = #{sectUserType},
+</if>
+<if test="sTNumber !=null">
+S_T_NUMBER = #{sTNumber},
+</if>
+<if test="fTNumber !=null">
+F_T_NUMBER = #{fTNumber},
+</if>
+<if test="sYNumber !=null">
+S_Y_NUMBER = #{sYNumber},
+</if>
+<if test="fYNumber !=null">
+F_Y_NUMBER = #{fYNumber},
+</if>
+<if test="eYNumber !=null">
+E_Y_NUMBER = #{eYNumber},
+</if>
+<if test="sWNumber !=null">
+S_W_NUMBER = #{sWNumber},
+</if>
+<if test="fWNumber !=null">
+F_W_NUMBER = #{fWNumber},
+</if>
+<if test="eWNumber !=null">
+E_W_NUMBER = #{eWNumber},
+</if>
+<if test="zYNumber !=null">
+Z_Y_NUMBER = #{zYNumber},
+</if>
+<if test="zWNumber !=null">
+Z_W_NUMBER = #{zWNumber},
+</if>
+<if test="abnormalNumber !=null">
+ABNORMAL_NUMBER = #{abnormalNumber},
+</if>
+<if test="iNumber !=null">
+I_NUMBER = #{iNumber},
+</if>
+<if test="rNumber !=null">
+R_NUMBER = #{rNumber},
+</if>
+<if test="cNumber !=null">
+C_NUMBER = #{cNumber},
+</if>
+<if test="aNumber !=null">
+A_NUMBER = #{aNumber},
+</if>
+<if test="remark !=null">
+REMARK = #{remark},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="WritePlanDomain" flushCache="true">
+delete from WRITE_PLAN_INFO
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

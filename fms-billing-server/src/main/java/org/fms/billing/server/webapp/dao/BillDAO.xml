@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.BillDAO">
+	<select id="findByKey" parameterType="BillDomain"
+		resultType="BillDomain" useCache="true">
+		select
+		ID,CHARGE_ID,MON,YS_TYPE_CODE,NOTE_TYPE_CODE,CREATE_FLAG,USER_NO,USER_NAME,ADDRESS,MAIL_ADDRESS,TEL,WRITE_DATE,TOTAL_POWER,TOTAL_MONEY,PUNISH_MONEY,SUM_MONEY,UPPER_MONEY,CHARGE_MODE,USER_TYPE,ADD_TAXFLAG,PAID_FLAG,PAY_DATE,COLLECTOR_ID,NOTE_NO,PRINT_DATE,PRINT_MAN,CREATE_DATE,REMARK,STATUS
+		from BILL_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</select>
+	<select id="findByWhere" parameterType="BillDomain"
+		resultType="BillDomain" useCache="true">
+		select
+		ID,CHARGE_ID,MON,YS_TYPE_CODE,NOTE_TYPE_CODE,CREATE_FLAG,USER_NO,USER_NAME,ADDRESS,MAIL_ADDRESS,TEL,WRITE_DATE,TOTAL_POWER,TOTAL_MONEY,PUNISH_MONEY,SUM_MONEY,UPPER_MONEY,CHARGE_MODE,USER_TYPE,ADD_TAXFLAG,PAID_FLAG,PAY_DATE,COLLECTOR_ID,NOTE_NO,PRINT_DATE,PRINT_MAN,CREATE_DATE,REMARK,STATUS
+		from BILL_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="chargeId !=null">
+				and CHARGE_ID = #{chargeId}
+			</if>
+			<if test="mon !=null">
+				and MON = #{mon}
+			</if>
+			<if test="ysTypeCode !=null">
+				and YS_TYPE_CODE = #{ysTypeCode}
+			</if>
+			<if test="noteTypeCode !=null">
+				and NOTE_TYPE_CODE = #{noteTypeCode}
+			</if>
+			<if test="createFlag !=null">
+				and CREATE_FLAG = #{createFlag}
+			</if>
+			<if test="userNo !=null">
+				and USER_NO = #{userNo}
+			</if>
+			<if test="userName !=null">
+				and USER_NAME = #{userName}
+			</if>
+			<if test="address !=null">
+				and ADDRESS = #{address}
+			</if>
+			<if test="mailAddress !=null">
+				and MAIL_ADDRESS = #{mailAddress}
+			</if>
+			<if test="tel !=null">
+				and TEL = #{tel}
+			</if>
+			<if test="writeDate !=null">
+				and WRITE_DATE = #{writeDate}
+			</if>
+			<if test="totalPower !=null">
+				and TOTAL_POWER = #{totalPower}
+			</if>
+			<if test="totalMoney !=null">
+				and TOTAL_MONEY = #{totalMoney}
+			</if>
+			<if test="punishMoney !=null">
+				and PUNISH_MONEY = #{punishMoney}
+			</if>
+			<if test="sumMoney !=null">
+				and SUM_MONEY = #{sumMoney}
+			</if>
+			<if test="upperMoney !=null">
+				and UPPER_MONEY = #{upperMoney}
+			</if>
+			<if test="chargeMode !=null">
+				and CHARGE_MODE = #{chargeMode}
+			</if>
+			<if test="userType !=null">
+				and USER_TYPE = #{userType}
+			</if>
+			<if test="addTaxflag !=null">
+				and ADD_TAXFLAG = #{addTaxflag}
+			</if>
+			<if test="paidFlag !=null">
+				and PAID_FLAG = #{paidFlag}
+			</if>
+			<if test="payDate !=null">
+				and PAY_DATE = #{payDate}
+			</if>
+			<if test="collectorId !=null">
+				and COLLECTOR_ID = #{collectorId}
+			</if>
+			<if test="noteNo !=null">
+				and NOTE_NO = #{noteNo}
+			</if>
+			<if test="printDate !=null">
+				and PRINT_DATE = #{printDate}
+			</if>
+			<if test="printMan !=null">
+				and PRINT_MAN = #{printMan}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="remark !=null">
+				and REMARK = #{remark}
+			</if>
+			<if test="status !=null">
+				and STATUS = #{status}
+			</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="BillDomain" flushCache="true">
+		insert into
+		BILL_INFO(ID,CHARGE_ID,MON,YS_TYPE_CODE,NOTE_TYPE_CODE,CREATE_FLAG,USER_NO,USER_NAME,ADDRESS,MAIL_ADDRESS,TEL,WRITE_DATE,TOTAL_POWER,TOTAL_MONEY,PUNISH_MONEY,SUM_MONEY,UPPER_MONEY,CHARGE_MODE,USER_TYPE,ADD_TAXFLAG,PAID_FLAG,PAY_DATE,COLLECTOR_ID,NOTE_NO,PRINT_DATE,PRINT_MAN,CREATE_DATE,REMARK,STATUS)
+		values
+		(#{id},#{chargeId},#{mon},#{ysTypeCode},#{noteTypeCode},#{createFlag},#{userNo},#{userName},#{address},#{mailAddress},#{tel},#{writeDate},#{totalPower},#{totalMoney},#{punishMoney},#{sumMoney},#{upperMoney},#{chargeMode},#{userType},#{addTaxflag},#{paidFlag},#{payDate},#{collectorId},#{noteNo},#{printDate},#{printMan},#{createDate},#{remark},#{status})
+	</insert>
+	<update id="update" parameterType="BillDomain" flushCache="true">
+		update BILL_INFO
+		<set>
+			<if test="chargeId !=null">
+				CHARGE_ID = #{chargeId},
+			</if>
+			<if test="mon !=null">
+				MON = #{mon},
+			</if>
+			<if test="ysTypeCode !=null">
+				YS_TYPE_CODE = #{ysTypeCode},
+			</if>
+			<if test="noteTypeCode !=null">
+				NOTE_TYPE_CODE = #{noteTypeCode},
+			</if>
+			<if test="createFlag !=null">
+				CREATE_FLAG = #{createFlag},
+			</if>
+			<if test="userNo !=null">
+				USER_NO = #{userNo},
+			</if>
+			<if test="userName !=null">
+				USER_NAME = #{userName},
+			</if>
+			<if test="address !=null">
+				ADDRESS = #{address},
+			</if>
+			<if test="mailAddress !=null">
+				MAIL_ADDRESS = #{mailAddress},
+			</if>
+			<if test="tel !=null">
+				TEL = #{tel},
+			</if>
+			<if test="writeDate !=null">
+				WRITE_DATE = #{writeDate},
+			</if>
+			<if test="totalPower !=null">
+				TOTAL_POWER = #{totalPower},
+			</if>
+			<if test="totalMoney !=null">
+				TOTAL_MONEY = #{totalMoney},
+			</if>
+			<if test="punishMoney !=null">
+				PUNISH_MONEY = #{punishMoney},
+			</if>
+			<if test="sumMoney !=null">
+				SUM_MONEY = #{sumMoney},
+			</if>
+			<if test="upperMoney !=null">
+				UPPER_MONEY = #{upperMoney},
+			</if>
+			<if test="chargeMode !=null">
+				CHARGE_MODE = #{chargeMode},
+			</if>
+			<if test="userType !=null">
+				USER_TYPE = #{userType},
+			</if>
+			<if test="addTaxflag !=null">
+				ADD_TAXFLAG = #{addTaxflag},
+			</if>
+			<if test="paidFlag !=null">
+				PAID_FLAG = #{paidFlag},
+			</if>
+			<if test="payDate !=null">
+				PAY_DATE = #{payDate},
+			</if>
+			<if test="collectorId !=null">
+				COLLECTOR_ID = #{collectorId},
+			</if>
+			<if test="noteNo !=null">
+				NOTE_NO = #{noteNo},
+			</if>
+			<if test="printDate !=null">
+				PRINT_DATE = #{printDate},
+			</if>
+			<if test="printMan !=null">
+				PRINT_MAN = #{printMan},
+			</if>
+			<if test="createDate !=null">
+				CREATE_DATE = #{createDate},
+			</if>
+			<if test="remark !=null">
+				REMARK = #{remark},
+			</if>
+			<if test="status !=null">
+				STATUS = #{status},
+			</if>
+		</set>
+		<where>
+			and ID = #{id}
+
+		</where>
+	</update>
+	<delete id="delete" parameterType="BillDomain" flushCache="true">
+		delete from BILL_INFO
+		<where>
+			and ID = #{id}
+		</where>
+	</delete>
+</mapper>

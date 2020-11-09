@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PreChargeDAO">
+<select id="findByKey" parameterType="PreChargeDomain" resultType="PreChargeDomain" useCache="true">
+select ID,SETTLEMENT_ID,BALANCE,STATUS from PRE_CHARGE_INFO<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="PreChargeDomain" resultType="PreChargeDomain" useCache="true">
+select ID,SETTLEMENT_ID,BALANCE,STATUS from PRE_CHARGE_INFO
+<where>
+<if test="id !=null">
+ and ID = #{id}
+</if>
+<if test="settlementId !=null">
+ and SETTLEMENT_ID = #{settlementId}
+</if>
+<if test="balance !=null">
+ and BALANCE = #{balance}
+</if>
+<if test="status !=null">
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="PreChargeDomain" flushCache="true">
+insert into PRE_CHARGE_INFO(ID,SETTLEMENT_ID,BALANCE,STATUS) values (#{id},#{settlementId},#{balance},#{status})
+</insert>
+<update id="update" parameterType="PreChargeDomain" flushCache="true">
+update PRE_CHARGE_INFO
+<set>
+<if test="settlementId !=null">
+SETTLEMENT_ID = #{settlementId},
+</if>
+<if test="balance !=null">
+BALANCE = #{balance},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="PreChargeDomain" flushCache="true">
+delete from PRE_CHARGE_INFO
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+
+ <select id="findPreChargeBySettleIds"
+         resultType="PreChargeDomain" useCache="true">
+  select ID,SETTLEMENT_ID,BALANCE,STATUS from PRE_CHARGE_INFO A
+  <where>
+   A.BALANCE != 0
+   AND A.SETTLEMENT_ID in
+   <foreach item="item" index="index" collection="list" open="("
+            separator="," close=")">
+    #{item}
+   </foreach>
+  </where>
+ </select>
+
+
+ <select id="findAllPreChargeBySettleIds"
+         resultType="PreChargeDomain" useCache="true">
+  select ID,SETTLEMENT_ID,BALANCE,STATUS from PRE_CHARGE_INFO A
+  <where>
+    A.SETTLEMENT_ID in
+   <foreach item="item" index="index" collection="list" open="("
+            separator="," close=")">
+    #{item}
+   </foreach>
+  </where>
+ </select>
+</mapper>

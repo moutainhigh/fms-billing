@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PriceItemDAO">
+    <select id="findByKey" parameterType="PriceItemDomain"
+            resultType="PriceItemDomain" useCache="true">
+        select
+        ID,PRICE_ITEM_NAME,PRICE_ITEM_TYPE,CREATE_DATE,REMARK,STATUS,OPERATOR
+        from
+        PRICE_ITEM_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="PriceItemDomain"
+            resultType="PriceItemDomain" useCache="true">
+        select
+        ID,PRICE_ITEM_NAME,PRICE_ITEM_TYPE,CREATE_DATE,REMARK,STATUS,OPERATOR
+        from
+        PRICE_ITEM_INFO
+        <where>
+             STATUS=1
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="priceItemName !=null">
+                and PRICE_ITEM_NAME like concat(concat('%',#{priceItemName}),'%')
+            </if>
+            <if test="priceItemType !=null">
+                and PRICE_ITEM_TYPE = #{priceItemType}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+        </where>
+        order by STATUS desc,ID
+    </select>
+
+    <select id="priceItemDorp" parameterType="PriceItemDomain"
+            resultType="PriceItemDomain" useCache="true">
+        select
+        ID,PRICE_ITEM_NAME,PRICE_ITEM_TYPE,CREATE_DATE,REMARK,STATUS,OPERATOR
+        from
+        PRICE_ITEM_INFO
+        where STATUS=1
+    </select>
+
+    <insert id="insert" parameterType="PriceItemDomain" flushCache="true">
+insert into
+PRICE_ITEM_INFO(ID,PRICE_ITEM_NAME,PRICE_ITEM_TYPE,CREATE_DATE,REMARK,STATUS,
+OPERATOR) values
+(#{id},#{priceItemName},#{priceItemType},#{createDate},#{remark},#{status},#{operator})
+</insert>
+    <update id="update" parameterType="PriceItemDomain" flushCache="true">
+        update PRICE_ITEM_INFO
+        <set>
+            <if test="priceItemName !=null">
+                PRICE_ITEM_NAME = #{priceItemName},
+            </if>
+            <if test="priceItemType !=null">
+                PRICE_ITEM_TYPE = #{priceItemType},
+            </if>
+            <if test="createDate !=null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="remark !=null">
+                REMARK = #{remark},
+            </if>
+            <if test="status !=null">
+                STATUS = #{status},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="PriceItemDomain" flushCache="true">
+        delete from PRICE_ITEM_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+</mapper>

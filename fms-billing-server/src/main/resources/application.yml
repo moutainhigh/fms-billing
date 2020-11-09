@@ -1,0 +1,18 @@
+server:
+ port: 10088
+ servlet:
+  context-path: /billingServer
+spring:
+ application:
+  name: BILLING-SERVER
+eureka:
+  instance: 
+    prefer-ip-address: true
+    #ip-address:172.21.29.75
+  client:
+    serviceUrl:
+      defaultZone: http://enn:df6100@172.21.29.55:7777/enn/eureka/
+logging:
+  level:
+    org.fms.billing: debug
+  path: log

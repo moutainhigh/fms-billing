@@ -1,0 +1,1258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.fms.billing.server.webapp.dao.ArrearageDAO">
+	<select id="findByKey" parameterType="ArrearageDomain"
+		resultType="ArrearageDomain" useCache="true">
+		select
+		ID,IS_LOCK,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,
+		OPERATOR,
+		STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,
+		OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,
+		TOTAL_POWER,SETTLEMENT_ID,SHOULD_MONEY
+		from ARREARAGE_INFO
+		<where>
+			and ID = #{id}
+		</where>
+	</select>
+	<select id="findByListKey" parameterType="java.lang.String"
+		resultType="ArrearageDomain" useCache="true">
+		select
+		ID,IS_Lock,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,
+		OPERATOR,STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,TOTAL_POWER,SETTLEMENT_ID,SHOULD_MONEY
+		from ARREARAGE_INFO
+		<where>
+			and ID in (${_parameter})
+		</where>
+	</select>
+
+	<select id="findBySettleIdMonAndSn"
+		parameterType="ArrearageDomain" resultType="ArrearageDomain"
+		useCache="true">
+		select
+		ID,IS_Lock,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,SETTLEMENT_ID,
+		OPERATOR,STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,TOTAL_POWER,SHOULD_MONEY
+		from ARREARAGE_INFO
+		<where>
+			<if test="mon != null">
+				and mon =#{mon}
+			</if>
+			<if test="sn != null ">
+				and sn=#{sn}
+			</if>
+			<if test="settlementId != null">
+				and SETTLEMENT_ID = #{settlementId}
+			</if>
+		</where>
+	</select>
+	<select id="findByMeterIdsMonAndSn"
+		parameterType="java.util.Map" resultType="ArrearageDomain">
+		select
+		ID,IS_Lock,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,SETTLEMENT_ID,
+		OPERATOR,STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,TOTAL_POWER,SHOULD_MONEY
+		from ARREARAGE_INFO
+		<where>
+			and mon =#{mon}
+			and sn=#{sn}
+			<if test="meterIds != null and meterIds.size > 0">
+				and METER_ID in
+				<foreach item="item" index="index" collection="meterIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="findByWhere" parameterType="ArrearageDomain"
+		resultType="ArrearageDomain" useCache="true">
+		select
+		a.ID,a.IS_Lock,a.ARREARAGE_NO,a.METER_ID,a.END_DATE,a.RECEIVABLE,a.CREATE_DATE,a.SETTLEMENT_ID,
+		a.OPERATOR,a.STATUS,a.MON,a.SN,a.METER_MONEY_ID,a.IS_SETTLE,a.OWE_MONEY,a.PUNISH_MONEY,a.WRITE_SECT_ID,a.WRITOR_ID,a.BUSINESS_PLACE_CODE,a.TOTAL_POWER,SHOULD_MONEY
+		from ARREARAGE_INFO a
+		<where>
+			<if test="id !=null">
+				and a.ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and a.ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and a.METER_ID = #{meterId}
+			</if>
+			<choose>
+				<when test="meterIds != null and meterIds.size > 0">
+					and METER_ID in
+					<foreach item="item" index="index" collection="meterIds"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="meterId !=null">
+						and METER_ID = #{meterId}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="endDate !=null">
+				and a.END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and a.RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and a.CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and a.OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and a.STATUS = #{status}
+			</if>
+			<if test="startMon !=null">
+				and a.MON &gt;= #{startMon}
+			</if>
+
+			<if test="endMon !=null">
+				and a.MON &lt;= #{endMon}
+			</if>
+			<if test="sn !=null">
+				and a.SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and a.METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and a.IS_SETTLE = #{isSettle}
+			</if>
+			<if test="writeSectId !=null">
+				and a.WRITE_SECT_ID = #{writeSectId}
+			</if>
+			<choose>
+				<when test="writeSectIds != null and writeSectIds.size > 0">
+					and WRITE_SECT_ID in
+					<foreach item="item" index="index"
+						collection="writeSectIds" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="writeSectId !=null">
+						and WRITE_SECT_ID = #{writeSectId}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="writorId !=null">
+				and a.WRITOR_ID = #{writorId}
+			</if>
+			<choose>
+				<when test="writorIds != null and writorIds.size > 0">
+					and WRITOR_ID in
+					<foreach item="item" index="index" collection="writorIds"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="writorId !=null">
+						and WRITOR_ID = #{writorId}
+					</if>
+				</otherwise>
+			</choose>
+			<choose>
+				<when
+					test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+					and a.BUSINESS_PLACE_CODE in
+					<foreach item="item" index="index"
+						collection="businessPlaceCodes" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="businessPlaceCode !=null">
+						and a.BUSINESS_PLACE_CODE = #{businessPlaceCode}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="isLock !=null">
+				and a.IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and a.SETTLEMENT_ID = #{settlementId}
+			</if>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="isLock !=null">
+				and a.IS_LOCK = #{isLock}
+			</if>
+		</where>
+		order by a.MON desc
+	</select>
+
+	<select id="findDetailByWhere" parameterType="ArrearageDomain"
+		resultType="ArrearageDomain" useCache="true">
+		SELECT
+		a.ID,
+		a.IS_Lock,
+		a.ARREARAGE_NO,
+		a.METER_ID,
+		a.END_DATE,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE a.RECEIVABLE END )
+		RECEIVABLE,
+		a.CREATE_DATE,
+		a.SETTLEMENT_ID,
+		TIMESTAMPDIFF( MONTH, DATE_FORMAT( CONCAT( a.mon, '01' ), '%Y%m%d' ),
+		DATE_FORMAT( NOW( ), '%Y%m%d' ) ) AS
+		arrearsNum,
+		( CASE w.FUNCTION_CODE WHEN 1 THEN '有功' when 2 then '无功' ELSE '虚拟' END
+		)
+		name,
+		a.OPERATOR,
+		a.STATUS,
+		a.MON,
+		a.SN,
+		a.METER_MONEY_ID,
+		a.IS_SETTLE,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE a.OWE_MONEY END )OWE_MONEY,
+		a.PUNISH_MONEY,
+		a.WRITE_SECT_ID,
+		a.WRITOR_ID,
+		a.BUSINESS_PLACE_CODE,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.TOTAL_POWER END )
+		TOTAL_POWER,
+		w.start_num,
+		w.end_num,
+		w.factor_num,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN m.REACTIVE_WRITE_POWER ELSE
+		m.ACTIVE_WRITE_POWER END ) ACTIVE_WRITE_POWER,
+		w.ADD_POWER,
+		w.CHG_POWER,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN IFNULL(m.REACTIVE_LINE_LOSS_POWER,0)
+		ELSE IFNULL(m.ACTIVE_LINE_LOSS_POWER,0) END) ACTIVE_LINE_LOSS_POWER,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN
+		IFNULL(m.REACTIVE_TRANSFORMER_LOSS_POWER,0) ELSE
+		IFNULL(m.ACTIVE_TRANSFORMER_LOSS_POWER,0) END)
+		ACTIVE_TRANSFORMER_LOSS_POWER,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN IFNULL(m.REACTIVE_DEDUCTION_POWER,0)
+		ELSE IFNULL(m.ACTIVE_DEDUCTION_POWER,0) END )
+		ACTIVE_DEDUCTION_POWER,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN m.Q_TOTAL_POWER ELSE 0 END )
+		Q_TOTAL_POWER,
+		date_format( w.write_date, '%Y-%m-%d' ) write_date,
+		date_format( w.last_write_date, '%Y-%m-%d' ) last_write_date,
+		( CASE w.FUNCTION_CODE WHEN 1 THEN 1 when 2 then 2 ELSE 3
+		END ) FUNCTION_CODE,
+		p.balance last_balance,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.BASIC_MONEY END
+		)BASIC_MONEY,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.POWER_RATE_MONEY END
+		)POWER_RATE_MONEY,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.SURCHARGES END )SURCHARGES,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.ADD_MONEY8 END
+		)ADD_MONEY8,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.refund_money END
+		)REFUND_MONEY,
+		( CASE w.FUNCTION_CODE WHEN 2 THEN 0 ELSE m.VOLUME_CHARGE END
+		)VOLUME_CHARGE,
+		(select ifnull( sum(c.DEDUCTION_BALANCE), 0 )from CHARGE_INFO c where
+		c.ARREARAGE_NO=a.ARREARAGE_NO ) DEDUCTION_BALANCE
+		FROM
+		ARREARAGE_INFO a
+		LEFT JOIN WRITE_FILES_INFO w ON w.METER_ID = a.METER_ID
+		AND w.MON = a.MON
+		AND w.SN = a.SN
+		AND w.time_seg = 0
+		LEFT JOIN METER_MONEY_INFO m ON a.METER_MONEY_ID = m.id
+		LEFT JOIN PRE_CHARGE_INFO p ON p.settlement_id = a.settlement_id
+		<where>
+			<if test="id !=null">
+				and a.ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and a.ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and a.METER_ID = #{meterId}
+			</if>
+			<if test="endDate !=null">
+				and a.END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and a.RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and a.CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and a.OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and a.STATUS = #{status}
+			</if>
+			<if test="startMon !=null">
+				and a.MON &gt;= #{startMon}
+			</if>
+			<if test="mon !=null">
+				and a.MON = #{mon}
+			</if>
+			<if test="endMon !=null">
+				and a.MON &lt;= #{endMon}
+			</if>
+			<if test="sn !=null">
+				and a.SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and a.METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and a.IS_SETTLE = #{isSettle}
+			</if>
+			<choose>
+				<when test="writeSectIds != null and writeSectIds.size > 0">
+					and a.WRITE_SECT_ID in
+					<foreach item="item" index="index"
+						collection="writeSectIds" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="writeSectId !=null">
+						and a.WRITE_SECT_ID = #{writeSectId}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="writorId !=null">
+				and a.WRITOR_ID = #{writorId}
+			</if>
+			<choose>
+				<when
+					test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+					and a.BUSINESS_PLACE_CODE in
+					<foreach item="item" index="index"
+						collection="businessPlaceCodes" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="businessPlaceCode !=null">
+						and a.BUSINESS_PLACE_CODE = #{businessPlaceCode}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="isLock !=null">
+				and a.IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and a.SETTLEMENT_ID = #{settlementId}
+			</if>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and a.SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="ArrearageDomain"
+		flushCache="true" keyProperty="id">
+		insert into ARREARAGE_INFO(ID, IS_LOCK, ARREARAGE_NO, METER_ID, END_DATE,
+		RECEIVABLE,
+		CREATE_DATE,
+		OPERATOR, STATUS, MON, SN, METER_MONEY_ID, IS_SETTLE, OWE_MONEY, PUNISH_MONEY,
+		WRITE_SECT_ID, WRITOR_ID,
+		BUSINESS_PLACE_CODE, TOTAL_POWER,
+		SETTLEMENT_ID,SHOULD_MONEY)
+		values (#{id}, #{isLock}, #{arrearageNo}, #{meterId}, #{endDate},
+		#{receivable},
+		#{createDate}, #{operator}, #{status}, #{mon}, #{sn}, #{meterMoneyId},
+		#{isSettle}, #{oweMoney}, #{punishMoney}, #{writeSectId}, #{writorId},
+		#{businessPlaceCode}, #{totalPower},
+		#{settlementId},#{shouldMoney})
+	</insert>
+	<update id="update" parameterType="ArrearageDomain"
+		flushCache="true">
+		update ARREARAGE_INFO
+		<set>
+			<if test="arrearageNo !=null">
+				ARREARAGE_NO = #{arrearageNo},
+			</if>
+			<if test="meterId !=null">
+				METER_ID = #{meterId},
+			</if>
+			<if test="endDate !=null">
+				END_DATE = #{endDate},
+			</if>
+			<if test="receivable !=null">
+				RECEIVABLE = #{receivable},
+			</if>
+			<if test="createDate !=null">
+				CREATE_DATE = #{createDate},
+			</if>
+			<if test="operator !=null">
+				OPERATOR = #{operator},
+			</if>
+			<if test="status !=null">
+				STATUS = #{status},
+			</if>
+			<if test="mon !=null">
+				MON = #{mon},
+			</if>
+			<if test="sn !=null">
+				SN = #{sn},
+			</if>
+			<if test="meterMoneyId !=null">
+				METER_MONEY_ID = #{meterMoneyId},
+			</if>
+			<if test="isSettle !=null">
+				IS_SETTLE = #{isSettle},
+			</if>
+			<if test="punishMoney !=null">
+				PUNISH_MONEY = #{punishMoney},
+			</if>
+			<if test="oweMoney !=null">
+				OWE_MONEY = #{oweMoney},
+			</if>
+			<if test="writeSectId !=null">
+				WRITE_SECT_ID = #{writeSectId},
+			</if>
+			<if test="writorId !=null">
+				WRITOR_ID = #{writorId},
+			</if>
+			<if test="businessPlaceCode !=null">
+				BUSINESS_PLACE_CODE = #{businessPlaceCode},
+			</if>
+			<if test="isLock !=null">
+				IS_LOCK = #{isLock},
+			</if>
+			<if test="settlementId !=null">
+				SETTLEMENT_ID = #{settlementId},
+			</if>
+		</set>
+		<where>
+			and ID = #{id}
+		</where>
+	</update>
+	<delete id="delete" parameterType="ArrearageDomain"
+		flushCache="true">
+		delete from ARREARAGE_INFO
+		<where>
+			and ID = #{id}
+		</where>
+	</delete>
+	<select id="findArrearageDetail" parameterType="MeterPageEntity"
+		resultType="ArrearageDetailDomain" useCache="true">
+		SELECT
+		@rownum := @rownum + 1 AS ROW_SN,
+		e.*
+		FROM
+		(
+		SELECT
+		@rownum := 0,
+		A.ID,
+		A.ARREARAGE_NO,
+		A.METER_ID,
+		A.END_DATE,
+		A.RECEIVABLE,
+		A.PUNISH_MONEY,
+		A.CREATE_DATE,
+		A.OPERATOR,
+		A.STATUS,
+		A.IS_SETTLE,
+		A.SN,
+		A.OWE_MONEY,
+		A.WRITE_SECT_ID,
+		A.WRITOR_ID,
+		A.BUSINESS_PLACE_CODE,
+		A.MON,
+		M.ACTIVE_DEDUCTION_POWER,
+		M.ACTIVE_LINE_LOSS_POWER,
+		M.ACTIVE_TRANSFORMER_LOSS_POWER,
+		M.ACTIVE_WRITE_POWER,
+		<!--M.ACTIVE_WRITE_POWER_1, M.ACTIVE_WRITE_POWER_2, M.ACTIVE_WRITE_POWER_3, 
+			M.ACTIVE_WRITE_POWER_4, -->
+		M.ADD_POWER,
+		M.AMOUNT,
+		M.BASIC_MONEY,
+		M.CHG_POWER,
+		M.POWER_RATE_MONEY,
+		M.CAL_CAPACITY,
+		M.Q_TOTAL_POWER,
+		<!--M.Q_ADD_POWER, M.COS, M.Q_CHG_POWER, M.REACTIVE_DEDUCTION_POWER, M.REACTIVE_LINE_LOSS_POWER, 
+			M.REACTIVE_TRANSFORMER_LOSS_POWER, M.REACTIVE_WRITE_POWER, M.REACTIVE_WRITE_POWER_1, 
+			M.REACTIVE_WRITE_POWER_2, M.REACTIVE_WRITE_POWER_3, M.REACTIVE_WRITE_POWER_4, 
+			M.REVERSE_REACTIVE_WRITE_POWER, M.SHARE_CAPACITY, -->
+		M.SURCHARGES,
+		IFNULL(M.TOTAL_POWER,A.TOTAL_POWER)TOTAL_POWER,
+		M.VOLUME_CHARGE,
+		(0-M.REFUND_MONEY-
+		(select sum(CH.FACT_TOTAL) from CHARGE_INFO CH where CH.mon =A.mon and
+		CH.METER_ID=A.METER_ID AND CH.SN=A.SN AND CH.F_CHARGE_MODE = 6)
+		)REFUND_MONEY,
+		IFNULL( IS_LOCK, 0 ) IS_LOCK,
+		A.SETTLEMENT_ID,
+		M.PRICE_TYPE_ID,
+		IFNULL(C.FACT_MONEY,0) AS ycys,
+		CONCAT('分别为',(
+		SELECT
+		GROUP_CONCAT('_', W.START_NUM )
+		FROM
+		WRITE_FILES_INFO W
+		WHERE
+		W.METER_ID = M.METER_ID
+		AND W.SN = M.SN
+		AND W.MON = M.MON
+		AND W.FUNCTION_CODE = 1
+		)) START_NUM_STRING,
+		CONCAT('分别为',(
+		SELECT
+		GROUP_CONCAT('_', W.END_NUM)
+		FROM
+		WRITE_FILES_INFO W
+		WHERE
+		W.METER_ID = M.METER_ID
+		AND W.SN = M.SN
+		AND W.MON = M.MON
+		AND W.FUNCTION_CODE = 1
+		)) END_NUM_STRING
+		FROM
+		ARREARAGE_INFO A
+		LEFT JOIN CHARGE_INFO C ON C.ARREARAGE_NO = A.ARREARAGE_NO
+		AND C.F_CHARGE_MODE = 4
+		left join METER_MONEY_INFO M on A.METER_MONEY_ID = M.ID
+		WHERE
+		A.IS_SETTLE = 0
+		AND (A.METER_ID IN (${meterId})
+		or (A.SETTLEMENT_ID IN (${settlementId}) and A.METER_ID is null))
+		ORDER BY
+		A.MON,
+		IFNULL( A.SETTLEMENT_ID, A.METER_ID ),
+		A.METER_ID
+		) e
+	</select>
+
+	<select id="findArrearageDetailByWhere"
+		parameterType="ArrearageDomain"
+		resultType="ArrearageDetailDomain"
+		useCache="true">
+		SELECT
+		A.ID,
+		A.ARREARAGE_NO,
+		A.METER_ID,
+		A.END_DATE,
+		A.RECEIVABLE,
+		A.PUNISH_MONEY,
+		A.CREATE_DATE,
+		A.OPERATOR,
+		A.STATUS,
+		A.IS_SETTLE,
+		A.SN,
+		A.OWE_MONEY,
+		A.WRITE_SECT_ID,
+		A.WRITOR_ID,
+		A.BUSINESS_PLACE_CODE,
+		M.MON,
+		M.ACTIVE_DEDUCTION_POWER,
+		M.ACTIVE_LINE_LOSS_POWER,
+		M.ACTIVE_TRANSFORMER_LOSS_POWER,
+		M.ACTIVE_WRITE_POWER,
+		M.ACTIVE_WRITE_POWER_1,
+		M.ACTIVE_WRITE_POWER_2,
+		M.ACTIVE_WRITE_POWER_3,
+		M.ACTIVE_WRITE_POWER_4,
+		M.ADD_POWER,
+		M.AMOUNT,
+		M.BASIC_MONEY,
+		M.CAL_CAPACITY,
+		M.CHG_POWER,
+		M.COS,
+		M.POWER_RATE_MONEY,
+		M.Q_ADD_POWER,
+		M.Q_CHG_POWER,
+		M.Q_TOTAL_POWER,
+		M.REACTIVE_DEDUCTION_POWER,
+		M.REACTIVE_LINE_LOSS_POWER,
+		M.REACTIVE_TRANSFORMER_LOSS_POWER,
+		M.REACTIVE_WRITE_POWER,
+		M.REACTIVE_WRITE_POWER_1,
+		M.REACTIVE_WRITE_POWER_2,
+		M.REACTIVE_WRITE_POWER_3,
+		M.REACTIVE_WRITE_POWER_4,
+		M.REVERSE_REACTIVE_WRITE_POWER,
+		M.SHARE_CAPACITY,
+		M.SURCHARGES,
+		M.TOTAL_POWER,
+		M.VOLUME_CHARGE,
+		IS_LOCK,
+		A.SETTLEMENT_ID,
+		IFNULL((M.ADD_MONEY1),0)as addMoney1,
+		IFNULL((M.ADD_MONEY2),0)as addMoney2,IFNULL((M.ADD_MONEY3),0)as
+		addMoney3,
+		IFNULL((M.ADD_MONEY4),0)as addMoney4,IFNULL((M.ADD_MONEY5),0)as
+		addMoney5,
+		IFNULL((M.ADD_MONEY6),0)as addMoney6,IFNULL((M.ADD_MONEY7),0)as
+		addMoney7,
+		IFNULL((M.ADD_MONEY8),0)as addMoney8,IFNULL((M.ADD_MONEY9),0)as
+		addMoney9,
+		A.SHOULD_MONEY
+		FROM
+		ARREARAGE_INFO A,
+		METER_MONEY_INFO M
+		<where>
+			A.METER_MONEY_ID = M.ID
+			AND A.MON=M.MON
+			<if test="writeSectIds != null and writeSectIds.size > 0">
+				and A.WRITE_SECT_ID in
+				<foreach item="item" index="index" collection="writeSectIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		ORDER BY A.MON,IFNULL(A.SETTLEMENT_ID,A.METER_ID),A.METER_ID
+	</select>
+
+
+	<delete id="deleteByParam" parameterType="ArrearageDomain"
+		flushCache="true">
+		delete from ARREARAGE_INFO
+		<where>
+			<if test="mon !=null">
+				and MON = #{mon}
+			</if>
+			<if test="meterId !=null">
+				and METER_ID = #{meterId}
+			</if>
+			<if test="sn !=null">
+				and SN = #{sn}
+			</if>
+		</where>
+	</delete>
+
+	<update id="updateMoneyItemId" parameterType="java.lang.Integer"
+		flushCache="true">
+		UPDATE ARREARAGE_INFO
+		SET METER_MONEY_ID = (
+		SELECT min(id)
+		FROM METER_MONEY_INFO
+		WHERE METER_MONEY_INFO.MON = ARREARAGE_INFO.MON
+		AND METER_MONEY_INFO.METER_ID = ARREARAGE_INFO.METER_ID
+		AND METER_MONEY_INFO.SN = ARREARAGE_INFO.SN
+		)
+		WHERE METER_MONEY_ID IS NULL;
+	</update>
+
+
+	<select id="findArrearageByMeterIds"
+		resultType="ArrearageDomain" useCache="true">
+		select
+		ID,IS_LOCK,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,
+		OPERATOR,
+		STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,SETTLEMENT_ID,SHOULD_MONEY
+		from ARREARAGE_INFO A
+		<where>
+			A.IS_SETTLE = 0
+			AND IFNULL(IS_LOCK,0)!=1
+			AND A.METER_ID in
+			(${_parameter})
+		</where>
+	</select>
+
+	<select id="findAllByMeterIds" resultType="ArrearageDomain"
+		useCache="true">
+		select
+		ID,IS_LOCK,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,
+		OPERATOR,
+		STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,SETTLEMENT_ID,SHOULD_MONEY
+		from ARREARAGE_INFO A
+		<where>
+			<if test="list != null and list.size > 0">
+				A.METER_ID in
+				<foreach item="item" index="index" collection="list"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="findArrearageBySettleIds"
+		resultType="ArrearageDomain" useCache="false">
+		select
+		ID,IS_LOCK,ARREARAGE_NO,METER_ID,END_DATE,RECEIVABLE,CREATE_DATE,
+		OPERATOR,
+		STATUS,MON,SN,METER_MONEY_ID,IS_SETTLE,OWE_MONEY,PUNISH_MONEY,WRITE_SECT_ID,WRITOR_ID,BUSINESS_PLACE_CODE,SETTLEMENT_ID,SHOULD_MONEY
+		from ARREARAGE_INFO A
+		<where>
+			A.IS_SETTLE = 0
+			AND IFNULL(IS_LOCK,0)!=1
+			AND A.SETTLEMENT_ID in
+			(${_parameter})
+		</where>
+	</select>
+
+	<update id="updateLockByIds" flushCache="true">
+		update ARREARAGE_INFO A set A.IS_Lock=1
+		<where>
+			<if test="list != null and list.size > 0">
+				and A.ID in
+				<foreach item="item" index="index" collection="list"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="list = null or list.size = 0">
+				and 1=2
+			</if>
+		</where>
+	</update>
+
+	<update id="removeLockByIds" flushCache="true">
+		update ARREARAGE_INFO A set A.IS_Lock=0
+		<where>
+			<if test="list != null and list.size > 0">
+				and A.ID in
+				<foreach item="item" index="index" collection="list"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="list = null or list.size = 0">
+				and 1=2
+			</if>
+		</where>
+	</update>
+
+	<select id="arrearageAccumulate" parameterType="ArrearageDomain"
+		resultType="ArrearageDomain" useCache="true">
+		SELECT SETTLEMENT_ID,
+		COUNT(distinct mon) as count,
+		MIN(METER_ID) as meterId,
+		SUM(TOTAL_POWER) as totalPower,
+		SUM(RECEIVABLE) as receivable,
+		SUM(OWE_MONEY) as oweMoney,
+		SUM(PUNISH_MONEY) as punishMoney,
+		ID,
+		IS_Lock,
+		END_DATE,
+		CREATE_DATE,
+		OPERATOR,
+		STATUS,
+		MON,
+		SN,
+		IS_SETTLE,
+		WRITE_SECT_ID,
+		WRITOR_ID,
+		BUSINESS_PLACE_CODE
+		from ARREARAGE_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and METER_ID = #{meterId}
+			</if>
+			<if test="endDate !=null">
+				and END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and STATUS = #{status}
+			</if>
+			<if test="startMon !=null">
+				and MON &gt;= #{startMon}
+			</if>
+			<if test="endMon !=null">
+				and MON &lt;= #{endMon}
+			</if>
+			<if test="sn !=null">
+				and SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and IS_SETTLE = #{isSettle}
+			</if>
+			<if test="writeSectId !=null">
+				and WRITE_SECT_ID = #{writeSectId}
+			</if>
+			<if test="writorId !=null">
+				and WRITOR_ID = #{writorId}
+			</if>
+			<choose>
+				<when
+					test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+					and BUSINESS_PLACE_CODE in
+					<foreach item="item" index="index"
+						collection="businessPlaceCodes" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="businessPlaceCode !=null">
+						and BUSINESS_PLACE_CODE = #{businessPlaceCode}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="isLock !=null">
+				and IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and SETTLEMENT_ID = #{settlementId}
+			</if>
+			and IS_SETTLE = 0
+			and SETTLEMENT_ID IS NOT NULL
+		</where>
+		group by SETTLEMENT_ID order by WRITE_SECT_ID,SETTLEMENT_ID asc
+	</select>
+
+	<!--分页不能foreach -->
+
+	<select id="findArrearageGroupbySettleId"
+		parameterType="ArrearageDomain" resultType="BankCollectionEntity"
+		useCache="true">
+		SELECT ARREARAGE_INFO.SETTLEMENT_ID,
+		MAX(ARREARAGE_INFO.mon) mon,
+		MAX(ARREARAGE_INFO.BUSINESS_PLACE_CODE) BUSINESS_PLACE_CODE,
+		MAX(ARREARAGE_INFO.sn) sn,
+		SUM(METER_MONEY_INFO.AMOUNT) as OWE_MONEY,
+		SUM(ARREARAGE_INFO.PUNISH_MONEY) as PUNISH_MONEY,
+		max(ARREARAGE_INFO.WRITE_SECT_ID) WRITE_SECT_ID,
+		group_concat(ARREARAGE_INFO.Id) ids
+		from METER_MONEY_INFO LEFT JOIN ARREARAGE_INFO
+		ON METER_MONEY_INFO.ID=ARREARAGE_INFO.METER_MONEY_ID
+		<where>
+			IFNULL(METER_MONEY_INFO.AMOUNT,0)!=0
+			<if test="id !=null">
+				and ARREARAGE_INFO.ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and ARREARAGE_INFO.ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and ARREARAGE_INFO.METER_ID = #{meterId}
+			</if>
+			<if test="endDate !=null">
+				and ARREARAGE_INFO.END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and ARREARAGE_INFO.RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and ARREARAGE_INFO.CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and ARREARAGE_INFO.OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and ARREARAGE_INFO.STATUS = #{status}
+			</if>
+			<if test="mon !=null">
+				and ARREARAGE_INFO.MON = #{mon}
+			</if>
+			<if test="sn !=null">
+				and ARREARAGE_INFO.SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and ARREARAGE_INFO.METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and ARREARAGE_INFO.IS_SETTLE = #{isSettle}
+			</if>
+			<if test="writeSectId !=null">
+				and ARREARAGE_INFO.WRITE_SECT_ID = #{writeSectId}
+			</if>
+			<if test="writorId !=null">
+				and ARREARAGE_INFO.WRITOR_ID = #{writorId}
+			</if>
+			<if test="businessPlaceCode !=null">
+				and ARREARAGE_INFO.BUSINESS_PLACE_CODE = #{businessPlaceCode}
+			</if>
+			<if test="isLock !=null">
+				and ARREARAGE_INFO.IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and ARREARAGE_INFO.SETTLEMENT_ID = #{settlementId}
+			</if>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and ARREARAGE_INFO.SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">
+					#{settlementIds[${index}]}
+				</foreach>
+			</if>
+			<if test="isPrint != null and isPrint==1">
+				and EXISTS(
+				SELECT 1 FROM NOTE_INFO N WHERE N.IS_PRINT = #{isPrint} and
+				N.CHARGE_INFO_ID =
+				(SELECT ID FROM CHARGE_INFO C WHERE
+				C.ARREARAGE_NO=ARREARAGE_INFO.ARREARAGE_NO)
+				)
+			</if>
+		</where>
+		group by SETTLEMENT_ID order by SETTLEMENT_ID asc
+	</select>
+
+
+	<delete id="deleteArrearageByMeterIdsMonAndSn"
+		parameterType="PulishEntity" flushCache="true">
+		delete from ARREARAGE_INFO
+		<where>
+			<if test="meterIds != null and meterIds.size > 0">
+				and METER_ID in
+				<foreach item="item" index="index" collection="meterIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			and MON = #{mon}
+			and SN = #{sn}
+		</where>
+	</delete>
+
+	<!--欠费汇总报表专用 -->
+	<select id="findArrearageQuerySumByWhere"
+		parameterType="ArrearageDomain" resultType="ArrearageDomain"
+		useCache="true">
+		SELECT
+		<if test="groupBy !=null and groupBy=='mon'">
+			a.MON
+		</if>
+		<if test="groupBy !=null and groupBy=='writeSect'">
+			a.WRITE_SECT_ID
+		</if>
+		<if test="groupBy !=null and groupBy=='writor'">
+			a.WRITOR_ID
+		</if>
+		<if test="groupBy !=null and groupBy=='businessPlaceCode'">
+			a.BUSINESS_PLACE_CODE
+		</if>
+		as GROUP_KEY,
+		count(1) count,
+		sum(a.RECEIVABLE) RECEIVABLE,
+		sum(a.OWE_MONEY) OWE_MONEY,
+		sum(a.PUNISH_MONEY) PUNISH_MONEY,
+		max(a.MON) MON
+		FROM
+		ARREARAGE_INFO a
+		<where>
+			<if test="id !=null">
+				and a.ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and a.ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and a.METER_ID = #{meterId}
+			</if>
+			<if test="endDate !=null">
+				and a.END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and a.RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and a.CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and a.OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and a.STATUS = #{status}
+			</if>
+			<if test="startMon !=null">
+				and a.MON &gt;= #{startMon}
+
+			</if>
+			<if test="mon !=null">
+				and a.MON = #{mon}
+			</if>
+			<if test="endMon !=null">
+				and a.MON &lt;= #{endMon}
+			</if>
+			<if test="sn !=null">
+				and a.SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and a.METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and a.IS_SETTLE = #{isSettle}
+			</if>
+			<choose>
+				<when test="writeSectIds != null and writeSectIds.size > 0">
+					and WRITE_SECT_ID in
+					<foreach item="item" index="index"
+						collection="writeSectIds" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="writeSectId !=null">
+						and WRITE_SECT_ID = #{writeSectId}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="writorId !=null">
+				and a.WRITOR_ID = #{writorId}
+			</if>
+			<choose>
+				<when
+					test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+					and a.BUSINESS_PLACE_CODE in
+					<foreach item="item" index="index"
+						collection="businessPlaceCodes" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="businessPlaceCode !=null">
+						and a.BUSINESS_PLACE_CODE = #{businessPlaceCode}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="isLock !=null">
+				and a.IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and a.SETTLEMENT_ID = #{settlementId}
+			</if>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and a.SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			and a.SETTLEMENT_ID is not null
+
+		</where>
+		<if test="groupBy !=null and groupBy=='businessPlaceCode'">
+			GROUP BY a.BUSINESS_PLACE_CODE
+		</if>
+		<if test="groupBy !=null and groupBy=='writor'">
+			GROUP BY a.WRITOR_ID
+		</if>
+		<if test="groupBy !=null and groupBy=='writeSect'">
+			GROUP BY a.OPERATOR
+		</if>
+		<if test="groupBy !=null and groupBy=='mon'">
+			GROUP BY a.MON
+		</if>
+		<if test="groupBy !=null and groupBy=='writeSectId'">
+			GROUP BY a.WRITE_SECT_ID
+		</if>
+	</select>
+
+	<select id="findArrearageGroupBySettleAndMon"
+		parameterType="ArrearageDomain" resultType="ArrearageDomain"
+		useCache="true">
+		SELECT SETTLEMENT_ID,
+		COUNT(1) as count,
+		MIN(METER_ID) as meterId,
+		SUM(TOTAL_POWER) as totalPower,
+		SUM(RECEIVABLE) as receivable,
+		SUM(OWE_MONEY) as oweMoney,
+		SUM(PUNISH_MONEY) as punishMoney,
+		ID,
+		IS_Lock,
+		END_DATE,
+		CREATE_DATE,
+		OPERATOR,
+		STATUS,
+		MON,
+		SN,
+		IS_SETTLE,
+		WRITE_SECT_ID,
+		WRITOR_ID,
+		BUSINESS_PLACE_CODE
+		from ARREARAGE_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="arrearageNo !=null">
+				and ARREARAGE_NO = #{arrearageNo}
+			</if>
+			<if test="meterId !=null">
+				and METER_ID = #{meterId}
+			</if>
+			<if test="endDate !=null">
+				and END_DATE = #{endDate}
+			</if>
+			<if test="receivable !=null">
+				and RECEIVABLE = #{receivable}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and OPERATOR = #{operator}
+			</if>
+			<if test="status !=null">
+				and STATUS = #{status}
+			</if>
+			<if test="startMon !=null">
+				and MON &gt;= #{startMon}
+			</if>
+			<if test="endMon !=null">
+				and MON &lt;= #{endMon}
+			</if>
+			<if test="sn !=null">
+				and SN = #{sn}
+			</if>
+			<if test="meterMoneyId !=null">
+				and METER_MONEY_ID = #{meterMoneyId}
+			</if>
+			<if test="isSettle !=null">
+				and IS_SETTLE = #{isSettle}
+			</if>
+			<if test="writeSectId !=null">
+				and WRITE_SECT_ID = #{writeSectId}
+			</if>
+			<if test="writorId !=null">
+				and WRITOR_ID = #{writorId}
+			</if>
+			<choose>
+				<when
+					test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+					and BUSINESS_PLACE_CODE in
+					<foreach item="item" index="index"
+						collection="businessPlaceCodes" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					<if test="businessPlaceCode !=null">
+						and BUSINESS_PLACE_CODE = #{businessPlaceCode}
+					</if>
+				</otherwise>
+			</choose>
+			<if test="isLock !=null">
+				and IS_LOCK = #{isLock}
+			</if>
+			<if test="settlementId !=null">
+				and SETTLEMENT_ID = #{settlementId}
+			</if>
+			and IS_SETTLE = 0
+			and SETTLEMENT_ID IS NOT NULL
+		</where>
+		group by SETTLEMENT_ID,mon,sn order by
+		WRITE_SECT_ID,SETTLEMENT_ID,mon,sn asc
+	</select>
+
+	<!--查询当月未发送电费信息的欠费用户 -->
+	<select id="findByIsSettleMonAndIsSend"
+		resultType="ArrearageDomain" parameterType="java.lang.Integer">
+		select ID, MON, METER_ID, TOTAL_POWER, SN, ARREARAGE_NO, OPERATOR,
+		SETTLEMENT_ID, METER_MONEY_ID,
+		RECEIVABLE, WRITOR_ID, IS_LOCK, OWE_MONEY, END_DATE, CREATE_DATE,
+		PUNISH_MONEY,
+		STATUS, IS_SEND, BUSINESS_PLACE_CODE, IS_SETTLE
+		from ARREARAGE_INFO
+		<where>
+			<if test="mon != null">
+				and MON = #{mon}
+			</if>
+			<if test="isSettle != null">
+				and IS_SETTLE = #{isSettle}
+			</if>
+			<if test="isSend != null">
+				and IS_SEND = #{isSend}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateSendBySettlementIds" flushCache="true">
+		update ARREARAGE_INFO A set A.IS_SEND=1
+		<where>
+			<if test="list != null and list.size > 0">
+				and A.SETTLEMENT_ID in
+				<foreach item="item" index="index" collection="list"
+					open="(" separator="," close=")">#{item}
+				</foreach>
+			</if>
+			<if test="list == null or list.size == 0">
+				and 1=2
+			</if>
+		</where>
+	</update>
+	<!--更改发送信息标志 -->
+	<update id="updateSendBySettlementIdsAndMon" flushCache="true">
+		update ARREARAGE_INFO A set A.IS_SEND=1
+		<where>
+			<if test="settlementIds != null and settlementIds.size > 0">
+				and A.SETTLEMENT_ID in
+				<foreach item="item" index="index"
+					collection="settlementIds" open="(" separator="," close=")">#{item}
+				</foreach>
+			</if>
+			<if test="settlementIds == null or settlementIds.size == 0">
+				and 1=2
+			</if>
+			<if test="mon != null">
+				and MON = #{mon}
+			</if>
+		</where>
+	</update>
+
+	<!--电量排行 -->
+	<select id="electricityTariffRankQuery"
+		resultType="ArrearageDomain"
+		parameterType="ElectricityTariffRankEntity">
+		select SETTLEMENT_ID,sum(TOTAL_POWER)
+		TOTAL_POWER,sum(RECEIVABLE) RECEIVABLE,min(mon) START_MON,max(mon)
+		END_MON
+
+		from
+		ARREARAGE_INFO
+		<where>
+			and RECEIVABLE!=0
+			and SETTLEMENT_ID is not null
+			<if test="startMon != null">
+				and MON &gt;= #{startMon}
+			</if>
+			<if test="endMon != null">
+				and MON &lt;= #{endMon}
+			</if>
+			<if
+				test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+				and BUSINESS_PLACE_CODE in
+				<foreach item="item" index="index"
+					collection="businessPlaceCodes" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		group by SETTLEMENT_ID order by ${queryTypeString} desc limit
+		${limitSettlementNum};
+	</select>
+
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.fms.billing.server.webapp.dao.ArrearagePenaltyMoneyDAO">
+	<select id="findByKey"
+		parameterType="ArrearagePenaltyMoneyDomain"
+		resultType="ArrearagePenaltyMoneyDomain" useCache="true">
+		select
+		ID,ARREARAGE_ID,OWE_MONEY,PENALTY_MONEY,CREATE_DATE,REMARK,STATUS from
+		ARREARAGE_PENALTY_MONEY_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</select>
+	<select id="findByWhere"
+		parameterType="ArrearagePenaltyMoneyDomain"
+		resultType="ArrearagePenaltyMoneyDomain" useCache="true">
+		select
+		ID,ARREARAGE_ID,OWE_MONEY,PENALTY_MONEY,CREATE_DATE,REMARK,STATUS from
+		ARREARAGE_PENALTY_MONEY_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="arrearageId !=null">
+				and ARREARAGE_ID = #{arrearageId}
+			</if>
+			<if test="oweMoney !=null">
+				and OWE_MONEY = #{oweMoney}
+			</if>
+			<if test="penaltyMoney !=null">
+				and PENALTY_MONEY = #{penaltyMoney}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="remark !=null">
+				and REMARK = #{remark}
+			</if>
+			<if test="status !=null">
+				and STATUS = #{status}
+			</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="ArrearagePenaltyMoneyDomain"
+		flushCache="true">
+		insert into
+		ARREARAGE_PENALTY_MONEY_INFO(ID,ARREARAGE_ID,OWE_MONEY,PENALTY_MONEY,CREATE_DATE,REMARK,STATUS)
+		values
+		(#{id},#{arrearageId},#{oweMoney},#{penaltyMoney},#{createDate},#{remark},#{status})
+	</insert>
+	<update id="update" parameterType="ArrearagePenaltyMoneyDomain"
+		flushCache="true">
+		update ARREARAGE_PENALTY_MONEY_INFO
+		<set>
+			<if test="arrearageId !=null">
+				ARREARAGE_ID = #{arrearageId},
+			</if>
+			<if test="oweMoney !=null">
+				OWE_MONEY = #{oweMoney},
+			</if>
+			<if test="penaltyMoney !=null">
+				PENALTY_MONEY = #{penaltyMoney},
+			</if>
+			<if test="createDate !=null">
+				CREATE_DATE = #{createDate},
+			</if>
+			<if test="remark !=null">
+				REMARK = #{remark},
+			</if>
+			<if test="status !=null">
+				STATUS = #{status},
+			</if>
+		</set>
+		<where>
+			and ID = #{id}
+
+		</where>
+	</update>
+	<delete id="delete" parameterType="ArrearagePenaltyMoneyDomain"
+		flushCache="true">
+		delete from ARREARAGE_PENALTY_MONEY_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</delete>
+</mapper>

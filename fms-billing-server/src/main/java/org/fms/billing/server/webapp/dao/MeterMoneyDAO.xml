@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.MeterMoneyDAO">
+    <select id="findByKey" parameterType="MeterMoneyDomain"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,PRICE_TYPE_ID,MON,SN,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,
+        REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,
+        REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        IFNULL(ADD_MONEY1,0) ADD_MONEY1,IFNULL(ADD_MONEY2,0)
+        ADD_MONEY2,IFNULL(ADD_MONEY3,0) ADD_MONEY3,IFNULL(ADD_MONEY4,0)
+        ADD_MONEY4,IFNULL(ADD_MONEY5,0) ADD_MONEY5,IFNULL(ADD_MONEY6,0)
+        ADD_MONEY6,IFNULL(ADD_MONEY7,0) ADD_MONEY7,IFNULL(ADD_MONEY8,0)
+        ADD_MONEY8,IFNULL(ADD_MONEY9,0) ADD_MONEY9,IFNULL(ADD_MONEY10,0)
+        ADD_MONEY10,IFNULL(LADDER1_LIMIT,0)
+        LADDER1_LIMIT,IFNULL(LADDER1_POWER,0) LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0)LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)LADDER2_LIMIT,IFNULL(LADDER2_POWER,0)
+        LADDER2_POWER,IFNULL(LADDER2_MONEY,0)
+        LADDER2_MONEY,IFNULL(LADDER3_LIMIT,0)
+        LADDER3_LIMIT,IFNULL(LADDER3_POWER,0)
+        LADDER3_POWER,IFNULL(LADDER3_MONEY,0)LADDER3_MONEY,
+        IFNULL(LADDER4_LIMIT,0)LADDER4_LIMIT,IFNULL(LADDER4_POWER,0)LADDER4_POWER,IFNULL(LADDER4_MONEY,0)
+        LADDER4_MONEY,WRITE_SECT_ID,IFNULL(LADDER_TOTAL_POWER,0)
+        LADDER_TOTAL_POWER,IFNULL(REFUND_MONEY,0) REFUND_MONEY,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="MeterMoneyDomain"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        IFNULL(ADD_MONEY1,0) ADD_MONEY1,IFNULL(ADD_MONEY2,0)
+        ADD_MONEY2,IFNULL(ADD_MONEY3,0) ADD_MONEY3,IFNULL(ADD_MONEY4,0)
+        ADD_MONEY4,IFNULL(ADD_MONEY5,0) ADD_MONEY5,IFNULL(ADD_MONEY6,0)
+        ADD_MONEY6,IFNULL(ADD_MONEY7,0) ADD_MONEY7,IFNULL(ADD_MONEY8,0)
+        ADD_MONEY8,IFNULL(ADD_MONEY9,0) ADD_MONEY9,IFNULL(ADD_MONEY10,0)
+        ADD_MONEY10,
+        IFNULL(LADDER1_LIMIT,0) LADDER1_LIMIT,IFNULL(LADDER1_POWER,0)
+        LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)
+        LADDER2_LIMIT,
+        IFNULL(LADDER2_POWER,0) LADDER2_POWER,IFNULL(LADDER2_MONEY,0)
+        LADDER2_MONEY,
+        IFNULL(LADDER3_LIMIT,0) LADDER3_LIMIT,IFNULL(LADDER3_POWER,0)
+        LADDER3_POWER,
+        IFNULL(LADDER3_MONEY,0) LADDER3_MONEY,IFNULL(LADDER4_LIMIT,0)
+        LADDER4_LIMIT,
+        IFNULL(LADDER4_POWER,0) LADDER4_POWER,IFNULL(LADDER4_MONEY,0)
+        LADDER4_MONEY
+        ,WRITE_SECT_ID,IFNULL(LADDER_TOTAL_POWER,0)
+        LADDER_TOTAL_POWER,IFNULL(REFUND_MONEY,0) REFUND_MONEY,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="meterId !=null">
+                and METER_ID = #{meterId}
+            </if>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+            <if test="startMon !=null">
+                and MON &gt;= #{startMon}
+            </if>
+
+            <if test="endMon !=null">
+                and MON &lt;= #{endMon}
+            </if>
+            <if test="sn !=null">
+                and SN = #{sn}
+            </if>
+            <if test="activeWritePower !=null">
+                and ACTIVE_WRITE_POWER = #{activeWritePower}
+            </if>
+            <if test="reactiveWritePower !=null">
+                and REACTIVE_WRITE_POWER = #{reactiveWritePower}
+            </if>
+            <if test="reverseActiveWritePower !=null">
+                and REVERSE_ACTIVE_WRITE_POWER =
+                #{reverseActiveWritePower}
+            </if>
+            <if test="reverseReactiveWritePower !=null">
+                and REVERSE_REACTIVE_WRITE_POWER =
+                #{reverseReactiveWritePower}
+            </if>
+            <if test="activeWritePower1 !=null">
+                and ACTIVE_WRITE_POWER_1 = #{activeWritePower1}
+            </if>
+            <if test="activeWritePower2 !=null">
+                and ACTIVE_WRITE_POWER_2 = #{activeWritePower2}
+            </if>
+            <if test="activeWritePower3 !=null">
+                and ACTIVE_WRITE_POWER_3 = #{activeWritePower3}
+            </if>
+            <if test="activeWritePower4 !=null">
+                and ACTIVE_WRITE_POWER_4 = #{activeWritePower4}
+            </if>
+            <if test="reactiveWritePower1 !=null">
+                and REACTIVE_WRITE_POWER_1 = #{reactiveWritePower1}
+            </if>
+            <if test="reactiveWritePower2 !=null">
+                and REACTIVE_WRITE_POWER_2 = #{reactiveWritePower2}
+            </if>
+            <if test="reactiveWritePower3 !=null">
+                and REACTIVE_WRITE_POWER_3 = #{reactiveWritePower3}
+            </if>
+            <if test="reactiveWritePower4 !=null">
+                and REACTIVE_WRITE_POWER_4 = #{reactiveWritePower4}
+            </if>
+            <if test="chgPower !=null">
+                and CHG_POWER = #{chgPower}
+            </if>
+            <if test="qChgPower !=null">
+                and Q_CHG_POWER = #{qChgPower}
+            </if>
+            <if test="addPower !=null">
+                and ADD_POWER = #{addPower}
+            </if>
+            <if test="qAddPower !=null">
+                and Q_ADD_POWER = #{qAddPower}
+            </if>
+            <if test="activeDeductionPower !=null">
+                and ACTIVE_DEDUCTION_POWER = #{activeDeductionPower}
+            </if>
+            <if test="reactiveDeductionPower !=null">
+                and REACTIVE_DEDUCTION_POWER = #{reactiveDeductionPower}
+            </if>
+            <if test="activeLineLossPower !=null">
+                and ACTIVE_LINE_LOSS_POWER = #{activeLineLossPower}
+            </if>
+            <if test="reactiveLineLossPower !=null">
+                and REACTIVE_LINE_LOSS_POWER = #{reactiveLineLossPower}
+            </if>
+            <if test="activeTransformerLossPower !=null">
+                and ACTIVE_TRANSFORMER_LOSS_POWER =
+                #{activeTransformerLossPower}
+            </if>
+            <if test="reactiveTransformerLossPower !=null">
+                and REACTIVE_TRANSFORMER_LOSS_POWER =
+                #{reactiveTransformerLossPower}
+            </if>
+            <if test="totalPower !=null">
+                and TOTAL_POWER = #{totalPower}
+            </if>
+            <if test="qTotalPower !=null">
+                and Q_TOTAL_POWER = #{qTotalPower}
+            </if>
+            <if test="cos !=null">
+                and COS = #{cos}
+            </if>
+            <if test="calCapacity !=null">
+                and CAL_CAPACITY = #{calCapacity}
+            </if>
+            <if test="shareCapacity !=null">
+                and SHARE_CAPACITY = #{shareCapacity}
+            </if>
+            <if test="volumeCharge !=null">
+                and VOLUME_CHARGE = #{volumeCharge}
+            </if>
+            <if test="basicMoney !=null">
+                and BASIC_MONEY = #{basicMoney}
+            </if>
+            <if test="powerRateMoney !=null">
+                and POWER_RATE_MONEY = #{powerRateMoney}
+            </if>
+            <if test="surcharges !=null">
+                and SURCHARGES = #{surcharges}
+            </if>
+            <if test="amount !=null">
+                and AMOUNT = #{amount}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+            <if test="writeSectIds != null and writeSectIds.size > 0">
+                and WRITE_SECT_ID in
+                <foreach item="item" index="index" collection="writeSectIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="meterIds != null and meterIds.size > 0">
+                and METER_ID in
+                <foreach item="item" index="index" collection="meterIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="priceTypeIds != null and priceTypeIds.size > 0">
+                and PRICE_TYPE_ID in
+                <foreach item="item" index="index" collection="priceTypeIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="findMeterMoneyByMeterIdsAndMon" resultType="MeterMoneyDomain"
+            useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,
+        REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,
+        ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,
+        REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,
+        ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,
+        REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,
+        REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,
+        BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,ADD_MONEY9,ADD_MONEY10,
+        IFNULL(LADDER1_LIMIT,0) LADDER1_LIMIT,IFNULL(LADDER1_POWER,0)
+        LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)
+        LADDER2_LIMIT,
+        IFNULL(LADDER2_POWER,0) LADDER2_POWER,IFNULL(LADDER2_MONEY,0)
+        LADDER2_MONEY,
+        IFNULL(LADDER3_LIMIT,0) LADDER3_LIMIT,IFNULL(LADDER3_POWER,0)
+        LADDER3_POWER,
+        IFNULL(LADDER3_MONEY,0) LADDER3_MONEY,IFNULL(LADDER4_LIMIT,0)
+        LADDER4_LIMIT,
+        IFNULL(LADDER4_POWER,0) LADDER4_POWER,IFNULL(LADDER4_MONEY,0)
+        LADDER4_MONEY
+        ,WRITE_SECT_ID,IFNULL(LADDER_TOTAL_POWER,0)
+        LADDER_TOTAL_POWER,IFNULL(REFUND_MONEY,0) REFUND_MONEY,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            <if test="meterIds != null and meterIds.size > 0">
+                and METER_ID in
+                <foreach item="item" index="meterIds" collection="list"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+        </where>
+    </select>
+    <insert id="insert" parameterType="MeterMoneyDomain" useGeneratedKeys="true"
+            flushCache="true"
+            keyProperty="id">
+        insert into METER_MONEY_INFO(ID, METER_ID, PRICE_TYPE_ID, MON, SN, ACTIVE_WRITE_POWER,
+                                     REACTIVE_WRITE_POWER, REVERSE_ACTIVE_WRITE_POWER, REVERSE_REACTIVE_WRITE_POWER,
+                                     ACTIVE_WRITE_POWER_1, ACTIVE_WRITE_POWER_2, ACTIVE_WRITE_POWER_3,
+                                     ACTIVE_WRITE_POWER_4, REACTIVE_WRITE_POWER_1, REACTIVE_WRITE_POWER_2,
+                                     REACTIVE_WRITE_POWER_3, REACTIVE_WRITE_POWER_4, CHG_POWER, Q_CHG_POWER, ADD_POWER,
+                                     Q_ADD_POWER, ACTIVE_DEDUCTION_POWER, REACTIVE_DEDUCTION_POWER,
+                                     ACTIVE_LINE_LOSS_POWER, REACTIVE_LINE_LOSS_POWER, ACTIVE_TRANSFORMER_LOSS_POWER,
+                                     REACTIVE_TRANSFORMER_LOSS_POWER, TOTAL_POWER, Q_TOTAL_POWER, COS, CAL_CAPACITY,
+                                     SHARE_CAPACITY, VOLUME_CHARGE, BASIC_MONEY, POWER_RATE_MONEY, SURCHARGES, AMOUNT,
+                                     CREATE_DATE, REMARK, STATUS,
+                                     ADD_MONEY1, ADD_MONEY2, ADD_MONEY3, ADD_MONEY4, ADD_MONEY5, ADD_MONEY6, ADD_MONEY7,
+                                     ADD_MONEY8, ADD_MONEY9, ADD_MONEY10,
+                                     LADDER1_LIMIT, LADDER1_POWER, LADDER1_MONEY, LADDER2_LIMIT, LADDER2_POWER,
+                                     LADDER2_MONEY, LADDER3_LIMIT, LADDER3_POWER, LADDER3_MONEY
+            , LADDER4_LIMIT, LADDER4_POWER, LADDER4_MONEY, WRITE_SECT_ID,
+            LADDER_TOTAL_POWER, REFUND_MONEY,PUNISH_MAN)
+        values (#{id}, #{meterId}, #{priceTypeId}, #{mon}, #{sn}, #{activeWritePower},
+                #{reactiveWritePower}, #{reverseActiveWritePower}, #{reverseReactiveWritePower}, #{activeWritePower1},
+                #{activeWritePower2}, #{activeWritePower3}, #{activeWritePower4}, #{reactiveWritePower1},
+                #{reactiveWritePower2}, #{reactiveWritePower3}, #{reactiveWritePower4}, #{chgPower}, #{qChgPower},
+                #{addPower}, #{qAddPower}, #{activeDeductionPower}, #{reactiveDeductionPower}, #{activeLineLossPower},
+                #{reactiveLineLossPower}, #{activeTransformerLossPower}, #{reactiveTransformerLossPower}, #{totalPower},
+                #{qTotalPower}, #{cos}, #{calCapacity}, #{shareCapacity}, #{volumeCharge}, #{basicMoney},
+                #{powerRateMoney}, #{surcharges}, #{amount}, #{createDate}, #{remark}, #{status},
+                #{addMoney1}, #{addMoney2}, #{addMoney3}, #{addMoney4}, #{addMoney5},
+                #{addMoney6}, #{addMoney7}, #{addMoney8}, #{addMoney9}, #{addMoney10}, #{ladder1Limit}, #{ladder1Power},
+                #{ladder1Money},
+                #{ladder2Limit}, #{ladder2Power}, #{ladder2Money}, #{ladder3Limit},
+                #{ladder3Power}, #{ladder3Money}, #{ladder4Limit}, #{ladder4Power},
+                #{ladder4Money}, #{writeSectId}, #{ladderTotalPower},
+                #{refundMoney},#{punishMan})
+    </insert>
+
+    <insert id="insertForeach" parameterType="MeterMoneyDomain"
+            useGeneratedKeys="true"
+            flushCache="true"
+            keyProperty="id">
+        insert into
+        METER_MONEY_INFO(ID,METER_ID,PRICE_TYPE_ID,MON,SN,ACTIVE_WRITE_POWER,
+        REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,ADD_MONEY9,ADD_MONEY10,LADDER1_LIMIT,LADDER1_POWER,LADDER1_MONEY,
+        LADDER2_LIMIT,LADDER2_POWER,LADDER2_MONEY,LADDER3_LIMIT,LADDER3_POWER,LADDER3_MONEY,LADDER4_LIMIT,LADDER4_POWER,LADDER4_MONEY,REFUND_MONEY,PUNISH_MAN)
+        values
+        <foreach collection="list" index="index" item="meterMoney"
+                 separator=",">
+            (#{meterMoney.id},#{meterMoney.meterId},#{meterMoney.priceTypeId},#{meterMoney.mon},#{meterMoney.sn},#{meterMoney.activeWritePower},
+            #{meterMoney.reactiveWritePower},#{meterMoney.reverseActiveWritePower},#{meterMoney.reverseReactiveWritePower},#{meterMoney.activeWritePower1},#{meterMoney.activeWritePower2},
+            #{meterMoney.activeWritePower3},#{meterMoney.activeWritePower4},#{meterMoney.reactiveWritePower1},#{meterMoney.reactiveWritePower2},
+            #{meterMoney.reactiveWritePower3},#{meterMoney.reactiveWritePower4},#{meterMoney.chgPower},#{meterMoney.qChgPower},#{meterMoney.addPower},#{meterMoney.qAddPower},#{meterMoney.activeDeductionPower},
+            #{meterMoney.reactiveDeductionPower},#{meterMoney.activeLineLossPower},#{meterMoney.reactiveLineLossPower},#{meterMoney.activeTransformerLossPower},
+            #{meterMoney.reactiveTransformerLossPower},#{meterMoney.totalPower},#{meterMoney.qTotalPower},#{meterMoney.cos},#{meterMoney.calCapacity},#{meterMoney.shareCapacity},#{meterMoney.volumeCharge},
+            #{meterMoney.basicMoney},#{meterMoney.powerRateMoney},#{meterMoney.surcharges},#{meterMoney.amount},#{meterMoney.createDate},#{meterMoney.remark},#{meterMoney.status},
+            #{meterMoney.addMoney1},#{meterMoney.addMoney2},#{meterMoney.addMoney3},#{meterMoney.addMoney4},#{meterMoney.addMoney5},#{meterMoney.addMoney6},#{meterMoney.addMoney7},#{meterMoney.addMoney8},#{meterMoney.addMoney9},#{meterMoney.addMoney10},
+            #{meterMoney.ladder1Limit},#{meterMoney.ladder1Power},#{meterMoney.ladder1Money},#{meterMoney.ladder2Limit},#{meterMoney.ladder2Power},#{meterMoney.ladder2Money},
+            #{meterMoney.ladder3Limit},#{meterMoney.ladder3Power},#{meterMoney.ladder3Money},#{meterMoney.ladder4Limit},#{meterMoney.ladder4Power},#{meterMoney.ladder4Money},#{meterMoney.refundMoney},#{meterMoney.punishMan}))
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="MeterMoneyDomain"
+            flushCache="true">
+        update METER_MONEY_INFO
+        <set>
+            <if test="meterId !=null">
+                METER_ID = #{meterId},
+            </if>
+            <if test="priceTypeId !=null">
+                PRICE_TYPE_ID = #{priceTypeId},
+            </if>
+            <if test="mon !=null">
+                MON = #{mon},
+            </if>
+            <if test="sn !=null">
+                SN = #{sn},
+            </if>
+            <if test="activeWritePower !=null">
+                ACTIVE_WRITE_POWER = #{activeWritePower},
+            </if>
+            <if test="reactiveWritePower !=null">
+                REACTIVE_WRITE_POWER = #{reactiveWritePower},
+            </if>
+            <if test="reverseActiveWritePower !=null">
+                REVERSE_ACTIVE_WRITE_POWER = #{reverseActiveWritePower},
+            </if>
+            <if test="reverseReactiveWritePower !=null">
+                REVERSE_REACTIVE_WRITE_POWER =
+                #{reverseReactiveWritePower},
+            </if>
+            <if test="activeWritePower1 !=null">
+                ACTIVE_WRITE_POWER_1 = #{activeWritePower1},
+            </if>
+            <if test="activeWritePower2 !=null">
+                ACTIVE_WRITE_POWER_2 = #{activeWritePower2},
+            </if>
+            <if test="activeWritePower3 !=null">
+                ACTIVE_WRITE_POWER_3 = #{activeWritePower3},
+            </if>
+            <if test="activeWritePower4 !=null">
+                ACTIVE_WRITE_POWER_4 = #{activeWritePower4},
+            </if>
+            <if test="reactiveWritePower1 !=null">
+                REACTIVE_WRITE_POWER_1 = #{reactiveWritePower1},
+            </if>
+            <if test="reactiveWritePower2 !=null">
+                REACTIVE_WRITE_POWER_2 = #{reactiveWritePower2},
+            </if>
+            <if test="reactiveWritePower3 !=null">
+                REACTIVE_WRITE_POWER_3 = #{reactiveWritePower3},
+            </if>
+            <if test="reactiveWritePower4 !=null">
+                REACTIVE_WRITE_POWER_4 = #{reactiveWritePower4},
+            </if>
+            <if test="chgPower !=null">
+                CHG_POWER = #{chgPower},
+            </if>
+            <if test="qChgPower !=null">
+                Q_CHG_POWER = #{qChgPower},
+            </if>
+            <if test="addPower !=null">
+                ADD_POWER = #{addPower},
+            </if>
+            <if test="qAddPower !=null">
+                Q_ADD_POWER = #{qAddPower},
+            </if>
+            <if test="activeDeductionPower !=null">
+                ACTIVE_DEDUCTION_POWER = #{activeDeductionPower},
+            </if>
+            <if test="reactiveDeductionPower !=null">
+                REACTIVE_DEDUCTION_POWER = #{reactiveDeductionPower},
+            </if>
+            <if test="activeLineLossPower !=null">
+                ACTIVE_LINE_LOSS_POWER = #{activeLineLossPower},
+            </if>
+            <if test="reactiveLineLossPower !=null">
+                REACTIVE_LINE_LOSS_POWER = #{reactiveLineLossPower},
+            </if>
+            <if test="activeTransformerLossPower !=null">
+                ACTIVE_TRANSFORMER_LOSS_POWER =
+                #{activeTransformerLossPower},
+            </if>
+            <if test="reactiveTransformerLossPower !=null">
+                REACTIVE_TRANSFORMER_LOSS_POWER =
+                #{reactiveTransformerLossPower},
+            </if>
+            <if test="totalPower !=null">
+                TOTAL_POWER = #{totalPower},
+            </if>
+            <if test="qTotalPower !=null">
+                Q_TOTAL_POWER = #{qTotalPower},
+            </if>
+            <if test="cos !=null">
+                COS = #{cos},
+            </if>
+            <if test="calCapacity !=null">
+                CAL_CAPACITY = #{calCapacity},
+            </if>
+            <if test="shareCapacity !=null">
+                SHARE_CAPACITY = #{shareCapacity},
+            </if>
+            <if test="volumeCharge !=null">
+                VOLUME_CHARGE = #{volumeCharge},
+            </if>
+            <if test="basicMoney !=null">
+                BASIC_MONEY = #{basicMoney},
+            </if>
+            <if test="powerRateMoney !=null">
+                POWER_RATE_MONEY = #{powerRateMoney},
+            </if>
+            <if test="surcharges !=null">
+                SURCHARGES = #{surcharges},
+            </if>
+            <if test="amount !=null">
+                AMOUNT = #{amount},
+            </if>
+            <if test="createDate !=null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="remark !=null">
+                REMARK = #{remark},
+            </if>
+            <if test="status !=null">
+                STATUS = #{status},
+            </if>
+            <if test="addMoney1 !=null">
+                ADD_MONEY1 = #{addMoney1},
+            </if>
+            <if test="addMoney2 !=null">
+                ADD_MONEY2 = #{addMoney2},
+            </if>
+            <if test="addMoney3 !=null">
+                ADD_MONEY3 = #{addMoney3},
+            </if>
+            <if test="addMoney4 !=null">
+                ADD_MONEY4 = #{addMoney4},
+            </if>
+            <if test="addMoney5 !=null">
+                ADD_MONEY5 = #{addMoney5},
+            </if>
+            <if test="addMoney6 !=null">
+                ADD_MONEY6 = #{addMoney6},
+            </if>
+            <if test="addMoney7 !=null">
+                ADD_MONEY7 = #{addMoney7},
+            </if>
+            <if test="addMoney8 !=null">
+                ADD_MONEY8 = #{addMoney8},
+            </if>
+            <if test="addMoney9 !=null">
+                ADD_MONEY9 = #{addMoney9},
+            </if>
+            <if test="addMoney10 !=null">
+                ADD_MONEY10 = #{addMoney10},
+            </if>
+            <if test="ladder1Limit !=null">
+                LADDER1_LIMIT = #{ladder1Limit},
+            </if>
+            <if test="ladder1Power !=null">
+                LADDER1_POWER = #{ladder1Power},
+            </if>
+            <if test="ladder1Money !=null">
+                LADDER1_MONEY = #{ladder1Money},
+            </if>
+            <if test="ladder2Limit !=null">
+                LADDER2_LIMIT = #{ladder2Limit},
+            </if>
+            <if test="ladder2Power !=null">
+                LADDER2_POWER = #{ladder2Power},
+            </if>
+            <if test="ladder2Money !=null">
+                LADDER2_MONEY = #{ladder2Money},
+            </if>
+            <if test="ladder3Limit !=null">
+                LADDER3_LIMIT = #{ladder3Limit},
+            </if>
+            <if test="ladder3Power !=null">
+                LADDER3_POWER = #{ladder3Power},
+            </if>
+            <if test="ladder3Money !=null">
+                LADDER3_MONEY = #{ladder3Money},
+            </if>
+            <if test="ladder4Limit !=null">
+                LADDER4_LIMIT = #{ladder4Limit},
+            </if>
+            <if test="ladder4Power !=null">
+                LADDER4_POWER = #{ladder4Power},
+            </if>
+            <if test="ladder4Money !=null">
+                LADDER4_MONEY = #{ladder4Money},
+            </if>
+            <if test="refundMoney !=null">
+                REFUND_MONEY = #{refundMoney},
+            </if>
+            <if test="punishMan !=null">
+                PUNISH_MAN = #{punishMan},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="MeterMoneyDomain"
+            flushCache="true">
+        delete from METER_MONEY_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+
+    <delete id="deleteByParam" parameterType="MeterMoneyDomain"
+            flushCache="true">
+        delete from METER_MONEY_INFO
+        <where>
+            and MON = #{mon}
+            and METER_ID = #{meterId}
+            and SN = #{sn}
+        </where>
+    </delete>
+
+    <select id="findByMeterIds"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,
+        ADD_MONEY9,ADD_MONEY10,IFNULL(LADDER1_LIMIT,0)
+        LADDER1_LIMIT,IFNULL(LADDER1_POWER,0) LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)
+        LADDER2_LIMIT,IFNULL(LADDER2_POWER,0) LADDER2_POWER,
+        IFNULL(LADDER2_MONEY,0) LADDER2_MONEY,IFNULL(LADDER3_LIMIT,0)
+        LADDER3_LIMIT,IFNULL(LADDER3_POWER,0) LADDER3_POWER,
+        IFNULL(LADDER3_MONEY,0),IFNULL(LADDER4_LIMIT,0)
+        LADDER4_LIMIT,IFNULL(LADDER4_POWER,0) LADDER4_POWER,
+        IFNULL(LADDER4_MONEY,0) LADDER4_MONEY,IFNULL(REFUND_MONEY,0)
+        REFUND_MONEY,IFNULL(LADDER_TOTAL_POWER,0) LADDER_TOTAL_POWER,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            and METER_ID in (${_parameter})
+        </where>
+    </select>
+
+    <select id="findByMeterIdList"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,
+        ADD_MONEY9,ADD_MONEY10,IFNULL(LADDER1_LIMIT,0)
+        LADDER1_LIMIT,IFNULL(LADDER1_POWER,0) LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)
+        LADDER2_LIMIT,IFNULL(LADDER2_POWER,0) LADDER2_POWER,
+        IFNULL(LADDER2_MONEY,0) LADDER2_MONEY,IFNULL(LADDER3_LIMIT,0)
+        LADDER3_LIMIT,IFNULL(LADDER3_POWER,0) LADDER3_POWER,
+        IFNULL(LADDER3_MONEY,0),IFNULL(LADDER4_LIMIT,0)
+        LADDER4_LIMIT,IFNULL(LADDER4_POWER,0) LADDER4_POWER,
+        IFNULL(LADDER4_MONEY,0) LADDER4_MONEY,IFNULL(REFUND_MONEY,0)
+        REFUND_MONEY,IFNULL(LADDER_TOTAL_POWER,0) LADDER_TOTAL_POWER,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            and METER_ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="findMeterMoneyByIds" resultType="MeterMoneyDomain"
+            useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,ADD_MONEY9,ADD_MONEY10,
+        IFNULL(LADDER1_LIMIT,0) LADDER1_LIMIT,IFNULL(LADDER1_POWER,0)
+        LADDER1_POWER,IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,
+        IFNULL(LADDER2_LIMIT,0) LADDER2_LIMIT,IFNULL(LADDER2_POWER,0)
+        LADDER2_POWER,IFNULL(LADDER2_MONEY,0)LADDER2_MONEY,
+        IFNULL(LADDER3_LIMIT,0) LADDER3_LIMIT,IFNULL(LADDER3_POWER,0)
+        LADDER3_POWER,IFNULL(LADDER3_MONEY,0) LADDER3_MONEY,
+        IFNULL(LADDER4_LIMIT,0) LADDER4_LIMIT,IFNULL(LADDER4_POWER,0)
+        LADDER4_POWER,IFNULL(LADDER4_MONEY,0) LADDER4_MONEY,
+        IFNULL(REFUND_MONEY,0) REFUND_MONEY, IFNULL(LADDER_TOTAL_POWER,0)
+        LADDER_TOTAL_POWER,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+
+    <delete id="deleteMeterMoneyByMeterIdsMonAndSn" parameterType="PulishEntity"
+            flushCache="true">
+        delete from METER_MONEY_INFO
+        <where>
+            <if test="meterIds != null and meterIds.size > 0">
+                and METER_ID in
+                <foreach item="item" index="index" collection="meterIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and MON = #{mon}
+            and SN = #{sn}
+        </where>
+    </delete>
+
+    <select id="meterMoneyDetailQuery" parameterType="MeterMoneyDomain"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,ADD_MONEY9,ADD_MONEY10,
+        IFNULL(LADDER1_LIMIT,0) LADDER1_LIMIT,IFNULL(LADDER1_POWER,0)
+        LADDER1_POWER,IFNULL(LADDER1_MONEY,0)
+        LADDER1_MONEY,
+        IFNULL(LADDER2_LIMIT,0) LADDER2_LIMIT,IFNULL(LADDER2_POWER,0)
+        LADDER2_POWER,IFNULL(LADDER2_MONEY,0)
+        LADDER2_MONEY,
+        IFNULL(LADDER3_LIMIT,0) LADDER3_LIMIT,IFNULL(LADDER3_POWER,0)
+        LADDER3_POWER,IFNULL(LADDER3_MONEY,0)
+        LADDER3_MONEY,
+        IFNULL(LADDER4_LIMIT,0) LADDER4_LIMIT, IFNULL(LADDER4_POWER,0)
+        LADDER4_POWER,IFNULL(LADDER4_MONEY,0)
+        LADDER4_MONEY
+        ,WRITE_SECT_ID,IFNULL(REFUND_MONEY,0)
+        REFUND_MONEY,IFNULL(LADDER_TOTAL_POWER,0) LADDER_TOTAL_POWER,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            price_type_id != 101
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+            <if test="sn !=null">
+                and SN = #{sn}
+            </if>
+            <if test="cos !=null">
+                and COS = #{cos}
+            </if>
+            <if test="calCapacity !=null">
+                and CAL_CAPACITY = #{calCapacity}
+            </if>
+            <if test="shareCapacity !=null">
+                and SHARE_CAPACITY = #{shareCapacity}
+            </if>
+            <if test="volumeCharge !=null">
+                and VOLUME_CHARGE = #{volumeCharge}
+            </if>
+            <if test="basicMoney !=null">
+                and BASIC_MONEY = #{basicMoney}
+            </if>
+            <if test="powerRateMoney !=null">
+                and POWER_RATE_MONEY = #{powerRateMoney}
+            </if>
+            <if test="surcharges !=null">
+                and SURCHARGES = #{surcharges}
+            </if>
+            <if test="amount !=null">
+                and AMOUNT = #{amount}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+            <if test="writeSectIds != null and writeSectIds.size > 0">
+                and WRITE_SECT_ID in
+                <foreach item="item" index="index" collection="writeSectIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByMeterMoney"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        ID,METER_ID,MON,SN,PRICE_TYPE_ID,ACTIVE_WRITE_POWER,REACTIVE_WRITE_POWER,REVERSE_ACTIVE_WRITE_POWER,REVERSE_REACTIVE_WRITE_POWER,ACTIVE_WRITE_POWER_1,ACTIVE_WRITE_POWER_2,ACTIVE_WRITE_POWER_3,ACTIVE_WRITE_POWER_4,REACTIVE_WRITE_POWER_1,REACTIVE_WRITE_POWER_2,REACTIVE_WRITE_POWER_3,REACTIVE_WRITE_POWER_4,CHG_POWER,Q_CHG_POWER,ADD_POWER,Q_ADD_POWER,ACTIVE_DEDUCTION_POWER,REACTIVE_DEDUCTION_POWER,ACTIVE_LINE_LOSS_POWER,REACTIVE_LINE_LOSS_POWER,ACTIVE_TRANSFORMER_LOSS_POWER,REACTIVE_TRANSFORMER_LOSS_POWER,TOTAL_POWER,Q_TOTAL_POWER,COS,CAL_CAPACITY,SHARE_CAPACITY,VOLUME_CHARGE,BASIC_MONEY,POWER_RATE_MONEY,SURCHARGES,AMOUNT,CREATE_DATE,REMARK,STATUS,
+        ADD_MONEY1,ADD_MONEY2,ADD_MONEY3,ADD_MONEY4,ADD_MONEY5,ADD_MONEY6,ADD_MONEY7,ADD_MONEY8,
+        ADD_MONEY9,ADD_MONEY10,IFNULL(LADDER1_LIMIT,0)
+        LADDER1_LIMIT,IFNULL(LADDER1_POWER,0) LADDER1_POWER,
+        IFNULL(LADDER1_MONEY,0) LADDER1_MONEY,IFNULL(LADDER2_LIMIT,0)
+        LADDER2_LIMIT,IFNULL(LADDER2_POWER,0) LADDER2_POWER,
+        IFNULL(LADDER2_MONEY,0) LADDER2_MONEY,IFNULL(LADDER3_LIMIT,0)
+        LADDER3_LIMIT,IFNULL(LADDER3_POWER,0) LADDER3_POWER,
+        IFNULL(LADDER3_MONEY,0),IFNULL(LADDER4_LIMIT,0)
+        LADDER4_LIMIT,IFNULL(LADDER4_POWER,0) LADDER4_POWER,
+        IFNULL(LADDER4_MONEY,0) LADDER4_MONEY,IFNULL(REFUND_MONEY,0)
+        REFUND_MONEY,IFNULL(LADDER_TOTAL_POWER,0) LADDER_TOTAL_POWER,
+        WRITE_SECT_ID, TOTAL_POWER,IFNULL(AMOUNT,0)+IFNULL(REFUND_MONEY,0)
+        TOTAL_MONEY,PUNISH_MAN
+        from METER_MONEY_INFO
+        <where>
+            and METER_ID in
+            <foreach item="item" index="index" collection="meterIds" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+        </where>
+        order by MON desc
+    </select>
+
+    <select id="ladderPowerQuery" parameterType="MeterMoneyDomain"
+            resultType="MeterMoneyDomain" useCache="true">
+        select
+        WRITE_SECT_ID,PRICE_TYPE_ID,
+        SUM(IFNULL(LADDER1_POWER,0)) LADDER1_POWER,
+        SUM(IFNULL(LADDER2_POWER,0)) LADDER2_POWER,
+        SUM(IFNULL(LADDER3_POWER,0)) LADDER3_POWER,
+        SUM(IFNULL(LADDER4_POWER,0)) LADDER4_POWER
+        from METER_MONEY_INFO
+        <where>
+            <if test="startMon !=null">
+                and MON &gt;= #{startMon}
+            </if>
+
+            <if test="endMon !=null">
+                and MON &lt;= #{endMon}
+            </if>
+            <if test="businessPlaceCode !=null">
+                and BUSINESS_PLACE_CODE = #{businessPlaceCode}
+            </if>
+
+            <if test="priceTypeIds != null and priceTypeIds.size > 0">
+                and PRICE_TYPE_ID in
+                <foreach item="item" index="index" collection="priceTypeIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="writeSectIds != null and writeSectIds.size > 0">
+                and WRITE_SECT_ID in
+                <foreach item="item" index="index"
+                         collection="writeSectIds" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        group by WRITE_SECT_ID,PRICE_TYPE_ID
+    </select>
+</mapper>

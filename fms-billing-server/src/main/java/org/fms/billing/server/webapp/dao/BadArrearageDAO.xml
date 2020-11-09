@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.BadArrearageDAO">
+    <select id="findByKey" parameterType="BadArrearageDomain"
+            resultType="BadArrearageDomain" useCache="true">
+        select
+        ID,ARREARAGE_ID,OLD_IS_SETTLE,NEW_IS_SETTLE,OPERATOR,REMARK,CREATE_DATE
+        from BAD_ARREARAGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="BadArrearageDomain"
+            resultType="BadArrearageDomain" useCache="true">
+        select
+        ID,ARREARAGE_ID,OLD_IS_SETTLE,NEW_IS_SETTLE,OPERATOR,REMARK,CREATE_DATE
+        from BAD_ARREARAGE_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="arrearageId !=null">
+                and ARREARAGE_ID = #{arrearageId}
+            </if>
+            <if test="oldIsSettle !=null">
+                and OLD_IS_SETTLE = #{oldIsSettle}
+            </if>
+            <if test="newIsSettle !=null">
+                and NEW_IS_SETTLE = #{newIsSettle}
+            </if>
+            <if test="operator !=null">
+                and OPERATOR = #{operator}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+
+        </where>
+    </select>
+    <insert id="insert" parameterType="BadArrearageDomain" flushCache="true">
+insert into BAD_ARREARAGE_INFO(ID,ARREARAGE_ID,OLD_IS_SETTLE,NEW_IS_SETTLE,OPERATOR,REMARK,CREATE_DATE) values (#{id},#{arrearageId},#{oldIsSettle},#{newIsSettle},#{operator},#{remark},#{createDate})
+</insert>
+    <update id="update" parameterType="BadArrearageDomain" flushCache="true">
+        update BAD_ARREARAGE_INFO
+        <set>
+            <if test="arrearageId !=null">
+                ARREARAGE_ID = #{arrearageId},
+            </if>
+            <if test="oldIsSettle !=null">
+                OLD_IS_SETTLE = #{oldIsSettle},
+            </if>
+            <if test="newIsSettle !=null">
+                NEW_IS_SETTLE = #{newIsSettle},
+            </if>
+            <if test="operator !=null">
+                OPERATOR = #{operator},
+            </if>
+            <if test="remark !=null">
+                REMARK = #{remark},
+            </if>
+            <if test="createDate !=null">
+                CREATE_DATE = #{createDate},
+            </if>
+
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="BadArrearageDomain" flushCache="true">
+        delete from BAD_ARREARAGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+
+    <select id="findArrearageAndBadArrearage"
+            parameterType="BadArrearageShowEntity"
+            resultType="BadArrearageShowEntity" useCache="true">
+        select
+        a.METER_ID,a.RECEIVABLE,a.SETTLEMENT_ID,
+        a.STATUS,a.MON,a.SN,a.METER_MONEY_ID,a.OWE_MONEY,a.PUNISH_MONEY,
+        a.WRITE_SECT_ID,a.WRITOR_ID,a.BUSINESS_PLACE_CODE,a.TOTAL_POWER,
+        b.OLD_IS_SETTLE,b.NEW_IS_SETTLE,b.OPERATOR,b.REMARK,b.CREATE_DATE
+        from BAD_ARREARAGE_INFO b
+        left Join ARREARAGE_INFO a
+        on b.ARREARAGE_ID = a.ID
+        <where>
+            <if test="meterId !=null">
+                and a.METER_ID = #{meterId}
+            </if>
+            <if test="operator !=null">
+                and a.OPERATOR = #{operator}
+            </if>
+            <if test="startMon !=null">
+                and a.MON &gt;= #{startMon}
+            </if>
+
+            <if test="endMon !=null">
+                and a.MON &lt;= #{endMon}
+            </if>
+            <if test="sn !=null">
+                and a.SN = #{sn}
+            </if>
+            <if test="writeSectId !=null">
+                and a.WRITE_SECT_ID = #{writeSectId}
+            </if>
+            <if test="startDate !=null">
+                and b.CREATE_DATE &gt;= #{startDate}
+            </if>
+            <if test="endDate !=null">
+                and b.CREATE_DATE &lt;= #{endDate}
+            </if>
+            <choose>
+                <when test="writeSectIds != null and writeSectIds.size > 0">
+                    and WRITE_SECT_ID in
+                    <foreach item="item" index="index" collection="writeSectIds"
+                             open="("
+                             separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    <if test="writeSectId !=null">
+                        and WRITE_SECT_ID = #{writeSectId}
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="writorId !=null">
+                and a.WRITOR_ID = #{writorId}
+            </if>
+            <choose>
+                <when test="writorIds != null and writorIds.size > 0">
+                    and WRITOR_ID in
+                    <foreach item="item" index="index" collection="writorIds"
+                             open="("
+                             separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    <if test="writorId !=null">
+                        and WRITOR_ID = #{writorId}
+                    </if>
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+                    and a.BUSINESS_PLACE_CODE in
+                    <foreach item="item" index="index"
+                             collection="businessPlaceCodes" open="("
+                             separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    <if test="businessPlaceCode !=null">
+                        and a.BUSINESS_PLACE_CODE = #{businessPlaceCode}
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="settlementId !=null">
+                and a.SETTLEMENT_ID = #{settlementId}
+            </if>
+            <if test="settlementIds != null and settlementIds.size > 0">
+                and SETTLEMENT_ID in
+                <foreach item="item" index="index" collection="settlementIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        order by b.create_date desc
+    </select>
+</mapper>

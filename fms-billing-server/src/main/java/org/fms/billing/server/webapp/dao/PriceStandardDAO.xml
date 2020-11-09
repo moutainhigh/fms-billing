@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PriceStandardDAO">
+<select id="findByKey" parameterType="PriceStandardDomain" resultType="PriceStandardDomain" useCache="true">
+select ID,PRICE_TYPE_ID,PRICE_ITEM_ID,TIME_SEG,PRICE,CREATE_DATE,OPERATOR,STATUS from PRICE_STANDARD_INFO<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="PriceStandardDomain" resultType="PriceStandardDomain" useCache="true">
+select ID,PRICE_TYPE_ID,PRICE_ITEM_ID,TIME_SEG,PRICE,CREATE_DATE,OPERATOR,STATUS from PRICE_STANDARD_INFO
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="priceTypeId !=null"> 
+ and PRICE_TYPE_ID = #{priceTypeId}
+</if>
+<if test="priceItemId !=null"> 
+ and PRICE_ITEM_ID = #{priceItemId}
+</if>
+<if test="timeSeg !=null"> 
+ and TIME_SEG = #{timeSeg}
+</if>
+<if test="price !=null"> 
+ and PRICE = #{price}
+</if>
+<if test="createDate !=null"> 
+ and CREATE_DATE = #{createDate}
+</if>
+<if test="operator !=null"> 
+ and OPERATOR = #{operator}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="PriceStandardDomain" flushCache="true">
+insert into PRICE_STANDARD_INFO(ID,PRICE_TYPE_ID,PRICE_ITEM_ID,TIME_SEG,PRICE,CREATE_DATE,OPERATOR,STATUS) values (#{id},#{priceTypeId},#{priceItemId},#{timeSeg},#{price},#{createDate},#{operator},#{status})
+</insert>
+<update id="update" parameterType="PriceStandardDomain" flushCache="true">
+update PRICE_STANDARD_INFO
+<set>
+<if test="priceTypeId !=null">
+PRICE_TYPE_ID = #{priceTypeId},
+</if>
+<if test="priceItemId !=null">
+PRICE_ITEM_ID = #{priceItemId},
+</if>
+<if test="timeSeg !=null">
+TIME_SEG = #{timeSeg},
+</if>
+<if test="price !=null">
+PRICE = #{price},
+</if>
+<if test="createDate !=null">
+CREATE_DATE = #{createDate},
+</if>
+<if test="operator !=null">
+OPERATOR = #{operator},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="PriceStandardDomain" flushCache="true">
+delete from PRICE_STANDARD_INFO
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

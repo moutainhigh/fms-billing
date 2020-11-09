@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.NoteInfoDAO">
+    <select id="findByKey" parameterType="NoteInfoDomain"
+            resultType="NoteInfoDomain" useCache="true">
+        select
+        ID,METER_ID,SN,CHARGE_INFO_ID,FACT_PRE,NOTE_PRINT_NO,PRINT_MAN,PRINT_DATE,BANK_NAME,
+        MON,ADDRESS,CONNECT_BANK,BANK_NO,FACT_MONEY,THIS_BALANCE,LAST_BALANCE,PUNISH_MONEY,POWER_RATE_MONEY,BASIC_MONEY,ARREARS,SETTLEMENT_NO,SETTLEMENT_NAME,SETTLEMENT_ID,METER_ITEM,PRICE_TYPE_ID,PRICE_NAME,NOTE_FLOW_NO,
+        IS_PRINT,YFPDM,YFPHM,BANK_NAME,PRINT_MAN_NAME,NOTE_PATH
+        from NOTE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="NoteInfoDomain"
+            resultType="NoteInfoDomain" useCache="true">
+        select
+        ID,METER_ID,BANK_NAME,SN,CHARGE_INFO_ID,NOTE_PRINT_NO,PRINT_MAN,PRINT_DATE,MON,ADDRESS,CONNECT_BANK,BANK_NO,FACT_MONEY,THIS_BALANCE,LAST_BALANCE,PUNISH_MONEY,POWER_RATE_MONEY,BASIC_MONEY,ARREARS,SETTLEMENT_NO,SETTLEMENT_NAME,SETTLEMENT_ID,
+        METER_ITEM,PRICE_TYPE_ID,PRICE_NAME,NOTE_FLOW_NO,IS_PRINT,YFPDM,
+        YFPHM,BANK_NAME,PRINT_MAN_NAME,NOTE_PATH,
+        (select c.ys_type_code from CHARGE_INFO c where
+        c.id=NOTE_INFO.CHARGE_INFO_ID)ys_type_code
+        from NOTE_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="chargeInfoId !=null">
+                and CHARGE_INFO_ID = #{chargeInfoId}
+            </if>
+            <if test="notePrintNo !=null">
+                and NOTE_PRINT_NO = #{notePrintNo}
+            </if>
+            <if test="printMan !=null">
+                and PRINT_MAN = #{printMan}
+            </if>
+            <if test="printDate !=null">
+                and PRINT_DATE = #{printDate}
+            </if>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+            <if test="address !=null">
+                and ADDRESS = #{address}
+            </if>
+            <if test="connectBank !=null">
+                and CONNECT_BANK = #{connectBank}
+            </if>
+            <if test="bankNo !=null">
+                and BANK_NO = #{bankNo}
+            </if>
+            <if test="settlementNo !=null">
+                and SETTLEMENT_NO = #{settlementNo}
+            </if>
+            <if test="settlementName !=null">
+                and SETTLEMENT_NAME = #{settlementName}
+            </if>
+            <if test="settlementId !=null">
+                and SETTLEMENT_ID = #{settlementId}
+            </if>
+            <if test="meterItem !=null">
+                and METER_ITEM = #{meterItem}
+            </if>
+            <if test="priceTypeId !=null">
+                and PRICE_TYPE_ID = #{priceTypeId}
+            </if>
+            <if test="priceName !=null">
+                and PRICE_NAME = #{priceName}
+            </if>
+            <if test="noteFlowNo !=null">
+                and NOTE_FLOW_NO = #{noteFlowNo}
+            </if>
+            <if test="meterId !=null">
+                and METER_ID = #{meterId}
+            </if>
+            <if test="sn !=null">
+                and SN = #{sn}
+            </if>
+            <if test="isPrint !=null">
+                and IS_PRINT = #{isPrint},
+            </if>
+            <if test="yfpdm !=null">
+                and YFPDM = #{yfpdm},
+            </if>
+            <if test="yfphm !=null">
+                and YFPHM = #{yfphm},
+            </if>
+            <if test="bankName !=null">
+                and BANK_NAME = #{bankName},
+            </if>
+            <if test="chargeInfoIds != null and chargeInfoIds.size > 0">
+                and CHARGE_INFO_ID in
+                <foreach item="item" index="index" collection="chargeInfoIds" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </select>
+    <insert id="insert" parameterType="NoteInfoDomain" useGeneratedKeys="true"
+            flushCache="true"
+            keyProperty="id">
+insert into
+NOTE_INFO(ID,METER_ID,SN,CHARGE_INFO_ID,FACT_PRE,NOTE_PRINT_NO,PRINT_MAN,
+PRINT_DATE,
+MON,
+ADDRESS,CONNECT_BANK,BANK_NO,FACT_MONEY,THIS_BALANCE,LAST_BALANCE,
+PUNISH_MONEY,POWER_RATE_MONEY,BASIC_MONEY,ARREARS,SETTLEMENT_NO,SETTLEMENT_NAME,SETTLEMENT_ID,
+METER_ITEM,PRICE_TYPE_ID,PRICE_NAME,NOTE_FLOW_NO,IS_PRINT,YFPDM,YFPHM,
+BANK_NAME,PRINT_MAN_NAME,NOTE_PATH)
+values
+(#{id},#{meterId},#{sn},#{chargeInfoId},#{factPre},#{notePrintNo},#{printMan},
+#{printDate},#{mon},#{address},#{connectBank},#{bankNo},#{factMoney},#{thisBalance},#{lastBalance},#{punishMoney},#{powerRateMoney},#{basicMoney},#{arrears},#{settlementNo},#{settlementName},#{settlementId},#{meterItem}
+,#{priceTypeId},#{priceName},#{noteFlowNo},#{isPrint},#{yfpdm},#{yfphm},
+#{bankName},#{printManName},#{notePath})
+</insert>
+    <update id="update" parameterType="NoteInfoDomain" flushCache="true">
+        update NOTE_INFO
+        <set>
+            <if test="chargeInfoId !=null">
+                CHARGE_INFO_ID = #{chargeInfoId},
+            </if>
+            <if test="notePrintNo !=null">
+                NOTE_PRINT_NO = #{notePrintNo},
+            </if>
+            <if test="printMan !=null">
+                PRINT_MAN = #{printMan},
+            </if>
+            <if test="printDate !=null">
+                PRINT_DATE = #{printDate},
+            </if>
+            <if test="mon !=null">
+                MON = #{mon},
+            </if>
+            <if test="address !=null">
+                ADDRESS = #{address},
+            </if>
+            <if test="connectBank !=null">
+                CONNECT_BANK = #{connectBank},
+            </if>
+            <if test="bankNo !=null">
+                BANK_NO = #{bankNo},
+            </if>
+            <if test="thisBalance !=null">
+                THIS_BALANCE = #{thisBalance},
+            </if>
+            <if test="lastBalance !=null">
+                LAST_BALANCE = #{lastBalance},
+            </if>
+            <if test="punishMoney !=null">
+                PUNISH_MONEY = #{punishMoney},
+            </if>
+            <if test="powerRateMoney !=null">
+                POWER_RATE_MONEY = #{powerRateMoney},
+            </if>
+            <if test="basicMoney !=null">
+                BASIC_MONEY = #{basicMoney},
+            </if>
+            <if test="settlementNo !=null">
+                SETTLEMENT_NO = #{settlementNo},
+            </if>
+            <if test="settlementName !=null">
+                SETTLEMENT_NAME = #{settlementName},
+            </if>
+            <if test="settlementId !=null">
+                SETTLEMENT_ID = #{settlementId},
+            </if>
+            <if test="meterItem !=null">
+                METER_ITEM = #{meterItem},
+            </if>
+            <if test="priceTypeId !=null">
+                PRICE_TYPE_ID = #{priceTypeId},
+            </if>
+            <if test="priceName !=null">
+                PRICE_NAME = #{priceName},
+            </if>
+            <if test="noteFlowNo !=null">
+                NOTE_FLOW_NO = #{noteFlowNo},
+            </if>
+            <if test="meterId !=null">
+                METER_ID = #{meterId},
+            </if>
+            <if test="sn !=null">
+                SN = #{sn},
+            </if>
+            <if test="isPrint !=null">
+                IS_PRINT = #{isPrint},
+            </if>
+            <if test="yfpdm !=null">
+                YFPDM = #{yfpdm},
+            </if>
+            <if test="yfphm !=null">
+                YFPHM = #{yfphm},
+            </if>
+            <if test="bankName !=null">
+                BANK_NAME = #{bankName},
+            </if>
+            <if test="printManName !=null">
+                PRINT_MAN_NAME = #{printManName},
+            </if>
+            <if test="notePath !=null">
+                NOTE_PATH = #{notePath},
+            </if>
+
+        </set>
+        <where>
+            <if test="ids != null and ids.size > 0">
+                and ID in
+                <foreach item="item" index="index" collection="ids" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+
+        </where>
+    </update>
+
+
+    <update id="updateByIds" parameterType="NoteInfoDomain"
+            flushCache="true">
+        update NOTE_INFO
+        <set>
+            IS_PRINT = #{isPrint},
+            YFPDM = #{yfpdm},
+            YFPHM = #{yfphm},
+            PRINT_MAN = #{printMan},
+            PRINT_MAN_NAME = #{printManName},
+            PRINT_DATE = #{printDate},
+            NOTE_PATH=#{notePath},
+            NOTE_PRINT_NO=#{notePrintNo}
+
+        </set>
+        <where>
+            <if test="ids != null and ids.size > 0">
+                and ID in
+                <foreach item="item" index="index" collection="ids" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+
+    </update>
+    <delete id="delete" parameterType="NoteInfoDomain" flushCache="true">
+        delete from NOTE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+
+    <delete id="deleteByChargeIds" parameterType="NoteInfoDomain"
+            flushCache="true">
+        delete from NOTE_INFO
+        <where>
+            <if test="chargeInfoIds != null and chargeInfoIds.size > 0">
+                and CHARGE_INFO_ID in
+                <foreach item="item" index="index" collection="chargeInfoIds" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+
+    <select id="findNoteInfoByIds"
+            resultType="NoteInfoDomain" useCache="true">
+        select
+        ID,METER_ID,SN,CHARGE_INFO_ID,FACT_PRE,NOTE_PRINT_NO,PRINT_MAN,
+        PRINT_DATE,MON,
+        ADDRESS,
+        CONNECT_BANK,BANK_NO,FACT_MONEY,THIS_BALANCE,LAST_BALANCE,PUNISH_MONEY,POWER_RATE_MONEY,BASIC_MONEY,ARREARS,SETTLEMENT_NO,SETTLEMENT_NAME,SETTLEMENT_ID,METER_ITEM,PRICE_TYPE_ID,PRICE_NAME,BANK_NAME,
+        IS_PRINT,YFPDM,YFPHM,BANK_NAME,PRINT_MAN_NAME,NOTE_PATH,NOTE_FLOW_NO,
+        (select c.ys_type_code from CHARGE_INFO c where
+        c.id=A.CHARGE_INFO_ID)ys_type_code,
+        (select c.F_CHARGE_MODE from CHARGE_INFO c where
+        c.id=A.CHARGE_INFO_ID)F_CHARGE_MODE
+        from NOTE_INFO A
+        <where>
+
+            A.ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item.id}
+            </foreach>
+
+        </where>
+    </select>
+
+    <select id="findInvoiceNoteInfoByChargeIds"
+            resultType="NoteInfoDomain" useCache="true">
+        select
+        ID,METER_ID,SN,CHARGE_INFO_ID,FACT_PRE,NOTE_PRINT_NO,PRINT_MAN,
+        PRINT_DATE,MON,
+        ADDRESS,
+        CONNECT_BANK,BANK_NO,FACT_MONEY,THIS_BALANCE,LAST_BALANCE,PUNISH_MONEY,POWER_RATE_MONEY,BASIC_MONEY,ARREARS,SETTLEMENT_NO,SETTLEMENT_NAME,SETTLEMENT_ID,METER_ITEM,PRICE_TYPE_ID,PRICE_NAME,BANK_NAME,
+        IS_PRINT,YFPDM,YFPHM,BANK_NAME,PRINT_MAN_NAME,NOTE_PATH,NOTE_FLOW_NO
+        from NOTE_INFO A
+        <where>
+
+            A.CHARGE_INFO_ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+            AND A.IS_PRINT=1
+
+        </where>
+    </select>
+
+    <update id="updateNoteInfoChargeId" flushCache="true">
+		UPDATE NOTE_INFO
+		SET CHARGE_INFO_ID = (
+		SELECT
+		min(id)
+		FROM
+		CHARGE_INFO
+		WHERE
+		NOTE_INFO.MON = CHARGE_INFO.MON
+		AND
+		NOTE_INFO.METER_ID = CHARGE_INFO.METER_ID
+		AND
+		NOTE_INFO.SN = CHARGE_INFO.SN
+		),NOTE_FLOW_NO=LPAD(CHARGE_INFO_ID,20, 0)
+		WHERE
+		CHARGE_INFO_ID IS NULL;
+	</update>
+
+    <select id="findNoteInfoDetails" resultType="ChargeInfoDetailEntity"
+            parameterType="ChargeInfoEntity" useCache="false">
+        SELECT
+        GROUP_CONCAT(A.ID) IDS,
+        A.MON,
+        A.SETTLEMENT_ID,
+        max(A.SETTLEMENT_NO) SETTLEMENT_NO,
+        A.SETTLEMENT_NAME,
+        A.SN,
+        MIN(C.F_CHARGE_MODE) F_CHARGE_MODE,
+        C.YS_TYPE_CODE,
+        sum(case C.F_CHARGE_MODE when 5 then 0  else IFNULL(C.ARREARS,0) end) ARREARS,
+        MAX(C.PAY_DATE) PAY_DATE,
+        MIN(C.OPERATOR) OPERATOR,
+        MAX(A.YFPHM) YFPHM,
+        MAX(C.BUSINESS_PLACE_CODE) BUSINESS_PLACE_CODE,
+        (select MAX(ARREARAGE.WRITE_SECT_ID) from ARREARAGE_INFO ARREARAGE where
+        ARREARAGE.ARREARAGE_NO=MAX(C.ARREARAGE_NO) )WRITE_SECT_ID,
+        max(A.NOTE_PATH) NOTE_PATH,
+        IFNULL(max(IS_PRINT),0) IS_PRINT
+        FROM
+        NOTE_INFO A left join CHARGE_INFO C
+        on A.CHARGE_INFO_ID=C.id
+        <where>
+            <if test="settlementNo !=null">
+                and A.SETTLEMENT_NO = #{settlementNo}
+            </if>
+            <if test="dept !=null">
+                and C.BUSINESS_PLACE_CODE = #{dept}
+            </if>
+           <!-- <if test="operator !=null">
+                and C.OPERATOR = #{operator}
+            </if>-->
+            <if test="writeSect !=null">
+                and c.WRITE_SECT_ID=#{writeSect})
+            </if>
+            <if test="startPayDate !=null">
+                and C.PAY_DATE &gt;= #{startPayDate}
+            </if>
+            <if test="endPayDate !=null">
+                and C.PAY_DATE &lt;= #{endPayDate}
+            </if>
+            <if test="startMon !=null">
+                and C.MON &gt;= #{startMon}
+            </if>
+            <if test="endMon !=null">
+                and C.MON &lt;= #{endMon}
+            </if>
+            <if test="fChargeMode !=null">
+                and C.F_CHARGE_MODE = #{fChargeMode}
+            </if>
+            <if test="isPrint !=null">
+                and IFNULL(A.IS_PRINT,0) = #{isPrint}
+            </if>
+            <if test="isPrint ==null">
+                and A.IS_PRINT = 0
+            </if>
+        </where>
+        GROUP BY
+        A.MON,
+        C.ys_type_code,
+        A.SETTLEMENT_ID,
+        A.SETTLEMENT_NAME,
+        A.SN
+        order by A.mon,A.SETTLEMENT_ID
+    </select>
+
+</mapper>

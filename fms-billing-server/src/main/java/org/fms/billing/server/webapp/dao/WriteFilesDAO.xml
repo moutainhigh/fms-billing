@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.WriteFilesDAO">
+	<select id="findByKey" parameterType="WriteFilesDomain"
+		resultType="WriteFilesDomain" useCache="true">
+		select
+		ID,METER_ID,FACTOR_NUM,METER_ASSETS_ID,MON,INIT_DATE,WRITE_DATE,
+		LAST_WRITE_DATE,SN,WRITE_FLAG,WRITE_METHOD,TIME_SEG,FUNCTION_CODE,
+		POWER_DIRECTION,PHASE_SEQ,START_NUM,END_NUM,DIFF_NUM,WRITE_POWER,
+		CHG_POWER,ADD_POWER,INPUT_MAN,WRITE_SECTION_ID
+		from WRITE_FILES_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</select>
+	<select id="findByWhere" parameterType="WriteFilesDomain"
+		resultType="WriteFilesDomain" useCache="false">
+		select
+		ID,METER_ID,FACTOR_NUM,METER_ASSETS_ID,MON,INIT_DATE,WRITE_DATE,LAST_WRITE_DATE,SN,WRITE_FLAG,WRITE_METHOD,TIME_SEG,FUNCTION_CODE,POWER_DIRECTION,PHASE_SEQ,START_NUM,END_NUM,DIFF_NUM,WRITE_POWER,CHG_POWER,ADD_POWER,INPUT_MAN,METER_ASSETS_ID,WRITE_SECTION_ID
+		from WRITE_FILES_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="meterId !=null">
+				and METER_ID = #{meterId}
+			</if>
+			<if test="meterAssetsId !=null">
+				and METER_ASSETS_ID = #{meterAssetsId}
+			</if>
+			<if test="mon !=null">
+				and MON = #{mon}
+			</if>
+			<if test="startMon !=null">
+				and MON &gt;= #{startMon}
+			</if>
+
+			<if test="endMon !=null">
+				and MON &lt;= #{endMon}
+			</if>
+			<if test="initDate !=null">
+				and INIT_DATE = #{initDate}
+			</if>
+			<if test="writeDate !=null">
+				and WRITE_DATE = #{writeDate}
+			</if>
+			<if test="lastWriteDate !=null">
+				and LAST_WRITE_DATE = #{lastWriteDate}
+			</if>
+			<if test="sn !=null">
+				and SN = #{sn}
+			</if>
+			<if test="writeFlag !=null">
+				and WRITE_FLAG = #{writeFlag}
+			</if>
+			<if test="writeMethod !=null">
+				and WRITE_METHOD = #{writeMethod}
+			</if>
+			<if test="timeSeg !=null">
+				and TIME_SEG = #{timeSeg}
+			</if>
+			<if test="functionCode !=null">
+				and FUNCTION_CODE = #{functionCode}
+			</if>
+			<if test="powerDirection !=null">
+				and POWER_DIRECTION = #{powerDirection}
+			</if>
+			<if test="phaseSeq !=null">
+				and PHASE_SEQ = #{phaseSeq}
+			</if>
+			<if test="startNum !=null">
+				and START_NUM = #{startNum}
+			</if>
+			<if test="endNum !=null">
+				and END_NUM = #{endNum}
+			</if>
+			<if test="diffNum !=null">
+				and DIFF_NUM = #{diffNum}
+			</if>
+			<if test="writePower !=null">
+				and WRITE_POWER = #{writePower}
+			</if>
+			<if test="chgPower !=null">
+				and CHG_POWER = #{chgPower}
+			</if>
+			<if test="addPower !=null">
+				and ADD_POWER = #{addPower}
+			</if>
+			<if test="inputMan !=null">
+				and INPUT_MAN = #{inputMan}
+			</if>
+			<if test="writeSectionId !=null">
+				and WRITE_SECTION_ID = #{writeSectionId}
+			</if>
+			<if test="meterIds != null and meterIds.size > 0">
+				and METER_ID in
+				<foreach item="item" index="index" collection="meterIds" open="("
+						 separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		order by MON desc
+	</select>
+
+	<select id="findByMeterIdsAndMon" parameterType="WriteFilesDomain"
+			resultType="WriteFilesDomain" useCache="true">
+		select
+		ID,METER_ID,FACTOR_NUM,METER_ASSETS_ID,MON,INIT_DATE,WRITE_DATE,LAST_WRITE_DATE,SN,WRITE_FLAG,WRITE_METHOD,TIME_SEG,FUNCTION_CODE,POWER_DIRECTION,PHASE_SEQ,START_NUM,END_NUM,DIFF_NUM,WRITE_POWER,CHG_POWER,ADD_POWER,INPUT_MAN
+		from WRITE_FILES_INFO
+		<where>
+			<if test="meterIds != null and meterIds.size > 0">
+				and METER_ID in
+				<foreach item="item" index="index" collection="meterIds" open="("
+						 separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="meterId !=null">
+				and METER_ID = #{meterId}
+			</if>
+			<if test="mon !=null">
+				and MON = #{mon}
+			</if>
+			<if test="mons != null and mons.size > 0">
+				and MON in
+				<foreach item="item" index="index" collection="mons" open="("
+						 separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="timeSeg !=null">
+				and TIME_SEG = #{timeSeg}
+			</if>
+			and function_code!=2
+			order by meter_id,function_code
+		</where>
+	</select>
+	<insert id="insert" parameterType="WriteFilesDomain"
+		flushCache="true">
+		insert into
+		WRITE_FILES_INFO(ID,FACTOR_NUM,METER_ID,METER_ASSETS_ID,MON,INIT_DATE,WRITE_DATE,LAST_WRITE_DATE,SN,WRITE_FLAG,WRITE_METHOD,TIME_SEG,FUNCTION_CODE,POWER_DIRECTION,PHASE_SEQ,START_NUM,END_NUM,DIFF_NUM,WRITE_POWER,CHG_POWER,ADD_POWER,INPUT_MAN,WRITE_SECTION_ID)
+		values
+		(#{id},#{factorNum},#{meterId},#{meterAssetsId},#{mon},#{initDate},
+		#{writeDate},#{lastWriteDate},#{sn},#{writeFlag},#{writeMethod},
+		#{timeSeg},#{functionCode},#{powerDirection},#{phaseSeq},#{startNum},#{endNum},#{diffNum},#{writePower},
+		#{chgPower},#{addPower},#{inputMan},#{writeSectionId})
+	</insert>
+	<update id="update" parameterType="WriteFilesDomain"
+		flushCache="true">
+		update WRITE_FILES_INFO
+		<set>
+			<if test="meterId !=null">
+				METER_ID = #{meterId},
+			</if>
+			<if test="meterAssetsId !=null">
+				METER_ASSETS_ID = #{meterAssetsId},
+			</if>
+			<if test="mon !=null">
+				MON = #{mon},
+			</if>
+			<if test="initDate !=null">
+				INIT_DATE = #{initDate},
+			</if>
+			<if test="writeDate !=null">
+				WRITE_DATE = #{writeDate},
+			</if>
+			<if test="lastWriteDate !=null">
+				LAST_WRITE_DATE = #{lastWriteDate},
+			</if>
+			<if test="sn !=null">
+				SN = #{sn},
+			</if>
+			<if test="writeFlag !=null">
+				WRITE_FLAG = #{writeFlag},
+			</if>
+			<if test="writeMethod !=null">
+				WRITE_METHOD = #{writeMethod},
+			</if>
+			<if test="timeSeg !=null">
+				TIME_SEG = #{timeSeg},
+			</if>
+			<if test="functionCode !=null">
+				FUNCTION_CODE = #{functionCode},
+			</if>
+			<if test="powerDirection !=null">
+				POWER_DIRECTION = #{powerDirection},
+			</if>
+			<if test="phaseSeq !=null">
+				PHASE_SEQ = #{phaseSeq},
+			</if>
+			<if test="startNum !=null">
+				START_NUM = #{startNum},
+			</if>
+			<if test="endNum !=null">
+				END_NUM = #{endNum},
+			</if>
+			<if test="diffNum !=null">
+				DIFF_NUM = #{diffNum},
+			</if>
+			<if test="writePower !=null">
+				WRITE_POWER = #{writePower},
+			</if>
+			<if test="chgPower !=null">
+				CHG_POWER = #{chgPower},
+			</if>
+			<if test="addPower !=null">
+				ADD_POWER = #{addPower},
+			</if>
+			<if test="inputMan !=null">
+				INPUT_MAN = #{inputMan},
+			</if>
+			<if test="factorNum !=null">
+				FACTOR_NUM = #{factorNum},
+			</if>
+			<if test="writeSectionId !=null">
+				WRITE_SECTION_ID = #{writeSectionId},
+			</if>
+		</set>
+		<where>
+			and ID = #{id}
+
+		</where>
+	</update>
+	<delete id="delete" parameterType="WriteFilesDomain"
+		flushCache="true">
+		delete from WRITE_FILES_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</delete>
+	<delete id="deleteByParam" parameterType="WriteFilesDomain"
+		flushCache="true">
+		delete from WRITE_FILES_INFO
+		<where>
+			and MON = #{mon}
+			and METER_ID = #{meterId}
+			and SN = #{sn}
+		</where>
+	</delete>
+
+	<delete id="deleteWriteFilesByMeterIdsMonAndSn" parameterType="PulishEntity"
+			flushCache="true">
+		delete from WRITE_FILES_INFO
+		<where>
+			<if test="meterIds != null and meterIds.size > 0">
+				and METER_ID in
+				<foreach item="item" index="index" collection="meterIds" open="("
+						 separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			and MON = #{mon}
+			and SN = #{sn}
+		</where>
+	</delete>
+	<select id="findByMeterIdsMonPowerDirectionFunctionCodeAndTimeSeg" parameterType="WriteFilesDomain"
+			resultType="WriteFilesDomain">
+		select
+		ID,METER_ID,FACTOR_NUM,METER_ASSETS_ID,MON,INIT_DATE,WRITE_DATE,LAST_WRITE_DATE,SN,WRITE_FLAG,WRITE_METHOD,
+		TIME_SEG,FUNCTION_CODE,POWER_DIRECTION,PHASE_SEQ,START_NUM,END_NUM,DIFF_NUM,WRITE_POWER,CHG_POWER,ADD_POWER,
+		INPUT_MAN
+		from WRITE_FILES_INFO
+		<where>
+		<if test="meterIds != null and meterIds.size > 0">
+			and METER_ID in
+			<foreach item="item" index="index" collection="meterIds" open="("
+					 separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="mon !=null">
+			and MON = #{mon}
+		</if>
+		</where>
+		and POWER_DIRECTION = 1
+		and FUNCTION_CODE = 1
+		and TIME_SEG = 0
+		order by meter_id
+	</select>
+</mapper>

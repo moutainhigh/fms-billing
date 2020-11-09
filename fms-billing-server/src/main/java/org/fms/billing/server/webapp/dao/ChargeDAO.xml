@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.ChargeDAO">
+    <select id="findByKey" parameterType="ChargeDomain"
+            resultType="ChargeDomain" useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,CHARGE_MODE,ARREARAGE_NO,METER_ID,
+        DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,
+        F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,
+        STATUS,JZ_FLAG,FACT_TOTAL,METER_MONEY_ID,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="ChargeDomain"
+            resultType="ChargeDomain" useCache="true">
+        select
+        ID,YS_TYPE_CODE,MON,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,
+        OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,METER_MONEY_ID,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+            <if test="startMon !=null">
+                and MON &gt;= #{startMon}
+            </if>
+            <if test="endMon !=null">
+                and MON &lt;= #{endMon}
+            </if>
+            <if test="sn !=null">
+                and SN = #{sn}
+            </if>
+            <if test="arrearageNo !=null">
+                and ARREARAGE_NO = #{arrearageNo}
+            </if>
+<!--            <if test="meterId !=null">-->
+<!--                and METER_ID = #{meterId}-->
+<!--            </if>-->
+            <choose>
+                <when test="meterIds != null and meterIds.size > 0">
+                    and METER_ID in
+                    <foreach item="item" index="index" collection="meterIds" open="("
+                             separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    <if test="meterId !=null">
+                        and METER_ID = #{meterId}
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="deductionBalance !=null">
+                and DEDUCTION_BALANCE = #{deductionBalance}
+            </if>
+            <if test="arrears !=null">
+                and ARREARS = #{arrears}
+            </if>
+            <if test="factMoney !=null">
+                and FACT_MONEY = #{factMoney}
+            </if>
+            <if test="factPunish !=null">
+                and FACT_PUNISH = #{factPunish}
+            </if>
+            <if test="factPre !=null">
+                and FACT_PRE = #{factPre}
+            </if>
+            <if test="payDate !=null">
+                and PAY_DATE = #{payDate}
+            </if>
+            <if test="inDate !=null">
+                and IN_DATE = #{inDate}
+            </if>
+            <if test="balanceFlag !=null">
+                and BALANCE_FLAG = #{balanceFlag}
+            </if>
+            <if test="fChargeMode !=null">
+                and F_CHARGE_MODE = #{fChargeMode}
+            </if>
+            <if test="settlementId !=null">
+                and SETTLEMENT_ID = #{settlementId}
+            </if>
+            <if test="paidFlag !=null">
+                and PAID_FLAG = #{paidFlag}
+            </if>
+            <if test="relaUserNo !=null">
+                and RELA_USER_NO = #{relaUserNo}
+            </if>
+            <if test="appNo !=null">
+                and APP_NO = #{appNo}
+            </if>
+            <if test="operator !=null">
+                and OPERATOR = #{operator}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="flowNo !=null">
+                and FLOW_NO = #{flowNo}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+            <if test="jzFlag !=null">
+                and JZ_FLAG = #{jzFlag}
+            </if>
+            <if test="factTotal !=null">
+                and FACT_TOTAL = #{factTotal}
+            </if>
+            <if test="meterMoneyId !=null">
+                and METER_MONEY_ID = #{meterMoneyId}
+            </if>
+            <if test="chargeMode !=null">
+                and CHARGE_MODE = #{chargeMode}
+            </if>
+            <if test="businessPlaceCode !=null">
+                and BUSINESS_PLACE_CODE = #{businessPlaceCode}
+            </if>
+            <if test="ysTypeCode !=null">
+                and YS_TYPE_CODE = #{ysTypeCode}
+            </if>
+            <if test="writeSectId !=null">
+                and WRITE_SECT_ID = #{writeSectId}
+            </if>
+            <if test="settlementIds != null and settlementIds.size > 0">
+                and SETTLEMENT_ID in
+                <foreach item="item" index="index" collection="settlementIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </select>
+    <insert id="insert" parameterType="ChargeDomain" useGeneratedKeys="true"
+            flushCache="true"
+            keyProperty="id">
+        insert into CHARGE_INFO(ID, YS_TYPE_CODE, MON, BUSINESS_PLACE_CODE, SN, ARREARAGE_NO, METER_ID,
+                                DEDUCTION_BALANCE, ARREARS,
+                                FACT_MONEY, FACT_PUNISH, FACT_PRE, PAY_DATE, IN_DATE, BALANCE_FLAG, F_CHARGE_MODE,
+                                SETTLEMENT_ID, PAID_FLAG, RELA_USER_NO, APP_NO, OPERATOR, REMARK, FLOW_NO, STATUS,
+                                JZ_FLAG, FACT_TOTAL, METER_MONEY_ID,
+                                CHARGE_MODE,SHOULD_MONEY,WRITE_SECT_ID)
+        values (#{id}, #{ysTypeCode}, #{mon}, #{businessPlaceCode}, #{sn}, #{arrearageNo}, #{meterId},
+                #{deductionBalance}, #{arrears}, #{factMoney}, #{factPunish}, #{factPre}, #{payDate}, #{inDate},
+                #{balanceFlag}, #{fChargeMode}, #{settlementId}, #{paidFlag}, #{relaUserNo}, #{appNo}, #{operator},
+                #{remark}, #{flowNo}, #{status}, #{jzFlag}, #{factTotal},
+                #{meterMoneyId}, #{chargeMode},#{shouldMoney},#{writeSectId})
+    </insert>
+    <update id="update" parameterType="ChargeDomain" flushCache="true">
+        update CHARGE_INFO
+        <set>
+            <if test="mon !=null">
+                MON = #{mon},
+            </if>
+            <if test="sn !=null">
+                SN = #{sn},
+            </if>
+            <if test="arrearageNo !=null">
+                ARREARAGE_NO = #{arrearageNo},
+            </if>
+            <if test="meterId !=null">
+                METER_ID = #{meterId},
+            </if>
+            <if test="deductionBalance !=null">
+                DEDUCTION_BALANCE = #{deductionBalance},
+            </if>
+            <if test="arrears !=null">
+                ARREARS = #{arrears},
+            </if>
+            <if test="factMoney !=null">
+                FACT_MONEY = #{factMoney},
+            </if>
+            <if test="factPunish !=null">
+                FACT_PUNISH = #{factPunish},
+            </if>
+            <if test="factPre !=null">
+                FACT_PRE = #{factPre},
+            </if>
+            <if test="payDate !=null">
+                PAY_DATE = #{payDate},
+            </if>
+            <if test="inDate !=null">
+                IN_DATE = #{inDate},
+            </if>
+            <if test="balanceFlag !=null">
+                BALANCE_FLAG = #{balanceFlag},
+            </if>
+            <if test="fChargeMode !=null">
+                F_CHARGE_MODE = #{fChargeMode},
+            </if>
+            <if test="settlementId !=null">
+                SETTLEMENT_ID = #{settlementId},
+            </if>
+            <if test="paidFlag !=null">
+                PAID_FLAG = #{paidFlag},
+            </if>
+            <if test="relaUserNo !=null">
+                RELA_USER_NO = #{relaUserNo},
+            </if>
+            <if test="appNo !=null">
+                APP_NO = #{appNo},
+            </if>
+            <if test="operator !=null">
+                OPERATOR = #{operator},
+            </if>
+            <if test="remark !=null">
+                REMARK = #{remark},
+            </if>
+            <if test="flowNo !=null">
+                FLOW_NO = #{flowNo},
+            </if>
+            <if test="status !=null">
+                STATUS = #{status},
+            </if>
+            <if test="jzFlag !=null">
+                JZ_FLAG = #{jzFlag},
+            </if>
+            <if test="factTotal !=null">
+                FACT_TOTAL = #{factTotal},
+            </if>
+            <if test="meterMoneyId !=null">
+                METER_MONEY_ID = #{meterMoneyId},
+            </if>
+            <if test="chargeMode !=null">
+                CHARGE_MODE = #{chargeMode},
+            </if>
+            <if test="businessPlaceCode !=null">
+                BUSINESS_PLACE_CODE = #{businessPlaceCode},
+            </if>
+            <if test="ysTypeCode !=null">
+                YS_TYPE_CODE = #{ysTypeCode},
+            </if>
+            <if test="writeSectId !=null">
+                WRITE_SECT_ID = #{writeSectId},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="ChargeDomain" flushCache="true">
+        delete from CHARGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+
+    <select id="findBackChargeByIds" resultType="BackChargeDomain"
+            useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,
+        DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,SHOULD_MONEY
+        from CHARGE_INFO
+        <where>
+            ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+
+
+    <select id="findChargeByIds" resultType="ChargeDomain" useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,
+        METER_MONEY_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,
+        JZ_FLAG,FACT_TOTAL,SHOULD_MONEY,YS_TYPE_CODE,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+
+    <select id="findChargeByFlowNos" resultType="ChargeDomain"
+            useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,
+        PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            FLOW_NO in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+
+    <select id="findChargeByMeterMoneyIds" resultType="ChargeDomain"
+            useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,
+        RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,METER_MONEY_ID,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            METER_MONEY_ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+            and OPERATOR='9999'
+        </where>
+    </select>
+
+    <update id="updateChargeItemId" flushCache="true">
+        UPDATE CHARGE_INFO
+        SET METER_MONEY_ID = (
+            SELECT min(id)
+            FROM METER_MONEY_INFO
+            WHERE METER_MONEY_INFO.MON = CHARGE_INFO.MON
+              AND METER_MONEY_INFO.METER_ID = CHARGE_INFO.METER_ID
+              AND METER_MONEY_INFO.SN = CHARGE_INFO.SN
+        )
+        WHERE METER_MONEY_ID IS NULL
+          AND ARREARAGE_NO != 'YS';
+    </update>
+
+    <select id="findProcessArrearageByMeterIds" resultType="ChargeDomain"
+            parameterType="java.util.Map"
+            useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,
+        PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            <if test="meterIds != null and meterIds.size > 0">
+                and METER_ID in
+                <foreach item="item" index="index" collection="meterIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and MON=#{mon}
+            and SN=#{sn}
+            and OPERATOR='9999'
+            and YS_TYPE_CODE!=2
+        </where>
+    </select>
+
+    <select id="findBackPulishByMeterIds" resultType="ChargeDomain"
+            parameterType="java.util.Map"
+            useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,ARREARAGE_NO,CHARGE_MODE,METER_ID,DEDUCTION_BALANCE,ARREARS,
+        FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,
+        PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            <if test="meterIds != null and meterIds.size > 0">
+                and METER_ID in
+                <foreach item="item" index="index" collection="meterIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and SN=#{sn}
+            and MON=#{mon}
+            and OPERATOR!='9999'
+            and YS_TYPE_CODE!=2
+        </where>
+    </select>
+
+
+    <select id="findChargeInfoDetails" resultType="ChargeInfoDetailEntity"
+            parameterType="ChargeInfoEntity" useCache="true">
+        select
+        C.ID,
+        C.MON,
+        C.BUSINESS_PLACE_CODE,
+        C.SN,
+        C.ARREARAGE_NO,
+        C.CHARGE_MODE,
+        C.METER_ID,
+        C.DEDUCTION_BALANCE,
+        C.ARREARS,
+        C.FACT_MONEY,
+        C.FACT_PUNISH,
+        C.FACT_PRE,
+        C.PAY_DATE,
+        C.IN_DATE,
+        C.BALANCE_FLAG,
+        C.F_CHARGE_MODE,
+        C.SETTLEMENT_ID,
+        C.PAID_FLAG,
+        C.RELA_USER_NO,
+        C.APP_NO,
+        C.OPERATOR,
+        C.REMARK,
+        C.FLOW_NO,
+        C.STATUS,
+        C.JZ_FLAG,
+        C.FACT_TOTAL,
+        C.YS_TYPE_CODE,
+        C.METER_MONEY_ID,
+        N.SETTLEMENT_NO,
+        N.SETTLEMENT_NAME,
+        N.PRICE_NAME,
+        C.WRITE_SECT_ID,
+        IFNULL(N.YFPHM,N.NOTE_PRINT_NO) YFPHM,
+        C.SHOULD_MONEY
+        from CHARGE_INFO C
+        left join NOTE_INFO N ON C.ID=N.CHARGE_INFO_ID
+        <where>
+            <if test="settlementNo !=null">
+                and C.RELA_USER_NO = #{settlementNo}
+            </if>
+            <if test="dept !=null">
+                and C.BUSINESS_PLACE_CODE = #{dept}
+            </if>
+            <if test="operator !=null">
+                and C.OPERATOR = #{operator}
+            </if>
+            <if test="writeSect !=null">
+                and C.WRITE_SECT_ID=#{writeSect}
+            </if>
+            <if test="startPayDate !=null">
+                and C.PAY_DATE &gt;= #{startPayDate}
+            </if>
+            <if test="endPayDate !=null">
+                and C.PAY_DATE &lt;= #{endPayDate}
+            </if>
+            <if test="startMon !=null">
+                and C.MON &gt;= #{startMon}
+            </if>
+            <if test="endMon !=null">
+                and C.MON &lt;= #{endMon}
+            </if>
+            <if test="fChargeMode !=null">
+                and C.F_CHARGE_MODE = #{fChargeMode}
+            </if>
+        </where>
+        order by PAY_DATE
+    </select>
+    <select id="findChargeInfoDetailsByCustomer"
+            parameterType="CustomerDomain"
+            resultType="ChargeInfoDetailEntity" useCache="true">
+        select
+        ID,MON,YS_TYPE_CODE,BUSINESS_PLACE_CODE,SN,CHARGE_MODE,ARREARAGE_NO,METER_ID,
+        DEDUCTION_BALANCE,ARREARS,FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,
+        SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,
+        METER_MONEY_ID,SHOULD_MONEY,WRITE_SECT_ID
+        from CHARGE_INFO
+        <where>
+            <if test="meterIds != null and meterIds.size > 0">
+                AND METER_ID in
+                <foreach item="item" index="index" collection="meterIds" open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startMon != null">
+                AND MON &gt;= #{startMon}
+            </if>
+            <if test="endMon != null">
+                AND MON &lt;= #{endMon}
+            </if>
+        </where>
+        order by MON desc
+    </select>
+
+
+    <select id="findMaxIdBySettlementIds"
+            parameterType="ChargeInfoEntity"
+            resultType="ChargeDomain" useCache="true">
+        SELECT
+        a.SETTLEMENT_ID,
+        max( a.ID )as ID
+        FROM
+        CHARGE_INFO a
+        <where>
+            <if test="settlementIds != null and settlementIds.size > 0">
+                and a.SETTLEMENT_ID in
+                <foreach item="item" index="index" collection="settlementIds"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and a.PAY_DATE &lt;= #{endPayDate}
+        </where>
+        GROUP BY
+        a.SETTLEMENT_ID
+    </select>
+    <!--收费员月结-->
+    <select id="findChargeInfoDetailsGroupByDay"
+            resultType="ChargeInfoDetailEntity"
+            parameterType="ChargeInfoEntity" useCache="true">
+        select
+        count(distinct(c.FLOW_NO)) SUM_FLOW,
+        count(distinct(c.SETTLEMENT_ID)) SUM_SETTLEMENT,
+        sum(IFNULL(C.DEDUCTION_BALANCE,0)) DEDUCTION_BALANCE,
+        sum(case C.F_CHARGE_MODE when 5 then IFNULL(C.FACT_TOTAL,0)  else 0 end) FACT_ADVANCE,
+        sum(IFNULL(C.FACT_MONEY,0)) FACT_MONEY,
+        sum(IFNULL(C.FACT_PUNISH,0)) FACT_PUNISH,
+        sum(IFNULL(C.FACT_PRE,0)) FACT_PRE,
+        sum(case C.F_CHARGE_MODE when 5 then 0  else IFNULL(C.FACT_TOTAL,0)   end) FACT_TOTAL,
+        <if test="groupBy !=null and groupBy=='fChargeMode'">
+            C.F_CHARGE_MODE as  COLUMN_NAME
+        </if>
+        <if test="groupBy !=null and groupBy=='day'">
+            DATE_FORMAT(c.PAY_DATE,'%Y-%m-%d') as  COLUMN_NAME
+        </if>
+        from CHARGE_INFO C
+        <where>
+            <if test="settlementNo !=null">
+                and C.RELA_USER_NO = #{settlementNo}
+            </if>
+            <if test="dept !=null">
+                and C.BUSINESS_PLACE_CODE = #{dept}
+            </if>
+            <if test="operator !=null">
+                and C.OPERATOR = #{operator}
+            </if>
+            <if test="startPayDate !=null">
+                and C.PAY_DATE &gt;= #{startPayDate}
+            </if>
+            <if test="endPayDate !=null">
+                and C.PAY_DATE &lt;= #{endPayDate}
+            </if>
+            <if test="startMon !=null">
+                and C.MON &gt;= #{startMon}
+            </if>
+            <if test="endMon !=null">
+                and C.MON &lt;= #{endMon}
+            </if>
+            <if test="fChargeMode !=null">
+                and C.F_CHARGE_MODE = #{fChargeMode}
+            </if>
+        </where>
+        <if test="groupBy !=null and groupBy=='fChargeMode'">
+            GROUP BY C.OPERATOR,C.F_CHARGE_MODE
+        </if>
+        <if test="groupBy !=null and groupBy=='day'">
+            GROUP BY C.OPERATOR,DATE_FORMAT(c.PAY_DATE,'%Y-%m-%d')
+        </if>
+    </select>
+
+
+    <!--跨区收费报表-->
+    <select id="findCrossChargeInfoDetails"
+            resultType="ChargeInfoDetailEntity"
+            parameterType="ChargeInfoEntity" useCache="true">
+        select
+        count(distinct(C.FLOW_NO)) SUM_FLOW,
+        count(distinct(C.SETTLEMENT_ID)) SUM_SETTLEMENT,
+        sum(IFNULL(C.DEDUCTION_BALANCE,0)) DEDUCTION_BALANCE,
+        sum(case C.F_CHARGE_MODE when 5 then IFNULL(C.FACT_PRE,0)  else 0     end) FACT_ADVANCE,
+        sum(IFNULL(C.FACT_MONEY,0))  FACT_MONEY,
+        sum(IFNULL(C.FACT_PUNISH,0))as FACT_PUNISH,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(C.FACT_PRE,0)  end)as FACT_PRE,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.VOLUME_CHARGE,0) end)as volumeCharge,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.POWER_RATE_MONEY,0) end)as powerRateMoney,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.BASIC_MONEY,0) end)as basicMoney,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY1,0) end)as addMoney1,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY2,0) end)as addMoney2,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY3,0) end)as addMoney3,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY4,0) end)as addMoney4,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY5,0) end)as addMoney5,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY6,0) end)as addMoney6,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY7,0) end)as addMoney7,
+        sum(case  when C.F_CHARGE_MODE=5 then 0 when C.YS_TYPE_CODE=2 then 0 else IFNULL(m.ADD_MONEY8,0) end)as addMoney8,
+        C.OPERATOR,
+        C.BUSINESS_PLACE_CODE,
+        sum(IFNULL(C.FACT_TOTAL,0)) FACT_TOTAL
+        from CHARGE_INFO C left join METER_MONEY_INFO m on C.METER_MONEY_ID=m.ID
+        <where>
+            C.OPERATOR!='9999'
+            <if test="businessPlaceCodes != null and businessPlaceCodes.size > 0">
+                and BUSINESS_PLACE_CODE in
+                <foreach item="item" index="index" collection="businessPlaceCodes"
+                         open="("
+                         separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startPayDate !=null">
+                and C.PAY_DATE &gt;= #{startPayDate}
+            </if>
+            <if test="endPayDate !=null">
+                and C.PAY_DATE &lt;= #{endPayDate}
+            </if>
+            <if test="mon !=null">
+                and C.MON = #{mon}
+            </if>
+        </where>
+            GROUP BY c.OPERATOR,c.BUSINESS_PLACE_CODE
+    </select>
+
+
+</mapper>

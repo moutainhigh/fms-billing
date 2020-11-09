@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.BackChargeDAO">
+    <select id="findByKey" parameterType="BackChargeDomain"
+            resultType="BackChargeDomain" useCache="true">
+        select
+        ID,MON,SN,ARREARAGE_NO,METER_ID,DEDUCTION_BALANCE,ARREARS,FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,ERASE_PERSON,ERASE_REASON,
+        CHARGE_INFO_ID,METER_NO,SETTLEMENT_NO,FACT_TOTAL,ERASE_OPTION,DEAL_DATE,SETTLEMENT_NAME
+        from BACK_CHARGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="BackChargeDomain"
+            resultType="BackChargeDomain" useCache="true">
+        select
+        ID,MON,SN,ARREARAGE_NO,METER_ID,DEDUCTION_BALANCE,ARREARS,FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,
+        IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,
+        REMARK,FLOW_NO,STATUS,JZ_FLAG,ERASE_PERSON,ERASE_REASON,CHARGE_INFO_ID,METER_NO,SETTLEMENT_NO,SETTLEMENT_NAME,
+        FACT_TOTAL,ERASE_OPTION,DEAL_DATE
+        from BACK_CHARGE_INFO
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="mon !=null">
+                and MON = #{mon}
+            </if>
+            <if test="sn !=null">
+                and SN = #{sn}
+            </if>
+            <if test="arrearageNo !=null">
+                and ARREARAGE_NO = #{arrearageNo}
+            </if>
+            <if test="meterId !=null">
+                and METER_ID = #{meterId}
+            </if>
+            <if test="deductionBalance !=null">
+                and DEDUCTION_BALANCE = #{deductionBalance}
+            </if>
+            <if test="arrears !=null">
+                and ARREARS = #{arrears}
+            </if>
+            <if test="factMoney !=null">
+                and FACT_MONEY = #{factMoney}
+            </if>
+            <if test="factPunish !=null">
+                and FACT_PUNISH = #{factPunish}
+            </if>
+            <if test="factPre !=null">
+                and FACT_PRE = #{factPre}
+            </if>
+            <if test="payDate !=null">
+                and PAY_DATE = #{payDate}
+            </if>
+            <if test="inDate !=null">
+                and IN_DATE = #{inDate}
+            </if>
+            <if test="balanceFlag !=null">
+                and BALANCE_FLAG = #{balanceFlag}
+            </if>
+            <if test="fChargeMode !=null">
+                and F_CHARGE_MODE = #{fChargeMode}
+            </if>
+            <if test="settlementId !=null">
+                and SETTLEMENT_ID = #{settlementId}
+            </if>
+            <if test="paidFlag !=null">
+                and PAID_FLAG = #{paidFlag}
+            </if>
+            <if test="relaUserNo !=null">
+                and RELA_USER_NO = #{relaUserNo}
+            </if>
+            <if test="appNo !=null">
+                and APP_NO = #{appNo}
+            </if>
+            <if test="operator !=null">
+                and OPERATOR = #{operator}
+            </if>
+            <if test="remark !=null">
+                and REMARK = #{remark}
+            </if>
+            <if test="flowNo !=null">
+                and FLOW_NO = #{flowNo}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+            <if test="jzFlag !=null">
+                and JZ_FLAG = #{jzFlag}
+            </if>
+            <if test="erasePerson !=null">
+                and ERASE_PERSON = #{erasePerson}
+            </if>
+            <if test="eraseReason !=null">
+                and ERASE_REASON = #{eraseReason}
+            </if>
+            <if test="chargeInfoId !=null">
+                and CHARGE_INFO_ID = #{chargeInfoId}
+            </if>
+            <if test="meterNo !=null">
+                and METER_NO = #{meterNo}
+            </if>
+            <if test="settlementNo !=null">
+                and SETTLEMENT_NO = #{settlementNo}
+            </if>
+            <if test="factTotal !=null">
+                and FACT_TOTAL = #{factTotal}
+            </if>
+            <if test="eraseOption !=null">
+                and ERASE_OPTION = #{eraseOption}
+            </if>
+            <if test="dealDate !=null">
+                and DEAL_DATE = #{dealDate}
+            </if>
+        </where>
+    </select>
+    <insert id="insert" parameterType="BackChargeDomain" flushCache="true">
+insert into
+BACK_CHARGE_INFO(ID,MON,SN,ARREARAGE_NO,METER_ID,DEDUCTION_BALANCE,ARREARS,
+FACT_MONEY,FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,
+SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,ERASE_PERSON,ERASE_REASON,CHARGE_INFO_ID,METER_NO,SETTLEMENT_NO,FACT_TOTAL,ERASE_OPTION,DEAL_DATE,SETTLEMENT_NAME)
+ values
+ (#{id},#{mon},#{sn},#{arrearageNo},#{meterId},#{deductionBalance},
+ #{arrears},#{factMoney},#{factPunish},#{factPre},#{payDate},#{inDate},
+ #{balanceFlag},#{fChargeMode},#{settlementId},#{paidFlag},#{relaUserNo},#{appNo},#{operator},#{remark},#{flowNo},#{status},#{jzFlag},#{erasePerson},#{eraseReason},
+ #{chargeInfoId},#{meterNo},#{settlementNo},#{factTotal},#{eraseOption},
+ #{dealDate},#{settlementName})
+</insert>
+    <update id="update" parameterType="BackChargeDomain" flushCache="true">
+        update BACK_CHARGE_INFO
+        <set>
+            <if test="mon !=null">
+                MON = #{mon},
+            </if>
+            <if test="sn !=null">
+                SN = #{sn},
+            </if>
+            <if test="arrearageNo !=null">
+                ARREARAGE_NO = #{arrearageNo},
+            </if>
+            <if test="meterId !=null">
+                METER_ID = #{meterId},
+            </if>
+            <if test="deductionBalance !=null">
+                DEDUCTION_BALANCE = #{deductionBalance},
+            </if>
+            <if test="arrears !=null">
+                ARREARS = #{arrears},
+            </if>
+            <if test="factMoney !=null">
+                FACT_MONEY = #{factMoney},
+            </if>
+            <if test="factPunish !=null">
+                FACT_PUNISH = #{factPunish},
+            </if>
+            <if test="factPre !=null">
+                FACT_PRE = #{factPre},
+            </if>
+            <if test="payDate !=null">
+                PAY_DATE = #{payDate},
+            </if>
+            <if test="inDate !=null">
+                IN_DATE = #{inDate},
+            </if>
+            <if test="balanceFlag !=null">
+                BALANCE_FLAG = #{balanceFlag},
+            </if>
+            <if test="fChargeMode !=null">
+                F_CHARGE_MODE = #{fChargeMode},
+            </if>
+            <if test="settlementId !=null">
+                SETTLEMENT_ID = #{settlementId},
+            </if>
+            <if test="paidFlag !=null">
+                PAID_FLAG = #{paidFlag},
+            </if>
+            <if test="relaUserNo !=null">
+                RELA_USER_NO = #{relaUserNo},
+            </if>
+            <if test="appNo !=null">
+                APP_NO = #{appNo},
+            </if>
+            <if test="operator !=null">
+                OPERATOR = #{operator},
+            </if>
+            <if test="remark !=null">
+                REMARK = #{remark},
+            </if>
+            <if test="flowNo !=null">
+                FLOW_NO = #{flowNo},
+            </if>
+            <if test="status !=null">
+                STATUS = #{status},
+            </if>
+            <if test="jzFlag !=null">
+                JZ_FLAG = #{jzFlag},
+            </if>
+            <if test="erasePerson !=null">
+                ERASE_PERSON = #{erasePerson},
+            </if>
+            <if test="eraseReason !=null">
+                ERASE_REASON = #{eraseReason},
+            </if>
+            <if test="chargeInfoId !=null">
+                CHARGE_INFO_ID = #{chargeInfoId},
+            </if>
+            <if test="meterNo !=null">
+                METER_NO = #{meterNo},
+            </if>
+            <if test="settlementNo !=null">
+                SETTLEMENT_NO = #{settlementNo},
+            </if>
+            <if test="factTotal !=null">
+                FACT_TOTAL = #{factTotal},
+            </if>
+            <if test="eraseOption !=null">
+                ERASE_OPTION = #{eraseOption},
+            </if>
+            <if test="dealDate !=null">
+                DEAL_DATE = #{dealDate},
+            </if>
+            <if test="settlementName !=null">
+                SETTLEMENT_NAME = #{settlementName},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="BackChargeDomain" flushCache="true">
+        delete from BACK_CHARGE_INFO
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+    <select id="getBackChargeByMeterIds"
+            parameterType="MeterPageEntity"
+            resultType="BackChargeDomain" useCache="true">
+        SELECT C.ID,
+        C.ARREARAGE_NO,
+        C.MON,
+        C.SN,
+        C.METER_ID,
+        C.ARREARS,
+        C.FACT_MONEY,
+        C.FACT_PUNISH,
+        C.FACT_PRE,
+        C.PAY_DATE,
+        C.FACT_TOTAL,
+        C.F_CHARGE_MODE,
+        C.OPERATOR,
+        C.JZ_FLAG,
+        B.ERASE_PERSON,
+        B.ERASE_REASON,
+        B.ERASE_OPTION,
+        B.REMARK,
+        C.SETTLEMENT_ID,
+        B.DEAL_DATE,
+        B.SETTLEMENT_NAME
+        FROM
+        CHARGE_INFO C
+        LEFT JOIN BACK_CHARGE_INFO B ON B.CHARGE_INFO_ID = C.ID
+        WHERE
+        C.OPERATOR =#{operator}
+        <if test="settlementId !=null and settlementId !=''">
+           AND C.SETTLEMENT_ID IN (${settlementId})
+        </if>
+        <if test="eraseOption !=null and eraseOption !=''">
+            AND B.ERASE_OPTION =#{eraseOption}
+        </if>
+        and
+        C.PAY_DATE>=(
+        date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval
+        extract(day from now())-26 day),interval 1 month)
+        )
+    </select>
+
+    <select id="getBackCharge"
+            parameterType="MeterPageEntity"
+            resultType="BackChargeDomain" useCache="false">
+        SELECT C.ID,
+        C.ARREARAGE_NO,
+        C.MON,
+        C.SN,
+        C.METER_ID,
+        C.ARREARS,
+        C.FACT_MONEY,
+        C.FACT_PUNISH,
+        C.FACT_PRE,
+        C.PAY_DATE,
+        C.FACT_TOTAL,
+        C.F_CHARGE_MODE,
+        C.OPERATOR,
+        C.JZ_FLAG,
+        C.ERASE_PERSON,
+        C.ERASE_OPTION,
+        C.ERASE_REASON,
+        C.REMARK,
+        C.SETTLEMENT_NO,
+        C.METER_NO,
+        C.DEAL_DATE,
+        C.SETTLEMENT_NAME
+        FROM
+        BACK_CHARGE_INFO C
+        WHERE
+        EXISTS(SELECT 1 FROM CHARGE_INFO B WHERE B.ID=C.CHARGE_INFO_ID)
+        <if test="meterId !=null and meterId !=''">
+            AND C.METER_ID in (${meterId})
+        </if>
+        ORDER BY ID
+    </select>
+
+    <select id="getFinishBackCharge"
+            parameterType="MeterPageEntity"
+            resultType="BackChargeDomain" useCache="true">
+        SELECT C.ID,
+        C.ARREARAGE_NO,
+        C.MON,
+        C.SN,
+        C.METER_ID,
+        C.ARREARS,
+        C.FACT_MONEY,
+        C.FACT_PUNISH,
+        C.FACT_PRE,
+        C.PAY_DATE,
+        C.FACT_TOTAL,
+        C.F_CHARGE_MODE,
+        C.OPERATOR,
+        C.JZ_FLAG,
+        C.ERASE_PERSON,
+        C.ERASE_OPTION,
+        C.ERASE_REASON,
+        C.REMARK,
+        C.SETTLEMENT_NO,
+        C.METER_NO,
+        C.DEAL_DATE,
+        C.SETTLEMENT_NAME
+        FROM
+        BACK_CHARGE_INFO C
+        WHERE
+        NOT EXISTS(SELECT 1 FROM CHARGE_INFO B WHERE B.ID=C.CHARGE_INFO_ID)
+        <if test="meterId !=null and meterId !=''">
+            AND C.METER_ID in (#{meterId})
+        </if>
+        <if test="erasePerson !=null and erasePerson !=''">
+            AND C.ERASE_PERSON = #{erasePerson}
+        </if>
+        <if test="startDate !=null">
+            and C.DEAL_DATE &gt;= #{startDate}
+        </if>
+        <if test="endDate !=null">
+            and C.DEAL_DATE &lt;= #{endDate}
+        </if>
+        ORDER BY ID DESC
+    </select>
+    <select id="findByChargeInfoIds" resultType="BackChargeDomain"
+            useCache="true">
+        select
+        ID,MON,SN,ARREARAGE_NO,METER_ID,DEDUCTION_BALANCE,ARREARS,FACT_MONEY,
+        FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,
+        SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,ERASE_PERSON,ERASE_REASON,
+        CHARGE_INFO_ID,METER_NO,SETTLEMENT_NO,FACT_TOTAL,
+        ERASE_OPTION,DEAL_DATE,SETTLEMENT_NAME
+        from BACK_CHARGE_INFO
+        <where>
+            CHARGE_INFO_ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+
+    <select id="findBackChargeInfoByIds" resultType="BackChargeDomain"
+            useCache="true">
+        select
+        ID,MON,SN,ARREARAGE_NO,METER_ID,DEDUCTION_BALANCE,ARREARS,FACT_MONEY,
+        FACT_PUNISH,FACT_PRE,PAY_DATE,IN_DATE,BALANCE_FLAG,F_CHARGE_MODE,
+        SETTLEMENT_ID,PAID_FLAG,RELA_USER_NO,APP_NO,OPERATOR,REMARK,FLOW_NO,STATUS,JZ_FLAG,FACT_TOTAL,DEAL_DATE,SETTLEMENT_NAME
+        from BACK_CHARGE_INFO
+        <where>
+            ID in
+            <foreach item="item" index="index" collection="list" open="("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+
+        </where>
+    </select>
+</mapper>

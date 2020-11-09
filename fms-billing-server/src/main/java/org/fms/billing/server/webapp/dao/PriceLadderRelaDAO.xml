@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PriceLadderRelaDAO">
+    <select id="findByKey" parameterType="PriceLadderRelaDomain"
+            resultType="PriceLadderRelaDomain" useCache="true">
+        select
+        ID,PRICE_EXECUTION_ID,PRICE_NAME,LADDER_SN,LADDER_VALUE,PRICE,CREATE_DATE,STATUS
+        from PRICE_LADDER_RELA
+        <where>
+            and ID = #{id}
+
+        </where>
+    </select>
+    <select id="findByWhere" parameterType="PriceLadderRelaDomain"
+            resultType="PriceLadderRelaDomain" useCache="true">
+        select
+        ID,PRICE_EXECUTION_ID,PRICE_NAME,LADDER_SN,LADDER_VALUE,PRICE,CREATE_DATE,STATUS
+        from PRICE_LADDER_RELA
+        <where>
+            <if test="id !=null">
+                and ID = #{id}
+            </if>
+            <if test="priceExecutionId !=null">
+                and PRICE_EXECUTION_ID = #{priceExecutionId}
+            </if>
+            <if test="priceName !=null">
+                and PRICE_NAME = #{priceName}
+            </if>
+            <if test="ladderSn !=null">
+                and LADDER_SN = #{ladderSn}
+            </if>
+            <if test="ladderValue !=null">
+                and LADDER_VALUE = #{ladderValue}
+            </if>
+            <if test="price !=null">
+                and PRICE = #{price}
+            </if>
+            <if test="createDate !=null">
+                and CREATE_DATE = #{createDate}
+            </if>
+            <if test="status !=null">
+                and STATUS = #{status}
+            </if>
+        </where>
+        ORDER BY PRICE_EXECUTION_ID,LADDER_SN
+    </select>
+    <insert id="insert" parameterType="PriceLadderRelaDomain" flushCache="true">
+insert into PRICE_LADDER_RELA(ID,PRICE_EXECUTION_ID,PRICE_NAME,LADDER_SN,LADDER_VALUE,PRICE,CREATE_DATE,STATUS) values (#{id},#{priceExecutionId},#{priceName},#{ladderSn},#{ladderValue},#{price},#{createDate},#{status})
+</insert>
+    <update id="update" parameterType="PriceLadderRelaDomain" flushCache="true">
+        update PRICE_LADDER_RELA
+        <set>
+            <if test="priceExecutionId !=null">
+                PRICE_EXECUTION_ID = #{priceExecutionId},
+            </if>
+            <if test="priceName !=null">
+                PRICE_NAME = #{priceName},
+            </if>
+            <if test="ladderSn !=null">
+                LADDER_SN = #{ladderSn},
+            </if>
+            <if test="ladderValue !=null">
+                LADDER_VALUE = #{ladderValue},
+            </if>
+            <if test="price !=null">
+                PRICE = #{price},
+            </if>
+            <if test="createDate !=null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="status !=null">
+                STATUS = #{status},
+            </if>
+        </set>
+        <where>
+            and ID = #{id}
+
+        </where>
+    </update>
+    <delete id="delete" parameterType="PriceLadderRelaDomain" flushCache="true">
+        delete from PRICE_LADDER_RELA
+        <where>
+            and ID = #{id}
+
+        </where>
+    </delete>
+</mapper>

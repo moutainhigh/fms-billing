@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.CosStandardConfigDAO">
+<select id="findByKey" parameterType="CosStandardConfigDomain" resultType="CosStandardConfigDomain" useCache="true">
+select ID,COS_TYPE,COS,COS_STD,CREATE_DATE,OPERATOR,STATUS from COS_STANDARD_CONFIG<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="CosStandardConfigDomain" resultType="CosStandardConfigDomain" useCache="true">
+select ID,COS_TYPE,COS,COS_STD,CREATE_DATE,OPERATOR,STATUS from COS_STANDARD_CONFIG
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="cosType !=null"> 
+ and COS_TYPE = #{cosType}
+</if>
+<if test="cos !=null"> 
+ and COS = #{cos}
+</if>
+<if test="cosStd !=null"> 
+ and COS_STD = #{cosStd}
+</if>
+<if test="createDate !=null"> 
+ and CREATE_DATE = #{createDate}
+</if>
+<if test="operator !=null"> 
+ and OPERATOR = #{operator}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="CosStandardConfigDomain" flushCache="true">
+insert into COS_STANDARD_CONFIG(ID,COS_TYPE,COS,COS_STD,CREATE_DATE,OPERATOR,STATUS) values (#{id},#{cosType},#{cos},#{cosStd},#{createDate},#{operator},#{status})
+</insert>
+<update id="update" parameterType="CosStandardConfigDomain" flushCache="true">
+update COS_STANDARD_CONFIG
+<set>
+<if test="cosType !=null">
+COS_TYPE = #{cosType},
+</if>
+<if test="cos !=null">
+COS = #{cos},
+</if>
+<if test="cosStd !=null">
+COS_STD = #{cosStd},
+</if>
+<if test="createDate !=null">
+CREATE_DATE = #{createDate},
+</if>
+<if test="operator !=null">
+OPERATOR = #{operator},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="CosStandardConfigDomain" flushCache="true">
+delete from COS_STANDARD_CONFIG
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

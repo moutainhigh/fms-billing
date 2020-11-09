@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.MeterPenaltyLogDAO">
+<select id="findByKey" parameterType="MeterPenaltyLogDomain" resultType="MeterPenaltyLogDomain" useCache="true">
+select ID,METER_ID,ARREARAGE_ID,ARREARS,PENALTY_MONEY,CREATE_DATE,STATUS from METER_PENALTY_LOG<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="MeterPenaltyLogDomain" resultType="MeterPenaltyLogDomain" useCache="true">
+select ID,METER_ID,ARREARAGE_ID,ARREARS,PENALTY_MONEY,CREATE_DATE,STATUS from METER_PENALTY_LOG
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="meterId !=null"> 
+ and METER_ID = #{meterId}
+</if>
+<if test="arrearageId !=null"> 
+ and ARREARAGE_ID = #{arrearageId}
+</if>
+<if test="arrears !=null"> 
+ and ARREARS = #{arrears}
+</if>
+<if test="penaltyMoney !=null"> 
+ and PENALTY_MONEY = #{penaltyMoney}
+</if>
+<if test="createDate !=null"> 
+ and CREATE_DATE = #{createDate}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="MeterPenaltyLogDomain" flushCache="true">
+insert into METER_PENALTY_LOG(ID,METER_ID,ARREARAGE_ID,ARREARS,PENALTY_MONEY,CREATE_DATE,STATUS) values (#{id},#{meterId},#{arrearageId},#{arrears},#{penaltyMoney},#{createDate},#{status})
+</insert>
+<update id="update" parameterType="MeterPenaltyLogDomain" flushCache="true">
+update METER_PENALTY_LOG
+<set>
+<if test="meterId !=null">
+METER_ID = #{meterId},
+</if>
+<if test="arrearageId !=null">
+ARREARAGE_ID = #{arrearageId},
+</if>
+<if test="arrears !=null">
+ARREARS = #{arrears},
+</if>
+<if test="penaltyMoney !=null">
+PENALTY_MONEY = #{penaltyMoney},
+</if>
+<if test="createDate !=null">
+CREATE_DATE = #{createDate},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="MeterPenaltyLogDomain" flushCache="true">
+delete from METER_PENALTY_LOG
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

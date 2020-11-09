@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.BackMoneyDAO">
+<select id="findByKey" parameterType="BackMoneyDomain" resultType="BackMoneyDomain" useCache="true">
+select ID,METER_ID,APP_NO,BACK_PERSON,BACK_DATE,BACK_MONEY,BACK_TYPE,F_CHARGE_MODE,APPLY_REASON,MONEY_TO,MAN_NAME,MAN_PHONE,MAN_CARD,APPLY_PERSON,APPLY_DATE,PASS_PERSON,PASS_DATE,DEAL_FLAG,REMARK,STATUS from BACK_MONEY_INFO<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="BackMoneyDomain" resultType="BackMoneyDomain" useCache="true">
+select ID,METER_ID,APP_NO,BACK_PERSON,BACK_DATE,BACK_MONEY,BACK_TYPE,F_CHARGE_MODE,APPLY_REASON,MONEY_TO,MAN_NAME,MAN_PHONE,MAN_CARD,APPLY_PERSON,APPLY_DATE,PASS_PERSON,PASS_DATE,DEAL_FLAG,REMARK,STATUS from BACK_MONEY_INFO
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="meterId !=null"> 
+ and METER_ID = #{meterId}
+</if>
+<if test="appNo !=null"> 
+ and APP_NO = #{appNo}
+</if>
+<if test="backPerson !=null"> 
+ and BACK_PERSON = #{backPerson}
+</if>
+<if test="backDate !=null"> 
+ and BACK_DATE = #{backDate}
+</if>
+<if test="backMoney !=null"> 
+ and BACK_MONEY = #{backMoney}
+</if>
+<if test="backType !=null"> 
+ and BACK_TYPE = #{backType}
+</if>
+<if test="fChargeMode !=null"> 
+ and F_CHARGE_MODE = #{fChargeMode}
+</if>
+<if test="applyReason !=null"> 
+ and APPLY_REASON = #{applyReason}
+</if>
+<if test="moneyTo !=null"> 
+ and MONEY_TO = #{moneyTo}
+</if>
+<if test="manName !=null"> 
+ and MAN_NAME = #{manName}
+</if>
+<if test="manPhone !=null"> 
+ and MAN_PHONE = #{manPhone}
+</if>
+<if test="manCard !=null"> 
+ and MAN_CARD = #{manCard}
+</if>
+<if test="applyPerson !=null"> 
+ and APPLY_PERSON = #{applyPerson}
+</if>
+<if test="applyDate !=null"> 
+ and APPLY_DATE = #{applyDate}
+</if>
+<if test="passPerson !=null"> 
+ and PASS_PERSON = #{passPerson}
+</if>
+<if test="passDate !=null"> 
+ and PASS_DATE = #{passDate}
+</if>
+<if test="dealFlag !=null"> 
+ and DEAL_FLAG = #{dealFlag}
+</if>
+<if test="remark !=null"> 
+ and REMARK = #{remark}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="BackMoneyDomain" flushCache="true">
+insert into BACK_MONEY_INFO(ID,METER_ID,APP_NO,BACK_PERSON,BACK_DATE,BACK_MONEY,BACK_TYPE,F_CHARGE_MODE,APPLY_REASON,MONEY_TO,MAN_NAME,MAN_PHONE,MAN_CARD,APPLY_PERSON,APPLY_DATE,PASS_PERSON,PASS_DATE,DEAL_FLAG,REMARK,STATUS) values (#{id},#{meterId},#{appNo},#{backPerson},#{backDate},#{backMoney},#{backType},#{fChargeMode},#{applyReason},#{moneyTo},#{manName},#{manPhone},#{manCard},#{applyPerson},#{applyDate},#{passPerson},#{passDate},#{dealFlag},#{remark},#{status})
+</insert>
+<update id="update" parameterType="BackMoneyDomain" flushCache="true">
+update BACK_MONEY_INFO
+<set>
+<if test="meterId !=null">
+METER_ID = #{meterId},
+</if>
+<if test="appNo !=null">
+APP_NO = #{appNo},
+</if>
+<if test="backPerson !=null">
+BACK_PERSON = #{backPerson},
+</if>
+<if test="backDate !=null">
+BACK_DATE = #{backDate},
+</if>
+<if test="backMoney !=null">
+BACK_MONEY = #{backMoney},
+</if>
+<if test="backType !=null">
+BACK_TYPE = #{backType},
+</if>
+<if test="fChargeMode !=null">
+F_CHARGE_MODE = #{fChargeMode},
+</if>
+<if test="applyReason !=null">
+APPLY_REASON = #{applyReason},
+</if>
+<if test="moneyTo !=null">
+MONEY_TO = #{moneyTo},
+</if>
+<if test="manName !=null">
+MAN_NAME = #{manName},
+</if>
+<if test="manPhone !=null">
+MAN_PHONE = #{manPhone},
+</if>
+<if test="manCard !=null">
+MAN_CARD = #{manCard},
+</if>
+<if test="applyPerson !=null">
+APPLY_PERSON = #{applyPerson},
+</if>
+<if test="applyDate !=null">
+APPLY_DATE = #{applyDate},
+</if>
+<if test="passPerson !=null">
+PASS_PERSON = #{passPerson},
+</if>
+<if test="passDate !=null">
+PASS_DATE = #{passDate},
+</if>
+<if test="dealFlag !=null">
+DEAL_FLAG = #{dealFlag},
+</if>
+<if test="remark !=null">
+REMARK = #{remark},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="BackMoneyDomain" flushCache="true">
+delete from BACK_MONEY_INFO
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

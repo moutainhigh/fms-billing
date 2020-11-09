@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.ArrearageBackDAO">
+<select id="findByKey" parameterType="ArrearageBackDomain" resultType="ArrearageBackDomain" useCache="true">
+select ID,ARREARAGE_NO,METER_ID,SN,RECEIVABLE,BACK_MAN,BACK_DATE,BACK_RESON from ARREARAGE_BACK<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="ArrearageBackDomain" resultType="ArrearageBackDomain" useCache="true">
+select ID,ARREARAGE_NO,METER_ID,SN,RECEIVABLE,BACK_MAN,BACK_DATE,BACK_RESON from ARREARAGE_BACK
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="arrearageNo !=null"> 
+ and ARREARAGE_NO = #{arrearageNo}
+</if>
+<if test="meterId !=null"> 
+ and METER_ID = #{meterId}
+</if>
+<if test="sn !=null"> 
+ and SN = #{sn}
+</if>
+<if test="receivable !=null"> 
+ and RECEIVABLE = #{receivable}
+</if>
+<if test="backMan !=null"> 
+ and BACK_MAN = #{backMan}
+</if>
+<if test="backDate !=null"> 
+ and BACK_DATE = #{backDate}
+</if>
+<if test="backReson !=null"> 
+ and BACK_RESON = #{backReson}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="ArrearageBackDomain" flushCache="true">
+insert into ARREARAGE_BACK(ID,ARREARAGE_NO,METER_ID,SN,RECEIVABLE,BACK_MAN,BACK_DATE,BACK_RESON) values (#{id},#{arrearageNo},#{meterId},#{sn},#{receivable},#{backMan},#{backDate},#{backReson})
+</insert>
+<update id="update" parameterType="ArrearageBackDomain" flushCache="true">
+update ARREARAGE_BACK
+<set>
+<if test="arrearageNo !=null">
+ARREARAGE_NO = #{arrearageNo},
+</if>
+<if test="meterId !=null">
+METER_ID = #{meterId},
+</if>
+<if test="sn !=null">
+SN = #{sn},
+</if>
+<if test="receivable !=null">
+RECEIVABLE = #{receivable},
+</if>
+<if test="backMan !=null">
+BACK_MAN = #{backMan},
+</if>
+<if test="backDate !=null">
+BACK_DATE = #{backDate},
+</if>
+<if test="backReson !=null">
+BACK_RESON = #{backReson},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="ArrearageBackDomain" flushCache="true">
+delete from ARREARAGE_BACK
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PriceTypeDAO">
+	<select id="findByKey" parameterType="PriceTypeDomain"
+		resultType="PriceTypeDomain" useCache="true">
+		select
+		ID,PRICE_NAME,VOLT_LEVEL_TYPE,ELEC_TYPE,VALID_DATE,IS_PUBLIC,PRICE_CLASS,CREATE_DATE,OPERATOR,REMARK,STATUS
+		from PRICE_TYPE_INFO
+		<where>
+			and ID = #{id}
+		</where>
+	</select>
+
+	<select id="findByListKey" parameterType="PriceTypeDomain"
+			resultType="PriceTypeDomain" useCache="true">
+		select
+		ID,PRICE_NAME,VOLT_LEVEL_TYPE,ELEC_TYPE,VALID_DATE,IS_PUBLIC,PRICE_CLASS,CREATE_DATE,OPERATOR,REMARK,STATUS
+		from PRICE_TYPE_INFO
+		<where>
+				and ID  in
+				<foreach item="item" index="index" collection="list" open="("
+						 separator="," close=")">
+					#{item}
+				</foreach>
+		</where>
+	</select>
+	<select id="priceDrop" parameterType="PriceTypeDomain"
+		resultType="PriceTypeDomain" useCache="true">
+		SELECT DISTINCT
+		PRICE_TYPE_INFO.ID,
+		PRICE_TYPE_INFO.PRICE_NAME
+		FROM
+		PRICE_EXECUTION_INFO,
+		PRICE_TYPE_INFO
+		<where>
+			PRICE_EXECUTION_INFO.PRICE_TYPE_ID = PRICE_TYPE_INFO.ID
+
+			<if test="priceClass !=null">
+				and PRICE_CLASS = #{priceClass}
+			</if>
+		</where>
+
+		ORDER BY
+		PRICE_TYPE_INFO.ID
+	</select>
+
+	<select id="priceAllDrop" parameterType="PriceTypeDomain"
+		resultType="PriceTypeDomain" useCache="true">
+		select
+		ID,PRICE_NAME,VOLT_LEVEL_TYPE,ELEC_TYPE,VALID_DATE,IS_PUBLIC,PRICE_CLASS,CREATE_DATE,OPERATOR,REMARK,STATUS
+		from PRICE_TYPE_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="priceName !=null">
+				and PRICE_NAME = #{priceName}
+			</if>
+			<if test="voltLevelType !=null">
+				and VOLT_LEVEL_TYPE = #{voltLevelType}
+			</if>
+			<if test="elecType !=null">
+				and ELEC_TYPE = #{elecType}
+			</if>
+			<if test="validDate !=null">
+				and VALID_DATE = #{validDate}
+			</if>
+			<if test="isPublic !=null">
+				and IS_PUBLIC = #{isPublic}
+			</if>
+			<if test="priceClass !=null">
+				and PRICE_CLASS = #{priceClass}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and OPERATOR = #{operator}
+			</if>
+			<if test="remark !=null">
+				and REMARK = #{remark}
+			</if>
+		</where>
+		order by ID
+	</select>
+	<select id="findByWhere" parameterType="PriceTypeDomain"
+		resultType="PriceTypeDomain" useCache="true">
+		select
+		ID,PRICE_NAME,VOLT_LEVEL_TYPE,ELEC_TYPE,VALID_DATE,IS_PUBLIC,PRICE_CLASS,CREATE_DATE,OPERATOR,REMARK,STATUS
+		from PRICE_TYPE_INFO
+		<where>
+			<if test="id !=null">
+				and ID = #{id}
+			</if>
+			<if test="priceName !=null">
+				and PRICE_NAME like concat(concat('%',#{priceName}),'%')
+			</if>
+			<if test="voltLevelType !=null">
+				and VOLT_LEVEL_TYPE = #{voltLevelType}
+			</if>
+			<if test="elecType !=null">
+				and ELEC_TYPE = #{elecType}
+			</if>
+			<if test="validDate !=null">
+				and VALID_DATE = #{validDate}
+			</if>
+			<if test="isPublic !=null">
+				and IS_PUBLIC = #{isPublic}
+			</if>
+			<if test="priceClass !=null">
+				and PRICE_CLASS = #{priceClass}
+			</if>
+			<if test="createDate !=null">
+				and CREATE_DATE = #{createDate}
+			</if>
+			<if test="operator !=null">
+				and OPERATOR = #{operator}
+			</if>
+			<if test="remark !=null">
+				and REMARK = #{remark}
+			</if>
+		</where>
+		order by STATUS desc,ID
+	</select>
+	<insert id="insert" parameterType="PriceTypeDomain"
+		flushCache="true">
+		insert into
+		PRICE_TYPE_INFO(ID,PRICE_NAME,VOLT_LEVEL_TYPE,ELEC_TYPE,VALID_DATE,IS_PUBLIC,PRICE_CLASS,CREATE_DATE,OPERATOR,REMARK,STATUS)
+		values
+		(#{id},#{priceName},#{voltLevelType},#{elecType},#{validDate},#{isPublic},#{priceClass},#{createDate},#{operator},#{remark},#{status})
+	</insert>
+	<update id="update" parameterType="PriceTypeDomain"
+		flushCache="true">
+		update PRICE_TYPE_INFO
+		<set>
+			<if test="priceName !=null">
+				PRICE_NAME = #{priceName},
+			</if>
+			<if test="voltLevelType !=null">
+				VOLT_LEVEL_TYPE = #{voltLevelType},
+			</if>
+			<if test="elecType !=null">
+				ELEC_TYPE = #{elecType},
+			</if>
+			<if test="validDate !=null">
+				VALID_DATE = #{validDate},
+			</if>
+			<if test="isPublic !=null">
+				IS_PUBLIC = #{isPublic},
+			</if>
+			<if test="priceClass !=null">
+				PRICE_CLASS = #{priceClass},
+			</if>
+			<if test="createDate !=null">
+				CREATE_DATE = #{createDate},
+			</if>
+			<if test="operator !=null">
+				OPERATOR = #{operator},
+			</if>
+			<if test="remark !=null">
+				REMARK = #{remark},
+			</if>
+			<if test="status !=null">
+				STATUS = #{status},
+			</if>
+		</set>
+		<where>
+			and ID = #{id}
+		</where>
+	</update>
+	<delete id="delete" parameterType="PriceTypeDomain"
+		flushCache="true">
+		delete from PRICE_TYPE_INFO
+		<where>
+			and ID = #{id}
+
+		</where>
+	</delete>
+</mapper>

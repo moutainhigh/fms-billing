@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PriceDataTransformDAO">
+    <select id="findPriceDataTransform"
+            parameterType="PriceDataTransformDomain"
+            resultType="PriceDataTransformDomain" useCache="true">
+        SELECT
+			P.PRICE_TYPE_ID PRICE_TYPE_ID,
+			P.TIME_SEG TIME_SEG,
+			MAX( T.ELEC_TYPE ) ELEC_TYPE,
+			MAX( T.VOLT_LEVEL_TYPE ) VOLT_LEVEL_TYPE,
+			MAX( T.PRICE_NAME ) PRICE_NAME,
+			MAX( P.PRICE_VERSION_ID ) PRICE_VERSION_ID,
+			MAX( T.IS_PUBLIC ) IS_PUBLIC,
+			MAX( T.PRICE_CLASS ) PRICE_CLASS,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '1' THEN P.PRICE ELSE 0 END) CONTENT_PRICE,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '2' THEN P.PRICE ELSE 0 END) ADD_PRICE1,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '3' THEN P.PRICE ELSE 0 END) ADD_PRICE2,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '4' THEN P.PRICE ELSE 0 END) ADD_PRICE3,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '5' THEN P.PRICE ELSE 0 END) ADD_PRICE4,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '6' THEN P.PRICE ELSE 0 END) ADD_PRICE5,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '7' THEN P.PRICE ELSE 0 END) ADD_PRICE6,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '8' THEN P.PRICE ELSE 0 END) ADD_PRICE7,
+			SUM( CASE P.PRICE_ITEM_ID WHEN '9' THEN P.PRICE ELSE 0 END) ADD_PRICE8,
+			SUM( IFNULL( P.PRICE, 0 ) ) PRICE
+		FROM
+			PRICE_EXECUTION_INFO P,
+			PRICE_TYPE_INFO T
+		<where>
+			P.PRICE_TYPE_ID = T.ID
+			AND T.STATUS=1
+			AND exists (select 1 from PRICE_ITEM_INFO I where I.ID=P.PRICE_ITEM_ID AND I.STATUS=1)
+			<if test="priceName !=null">
+				and T.PRICE_NAME = #{priceName}
+			</if>
+			<if test="elecType !=null">
+				and T.ELEC_TYPE = #{elecType}
+			</if>
+			<if test="priceTypeId !=null">
+				and P.PRICE_TYPE_ID = #{priceTypeId}
+			</if>
+		</where>
+		GROUP BY P.PRICE_TYPE_ID,	P.TIME_SEG
+		ORDER BY P.PRICE_TYPE_ID,P.TIME_SEG
+    </select>
+</mapper>

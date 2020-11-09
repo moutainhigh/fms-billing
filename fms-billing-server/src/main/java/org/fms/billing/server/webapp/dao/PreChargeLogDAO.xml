@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fms.billing.server.webapp.dao.PreChargeLogDAO">
+<select id="findByKey" parameterType="PreChargeLogDomain" resultType="PreChargeLogDomain" useCache="true">
+select ID,SETTLEMENT_ID,CURRENT_BALANCE,CHANGE_BALANCE,LAST_BALANCE,CREATE_DATE,STATUS from PRE_CHARGE_LOG<where>
+ and ID = #{id}
+
+</where>
+</select>
+<select id="findByWhere" parameterType="PreChargeLogDomain" resultType="PreChargeLogDomain" useCache="true">
+select ID,SETTLEMENT_ID,CURRENT_BALANCE,CHANGE_BALANCE,LAST_BALANCE,CREATE_DATE,STATUS from PRE_CHARGE_LOG
+<where>
+<if test="id !=null"> 
+ and ID = #{id}
+</if>
+<if test="settlementId !=null"> 
+ and SETTLEMENT_ID = #{settlementId}
+</if>
+<if test="currentBalance !=null"> 
+ and CURRENT_BALANCE = #{currentBalance}
+</if>
+<if test="changeBalance !=null"> 
+ and CHANGE_BALANCE = #{changeBalance}
+</if>
+<if test="lastBalance !=null"> 
+ and LAST_BALANCE = #{lastBalance}
+</if>
+<if test="createDate !=null"> 
+ and CREATE_DATE = #{createDate}
+</if>
+<if test="status !=null"> 
+ and STATUS = #{status}
+</if>
+</where>
+</select>
+<insert id="insert" parameterType="PreChargeLogDomain" flushCache="true">
+insert into PRE_CHARGE_LOG(ID,SETTLEMENT_ID,CURRENT_BALANCE,CHANGE_BALANCE,LAST_BALANCE,CREATE_DATE,STATUS) values (#{id},#{settlementId},#{currentBalance},#{changeBalance},#{lastBalance},#{createDate},#{status})
+</insert>
+<update id="update" parameterType="PreChargeLogDomain" flushCache="true">
+update PRE_CHARGE_LOG
+<set>
+<if test="settlementId !=null">
+SETTLEMENT_ID = #{settlementId},
+</if>
+<if test="currentBalance !=null">
+CURRENT_BALANCE = #{currentBalance},
+</if>
+<if test="changeBalance !=null">
+CHANGE_BALANCE = #{changeBalance},
+</if>
+<if test="lastBalance !=null">
+LAST_BALANCE = #{lastBalance},
+</if>
+<if test="createDate !=null">
+CREATE_DATE = #{createDate},
+</if>
+<if test="status !=null">
+STATUS = #{status},
+</if>
+</set>
+<where>
+ and ID = #{id}
+
+</where>
+</update>
+<delete id="delete" parameterType="PreChargeLogDomain" flushCache="true">
+delete from PRE_CHARGE_LOG
+<where>
+ and ID = #{id}
+
+</where>
+</delete>
+</mapper>
