@@ -51,16 +51,37 @@ public class DeptMonAction {
 	@Qualifier("deptMonServiceImpl")
 	private IDeptMonService deptMonService;
 
+//	@ResponseBody
+//	@RequestMapping(params = "method=nextMon")
+//	public Object nextMon(@RequestBody String json) throws Exception {
+//		String systemDate = DateUtil.getDate("yyyyMM");
+//
+//		Map map = JSONUtil.readValue(json, Map.class);
+//		List<Integer> deptIds = (List) map.get("deptIds");
+//
+//		return deptMonService.nextMon(systemDate, deptIds);
+//	}
 	@ResponseBody
-	@RequestMapping(params = "method=nextMon")
-	public Object nextMon(@RequestBody String json) throws Exception {
-		String systemDate = DateUtil.getDate("yyyyMM");
+	 @RequestMapping(params = "method=nextMon")
+	 public HttpResult<?> nextMon(@RequestBody String json) throws Exception {
+	  String systemDate = DateUtil.getDate("yyyyMM");
 
-		Map map = JSONUtil.readValue(json, Map.class);
-		List<Integer> deptIds = (List) map.get("deptIds");
+	  Map map = JSONUtil.readValue(json, Map.class);
+	  List<Integer> deptIds = (List) map.get("deptIds");
 
-		return deptMonService.nextMon(systemDate, deptIds);
-	}
+	  HttpResult<List<DeptMonDomain>> httpResult = new HttpResult<>();
+
+	  try {
+	   httpResult.setStatusCode(HttpResult.SUCCESS);
+	   httpResult.setResultData(deptMonService.nextMon(systemDate, deptIds));
+	  } catch (Exception e) {
+	   e.printStackTrace();
+	   httpResult.setStatusCode(HttpResult.ERROR);
+	   httpResult.setMessage(e.getCause().getMessage());
+	  }
+
+	  return httpResult;
+	 }
 
 	@ResponseBody
 	@RequestMapping(params = "method=getDeptCurrentMonById")
