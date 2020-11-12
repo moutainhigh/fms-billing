@@ -11,7 +11,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  */
 
 @EnableEurekaClient
-@SpringBootApplication(scanBasePackages = "org.fms.billing", exclude = MongoAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = "org.fms", exclude = MongoAutoConfiguration.class)
 public class App {
 	public static void main(String[] args) {
 
